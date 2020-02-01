@@ -1,49 +1,104 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Kostadin Kostadinov">
+    <meta charset="UTF-8">
+
     <title>@ViewData["Title"] - Shoplify.Web</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/linearicons.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/nice-select.css">
+    <link rel="stylesheet" href="~/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="~/css/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.css">
+    <link rel="stylesheet" href="~/css/main.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <!-- Start Header Area -->
+    <header class="default-header">
+        <div class="menutop-wrap">
+            <div class="menu-top container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <ul class="list">
+                        <li><a href="tel:+12312-3-1209">0884452098</a></li>
+                        <li><a href="mailto:support@shoplify.com">support@shoplify.com</a></li>
+                    </ul>
+                    <ul class="list">
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg  navbar-light">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shoplify.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">
+                    <h2>Shoplify</h2>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#catagory">Category</a></li>
+                        <li><a href="#men">Men</a></li>
+                        <li><a href="#women">Women</a></li>
+                        <li><a href="#latest">latest</a></li>
+                        <!-- Dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                                Pages
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="category.html">Category</a>
+                                <a class="dropdown-item" href="single.html">Single</a>
+                                <a class="dropdown-item" href="cart.html">Cart</a>
+                                <a class="dropdown-item" href="checkout.html">Checkout</a>
+                                <a class="dropdown-item" href="confermation.html">Confirmation</a>
+                                <a class="dropdown-item" href="login.html">Login</a>
+                                <a class="dropdown-item" href="tracking.html">Tracking</a>
+                                <a class="dropdown-item" href="generic.html">Generic</a>
+                                <a class="dropdown-item" href="elements.html">Elements</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <!-- End Header Area -->
+    
+    @RenderBody()
+<!-- start footer Area -->
+    <footer class="footer-area p-0">
+        <div class="footer-bottom d-flex justify-content-center flex-wrap">
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - Shoplify.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            <p class="footer-text mb-5">
+                Shoplify - Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | The template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+            </p>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
         </div>
     </footer>
+    <!-- End footer Area -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery.ajaxchimp.min.js"></script>
+    <script src="~/lib/jquery.nice-select.min.js"></script>
+    <script src="~/lib/jquery.sticky.js"></script>
+    <script src="~/lib/ion.rangeSlider.js"></script>
+    <script src="~/lib/jquery.magnific-popup.min.js"></script>
+    <script src="~/lib/owl.carousel.min.js"></script>
+    <script src="~/js/main.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
