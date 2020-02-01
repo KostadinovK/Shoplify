@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shoplify.Services
+﻿namespace Shoplify.Services
 {
     public class Class1
     {

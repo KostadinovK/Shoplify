@@ -1,5 +1,3 @@
-using System;
-
 namespace Shoplify.Web.Models
 {
     public class ErrorViewModel

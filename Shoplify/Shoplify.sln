@@ -11,6 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Data", "Shoplify.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Services", "Shoplify.Services\Shoplify.Services.csproj", "{68CF7F35-58CC-4F89-A5A4-925890BC56A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StyleCop", "StyleCop", "{EA4F18D5-7968-4EB4-B248-556CE158C760}"
+	ProjectSection(SolutionItems) = preProject
+		Rules.ruleset = Rules.ruleset
+		Settings.StyleCop = Settings.StyleCop
+		stylecop.json = stylecop.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
