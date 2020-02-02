@@ -14,6 +14,7 @@ namespace Shoplify.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Shoplify.Domain;
 
     public class Startup
     {
@@ -27,10 +28,10 @@ namespace Shoplify.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ShoplifyDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;
                     options.Password.RequireDigit = false;
@@ -41,7 +42,8 @@ namespace Shoplify.Web
                     options.Password.RequiredUniqueChars = 0;
                     options.User.RequireUniqueEmail = true;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ShoplifyDbContext>();
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();

@@ -25,4 +25,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shoplify.Domain\Shoplify.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

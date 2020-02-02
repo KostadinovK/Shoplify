@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Shoplify.Web.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(ShoplifyDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {
