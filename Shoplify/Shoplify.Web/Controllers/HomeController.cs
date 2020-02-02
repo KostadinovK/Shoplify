@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using Shoplify.Services;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Diagnostics;
 
@@ -9,10 +11,12 @@
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> logger;
+        private ITestService test;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ITestService test)
         {
             this.logger = logger;
+            this.test = test;
         }
 
         public IActionResult Index()
@@ -22,6 +26,7 @@
 
         public IActionResult Test()
         {
+            test.TestAutoMapper();
             return View();
         }
 

@@ -1,5 +1,11 @@
+using System.Reflection;
+using Shoplify.Services;
+using Shoplify.Services.Mapping;
+using Shoplify.Web.Models;
+
 namespace Shoplify.Web
 {
+    using AutoMapper;
     using Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -37,12 +43,18 @@ namespace Shoplify.Web
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
+
+            services.AddTransient<ITestService, TestService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(PersonDto).GetTypeInfo().Assembly);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -60,7 +72,6 @@ namespace Shoplify.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shoplify.Data\Shoplify.Data.csproj" />
+    <ProjectReference Include="..\Shoplify.Services\Shoplify.Services.csproj" />
   </ItemGroup>
 
 </Project>
