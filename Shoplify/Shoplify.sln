@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Web", "Shoplify.Web\Shoplify.Web.csproj", "{A0C28D8D-945B-407F-8B88-16A1D54C0A89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shoplify.Web", "Shoplify.Web\Shoplify.Web.csproj", "{A0C28D8D-945B-407F-8B88-16A1D54C0A89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Domain", "Shoplify.Domain\Shoplify.Domain.csproj", "{51C423DC-00B5-47BA-A94C-C826BB2BD448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shoplify.Domain", "Shoplify.Domain\Shoplify.Domain.csproj", "{51C423DC-00B5-47BA-A94C-C826BB2BD448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Data", "Shoplify.Data\Shoplify.Data.csproj", "{B1AB1CA1-CD5F-48F6-A39C-B7B9E971CE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shoplify.Data", "Shoplify.Data\Shoplify.Data.csproj", "{B1AB1CA1-CD5F-48F6-A39C-B7B9E971CE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Services", "Shoplify.Services\Shoplify.Services.csproj", "{68CF7F35-58CC-4F89-A5A4-925890BC56A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shoplify.Services", "Shoplify.Services\Shoplify.Services.csproj", "{68CF7F35-58CC-4F89-A5A4-925890BC56A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StyleCop", "StyleCop", "{EA4F18D5-7968-4EB4-B248-556CE158C760}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StyleCop", "StyleCop", "{EA
 		Settings.StyleCop = Settings.StyleCop
 		stylecop.json = stylecop.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shoplify.Common", "Shoplify.Common\Shoplify.Common.csproj", "{984497AD-3D7A-4AC3-9382-5EAABF8F439B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{68CF7F35-58CC-4F89-A5A4-925890BC56A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68CF7F35-58CC-4F89-A5A4-925890BC56A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68CF7F35-58CC-4F89-A5A4-925890BC56A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{984497AD-3D7A-4AC3-9382-5EAABF8F439B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{984497AD-3D7A-4AC3-9382-5EAABF8F439B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{984497AD-3D7A-4AC3-9382-5EAABF8F439B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{984497AD-3D7A-4AC3-9382-5EAABF8F439B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
