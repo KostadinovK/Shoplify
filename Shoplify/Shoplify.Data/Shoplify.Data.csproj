@@ -19,6 +19,12 @@
     <Compile Remove="Migrations\20200205120535_AddedTablesAndRelations.Designer.cs" />
     <Compile Remove="Migrations\20200205120940_AddedTablesAndRelations.cs" />
     <Compile Remove="Migrations\20200205120940_AddedTablesAndRelations.Designer.cs" />
+    <Compile Remove="Migrations\20200205132735_TestMig.cs" />
+    <Compile Remove="Migrations\20200205132735_TestMig.Designer.cs" />
+    <Compile Remove="Migrations\20200205132949_TestMig.cs" />
+    <Compile Remove="Migrations\20200205132949_TestMig.Designer.cs" />
+    <Compile Remove="Migrations\20200205133042_RefactoredRelations.cs" />
+    <Compile Remove="Migrations\20200205133042_RefactoredRelations.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
