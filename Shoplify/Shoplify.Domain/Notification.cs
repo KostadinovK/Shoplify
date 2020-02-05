@@ -1,6 +1,7 @@
 ﻿namespace Shoplify.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Common;
@@ -15,5 +16,7 @@
 
         [Required]
         public DateTime CreatedOn { get; set; }
+
+        public ICollection<UserNotification> Users { get; set; } = new HashSet<UserNotification>();
     }
 }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shoplify.Web.Data;
 
 namespace Shoplify.Web.Data.Migrations
 {
     [DbContext(typeof(ShoplifyDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200205121418_AddedTablesAndRelations")]
+    partial class AddedTablesAndRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,7 +226,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Advertisements");
+                    b.ToTable("Advertisement");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Category", b =>
@@ -242,7 +244,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Comment", b =>
@@ -275,7 +277,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Courier", b =>
@@ -306,7 +308,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("CurrentOrderId1");
 
-                    b.ToTable("Couriers");
+                    b.ToTable("Courier");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Message", b =>
@@ -336,7 +338,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Message");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Notification", b =>
@@ -354,7 +356,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Order", b =>
@@ -428,7 +430,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.Report", b =>
@@ -469,7 +471,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("ReportingUserId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Report");
                 });
 
             modelBuilder.Entity("Shoplify.Domain.User", b =>
@@ -558,7 +560,7 @@ namespace Shoplify.Web.Data.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("UsersNotifications");
+                    b.ToTable("UserNotification");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

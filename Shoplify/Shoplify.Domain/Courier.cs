@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Domain
+﻿using System.Collections.Generic;
+
+namespace Shoplify.Domain
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -23,5 +25,7 @@
         public string CurrentOrderId { get; set; }
 
         public Order CurrentOrder { get; set; }
+
+        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 }

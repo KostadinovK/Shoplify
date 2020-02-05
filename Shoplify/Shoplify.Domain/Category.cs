@@ -1,5 +1,6 @@
 ﻿namespace Shoplify.Domain
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Common;
@@ -13,5 +14,7 @@
         public string Name { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public ICollection<Advertisement> Advertisements { get; set; } = new HashSet<Advertisement>();
     }
 }

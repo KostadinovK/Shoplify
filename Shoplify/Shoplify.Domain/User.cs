@@ -19,5 +19,15 @@
         public DateTime? BannedOn { get; set; }
 
         public ICollection<IdentityUserRole<string>> Roles { get; set; } = new HashSet<IdentityUserRole<string>>();
+
+        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
+
+        public ICollection<Advertisement> Advertisements { get; set; } = new HashSet<Advertisement>();
+
+        public ICollection<Message> Messages { get; set; } = new HashSet<Message>();
+
+        public ICollection<UserNotification> Notifications { get; set; } = new HashSet<UserNotification>();
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }

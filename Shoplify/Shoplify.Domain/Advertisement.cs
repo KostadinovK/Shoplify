@@ -1,6 +1,7 @@
 ﻿namespace Shoplify.Domain
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Common;
@@ -55,5 +56,9 @@
         public bool IsReported { get; set; }
 
         public DateTime? ReportedOn { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+
+        public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
     }
 }
