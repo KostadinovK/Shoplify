@@ -29,5 +29,9 @@
         public ICollection<UserNotification> Notifications { get; set; } = new HashSet<UserNotification>();
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+
+        public ICollection<FollowerFollowing> Followers { get; set; } = new HashSet<FollowerFollowing>();
+
+        public ICollection<FollowerFollowing> Followings { get; set; } = new HashSet<FollowerFollowing>();
     }
 }

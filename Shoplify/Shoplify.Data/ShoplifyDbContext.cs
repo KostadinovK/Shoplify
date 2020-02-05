@@ -31,6 +31,8 @@
 
         public DbSet<UserNotification> UsersNotifications { get; set; }
 
+        public DbSet<FollowerFollowing> FollowersFollowings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
@@ -41,6 +43,24 @@
             base.OnModelCreating(builder);
 
             builder
+                .Entity<FollowerFollowing>()
+                .HasKey(ff => new { ff.FollowingId, ff.FollowerId });
+
+            builder
+                .Entity<FollowerFollowing>()
+                .HasOne(ff => ff.Following)
+                .WithMany(ff => ff.Followings)
+                .HasForeignKey(ff => ff.FollowingId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<FollowerFollowing>()
+                .HasOne(ff => ff.Follower)
+                .WithMany(ff => ff.Followers)
+                .HasForeignKey(ff => ff.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .Entity<UserNotification>()
                 .HasKey(un => new { un.UserId, un.NotificationId });
 
@@ -48,19 +68,22 @@
                 .Entity<UserNotification>()
                 .HasOne(un => un.User)
                 .WithMany(un => un.Notifications)
-                .HasForeignKey(un => un.UserId);
+                .HasForeignKey(un => un.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<UserNotification>()
                 .HasOne(un => un.Notification)
                 .WithMany(un => un.Users)
-                .HasForeignKey(un => un.NotificationId);
+                .HasForeignKey(un => un.NotificationId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<User>()
                 .HasMany(u => u.Advertisements)
                 .WithOne(a => a.User)
-                .HasForeignKey(a => a.UserId);
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder
                 .Entity<User>()
