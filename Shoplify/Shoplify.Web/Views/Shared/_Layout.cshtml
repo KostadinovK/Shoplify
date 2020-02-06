@@ -28,16 +28,24 @@
                         <li><a href="tel:+12312-3-1209">0884452098</a></li>
                         <li><a href="mailto:support@shoplify.com">support@shoplify.com</a></li>
                     </ul>
+                   
                     <ul class="list">
-                        <li><a href="/Identity/Account/Login">Login</a></li>
-                        <li><a href="/Identity/Account/Register">Register</a></li>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="/Identity/Account/Login">Login</a></li>
+                            <li><a href="/Identity/Account/Register">Register</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="/Identity/Account/Logout">Logout</a></li>
+                        }
                     </ul>
                 </div>
             </div>
         </div>
         <nav class="navbar navbar-expand-lg  navbar-light">
             <div class="container">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="/Home/Index">
                     <h2>Shoplify</h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

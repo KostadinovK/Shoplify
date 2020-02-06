@@ -94,19 +94,14 @@
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
-                    
+
                     await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-                    else
-                    {
-                        await signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    var AlmostDoneMessage = "Almost done...";
+                    var SuccessfulRegistration = $"We've sent and email to {Input.Email}. Open it to activate your account.";
+
+                    return LocalRedirect("/Identity/Account/Login");
                 }
                 foreach (var error in result.Errors)
                 {
