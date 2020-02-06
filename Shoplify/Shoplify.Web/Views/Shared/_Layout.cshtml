@@ -28,18 +28,7 @@
                         <li><a href="tel:+12312-3-1209">0884452098</a></li>
                         <li><a href="mailto:support@shoplify.com">support@shoplify.com</a></li>
                     </ul>
-                   
-                    <ul class="list">
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li><a href="/Identity/Account/Login">Login</a></li>
-                            <li><a href="/Identity/Account/Register">Register</a></li>
-                        }
-                        else
-                        {
-                            <li><a href="/Identity/Account/Logout">Logout</a></li>
-                        }
-                    </ul>
+                    <partial name="_LoginPartial.cshtml" />
                 </div>
             </div>
         </div>
