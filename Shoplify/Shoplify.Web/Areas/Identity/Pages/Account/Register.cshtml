@@ -12,22 +12,22 @@
             <h3 class="billing-title text-center">Register</h3>
             <p class="text-center mt-40 mb-30">Create your very own account </p>
             <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <div asp-validation-summary="All" class="text-dark"></div>
+                <div asp-validation-summary="All" class="text-primary"></div>
                 <div class="form-group">
                     <input asp-for="Input.Username" class="form-control common-input mt-20" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" required />
-                    <span asp-validation-for="Input.Username" class="text-dark"></span>
+                    <span asp-validation-for="Input.Username" class="text-primary"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="Input.Email" class="form-control common-input mt-20" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required />
-                    <span asp-validation-for="Input.Email" class="text-dark"></span>
+                    <span asp-validation-for="Input.Email" class="text-primary"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="Input.Password" class="form-control common-input mt-20" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" required />
-                    <span asp-validation-for="Input.Password" class="text-dark"></span>
+                    <span asp-validation-for="Input.Password" class="text-primary"></span>
                 </div>
                 <div class="form-group">
                     <input asp-for="Input.ConfirmPassword" class="form-control common-input mt-20" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'" required />
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-dark"></span>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-primary"></span>
                 </div>
                 <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Register</span></button>
             </form>
