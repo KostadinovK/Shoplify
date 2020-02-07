@@ -80,7 +80,9 @@
 
             if (ModelState.IsValid)
             {
-                if (userManager.FindByNameAsync(Input.Username).Result.IsBanned)
+                var isExisting = await userManager.FindByNameAsync(Input.Username);
+
+                if (isExisting != null && userManager.FindByNameAsync(Input.Username).Result.IsBanned)
                 {
                     return Page();
                 }

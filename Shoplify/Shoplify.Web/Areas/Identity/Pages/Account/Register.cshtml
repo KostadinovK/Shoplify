@@ -30,6 +30,11 @@
                     <span asp-validation-for="Input.ConfirmPassword" class="text-primary"></span>
                 </div>
                 <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Register</span></button>
+                <div class="form-group mt-20 d-flex align-items-center justify-content-between">
+                    <p>
+                        <a class="text-dark" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an Account?</a>
+                    </p>
+                </div>
             </form>
         </div>
     </div>
