@@ -49,22 +49,18 @@
         {
             [Required]
             [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
-            [Display(Name = "Username")]
             public string Username { get; set; }
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
             public string Email { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -108,11 +104,12 @@
                     await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    var AlmostDoneMessage = "Almost done...";
-                    var SuccessfulRegistration = $"We've sent and email to {Input.Email}. Open it to activate your account.";
+                    TempData["AlmostDoneMessage"] = "Almost done...";
+                    TempData["SuccessfulRegistration"] = $"We've sent and email to {Input.Email}. Open it to finish Registration.";
 
                     return LocalRedirect("/Identity/Account/Login");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
