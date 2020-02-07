@@ -5,17 +5,30 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
 
     public class EmailSender : IEmailSender
     {
-        private const string EmailAdress = "shoplify.manager@gmail.com";
-        private const string Password = "Hrosimi123";
-        private const string Username = "Kostadin Kostadinov";
+        private string emailAdress;
+        private string password;
+        private string username;
+
+        public IConfiguration Configuration { get; }
+
+        public EmailSender([FromServices] IConfiguration config)
+        {
+            Configuration = config;
+
+            emailAdress = Configuration.GetValue<string>("EmailSender:EmailAddress");
+            password = Configuration.GetValue<string>("EmailSender:Password");
+            username = Configuration.GetValue<string>("EmailSender:Username");
+        }
 
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var toAddress = new MailAddress(email);
-            var fromAddress = new MailAddress(EmailAdress, Username);
+            var fromAddress = new MailAddress(emailAdress, username);
 
             var smtp = new SmtpClient
             {
@@ -23,7 +36,7 @@
                 Port = 587,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                Credentials = new NetworkCredential(fromAddress.Address, Password),
+                Credentials = new NetworkCredential(fromAddress.Address, password),
                 Timeout = 20000
             };
 
