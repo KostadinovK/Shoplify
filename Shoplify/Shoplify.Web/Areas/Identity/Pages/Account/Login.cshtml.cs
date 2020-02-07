@@ -5,13 +5,14 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Common;
+    using Domain;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.RazorPages;
     using Microsoft.Extensions.Logging;
-    using Shoplify.Domain;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -48,11 +49,12 @@
         public class InputModel
         {
             [Required]
+            [StringLength(AttributesConstraints.UsernameMaxLength, ErrorMessage = AttributesErrorMessages.UsernameInvalidLength, MinimumLength = AttributesConstraints.UsernameMinLength)]
             public string Username { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(AttributesConstraints.PasswordMaxLength, ErrorMessage = AttributesErrorMessages.PasswordInvalidLength, MinimumLength = AttributesConstraints.PasswordMinLength)]
             public string Password { get; set; }
 
             [Display(Name = "Remember me?")]

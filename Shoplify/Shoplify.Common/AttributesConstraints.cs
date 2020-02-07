@@ -4,6 +4,15 @@ namespace Shoplify.Common
 {
     public static class AttributesConstraints
     {
+        #region User
+
+        public const int UsernameMaxLength = 20;
+        public const int UsernameMinLength = 3;
+        public const int PasswordMaxLength = 100;
+        public const int PasswordMinLength = 6;
+
+        #endregion
+
         #region Category
 
         public const int CategoryNameMaxLength = 30;
