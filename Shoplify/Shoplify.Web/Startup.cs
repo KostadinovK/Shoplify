@@ -1,3 +1,6 @@
+using System.Linq;
+using Shoplify.Domain.Enums;
+
 namespace Shoplify.Web
 {
     using System.Reflection;
@@ -59,6 +62,31 @@ namespace Shoplify.Web
         {
             //AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             AutoMapperConfig.RegisterMappings(typeof(PersonDto).GetTypeInfo().Assembly);
+
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetRequiredService<ShoplifyDbContext>())
+                {
+                    context.Database.EnsureCreated();
+
+                    if (!context.Roles.Any())
+                    {
+                        context.Roles.Add(new IdentityRole
+                        {
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
+
+                        context.Roles.Add(new IdentityRole
+                        {
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+
+                        context.SaveChanges();
+                    }
+                }
+            }
 
             if (env.IsDevelopment())
             {

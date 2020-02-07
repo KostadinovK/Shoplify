@@ -81,10 +81,20 @@
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Username, Email = Input.Email };
+                var isRoot = !userManager.Users.Any();
+                var user = new User { UserName = Input.Username, Email = Input.Email, RegisteredOn = DateTime.UtcNow };
                 var result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    if (isRoot)
+                    {
+                        await userManager.AddToRoleAsync(user, "Admin");
+                    }
+                    else
+                    {
+                        await userManager.AddToRoleAsync(user, "User");
+                    }
+
                     logger.LogInformation("User created a new account with password.");
 
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
