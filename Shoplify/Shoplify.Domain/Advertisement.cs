@@ -38,6 +38,11 @@
         public Category Category { get; set; }
 
         [Required]
+        public string SubCategoryId { get; set; }
+
+        public SubCategory SubCategory { get; set; }
+
+        [Required]
         public DateTime CreatedOn { get; set; }
 
         public DateTime? EditedOn { get; set; }

@@ -24,6 +24,8 @@ namespace Shoplify.Web.Data
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<SubCategory> SubCategories { get; set; }
+
         public DbSet<Report> Reports { get; set; }
 
         public DbSet<Order> Orders { get; set; }

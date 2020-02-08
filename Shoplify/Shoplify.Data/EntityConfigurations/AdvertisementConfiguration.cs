@@ -27,6 +27,12 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             advertisement
+                .HasOne(a => a.SubCategory)
+                .WithMany(c => c.Advertisements)
+                .HasForeignKey(a => a.SubCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            advertisement
                 .Property(a => a.Price)
                 .HasColumnType("decimal");
         }

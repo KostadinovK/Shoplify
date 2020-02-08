@@ -1,5 +1,6 @@
 using System.Linq;
 using Shoplify.Domain.Enums;
+using Shoplify.Web.Models;
 
 namespace Shoplify.Web
 {
@@ -53,15 +54,13 @@ namespace Shoplify.Web
             services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
 
-            services.AddTransient<ITestService, TestService>();
             services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-            AutoMapperConfig.RegisterMappings(typeof(PersonDto).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
