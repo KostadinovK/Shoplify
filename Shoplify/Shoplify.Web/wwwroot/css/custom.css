@@ -13,3 +13,12 @@
 .margin-top-2rem {
     margin-top: 2rem !important;
 }
+
+li.nav-item:hover {
+    background-color: rgb(244, 16, 104) !important;
+    
+}
+
+li.nav-item:hover a {
+    color: rgb(255, 255, 255) !important;
+}
