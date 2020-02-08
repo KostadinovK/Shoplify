@@ -15,6 +15,7 @@
     using Shoplify.Domain;
 
     [AllowAnonymous]
+    [AutoValidateAntiforgeryToken]
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<User> userManager;

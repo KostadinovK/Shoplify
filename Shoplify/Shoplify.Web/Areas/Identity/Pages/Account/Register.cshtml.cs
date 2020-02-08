@@ -20,6 +20,7 @@
     using Microsoft.Extensions.Logging;
 
     [AllowAnonymous]
+    [AutoValidateAntiforgeryToken]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> signInManager;

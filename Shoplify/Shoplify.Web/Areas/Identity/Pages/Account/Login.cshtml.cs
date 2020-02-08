@@ -15,6 +15,7 @@
     using Microsoft.Extensions.Logging;
 
     [AllowAnonymous]
+    [AutoValidateAntiforgeryToken]
     public class LoginModel : PageModel
     {
         private readonly UserManager<User> userManager;

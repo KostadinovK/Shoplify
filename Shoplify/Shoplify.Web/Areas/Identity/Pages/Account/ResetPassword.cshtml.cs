@@ -14,6 +14,7 @@ namespace Shoplify.Web.Areas.Identity.Pages.Account
     using Shoplify.Domain;
 
     [AllowAnonymous]
+    [AutoValidateAntiforgeryToken]
     public class ResetPasswordModel : PageModel
     {
         private readonly UserManager<User> userManager;
