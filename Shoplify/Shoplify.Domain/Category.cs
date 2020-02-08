@@ -13,7 +13,7 @@
         [StringLength(AttributesConstraints.CategoryNameMaxLength)]
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string CssIconClass { get; set; }
 
         public ICollection<Advertisement> Advertisements { get; set; } = new HashSet<Advertisement>();
     }
