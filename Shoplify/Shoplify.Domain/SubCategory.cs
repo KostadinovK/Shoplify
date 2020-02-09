@@ -1,5 +1,6 @@
 ﻿namespace Shoplify.Domain
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
@@ -7,7 +8,7 @@
 
     public class SubCategory
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public string CategoryId { get; set; }
 

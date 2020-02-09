@@ -1,9 +1,6 @@
-using System.Linq;
-using Shoplify.Domain.Enums;
-using Shoplify.Web.Models;
-
 namespace Shoplify.Web
 {
+    using System.Linq;
     using System.Reflection;
 
     using AutoMapper;
@@ -17,9 +14,12 @@ namespace Shoplify.Web
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-    using Services;
     using Services.EmailSender;
     using Services.Mapping;
+    using Shoplify.Services.Implementations;
+    using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models;
+    using Shoplify.Web.Models;
 
     public class Startup
     {
@@ -36,7 +36,7 @@ namespace Shoplify.Web
             services.AddDbContext<ShoplifyDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            
+
             services.AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;
@@ -55,12 +55,15 @@ namespace Shoplify.Web
             services.AddRazorPages();
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ISubCategoryService, SubCategoryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(CategoryServiceModel).GetTypeInfo().Assembly);
 
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {

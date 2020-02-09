@@ -27,8 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Implementations\" />
-    <Folder Include="Interfaces\" />
+    <ProjectReference Include="..\Shoplify.Data\Shoplify.Data.csproj" />
   </ItemGroup>
 
 </Project>

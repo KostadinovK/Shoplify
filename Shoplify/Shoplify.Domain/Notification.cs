@@ -8,7 +8,7 @@
 
     public class Notification
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [MaxLength(AttributesConstraints.NotificationTextMaxLength)]

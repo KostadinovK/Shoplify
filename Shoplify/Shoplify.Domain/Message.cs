@@ -7,7 +7,7 @@ namespace Shoplify.Domain
 
     public class Message
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string SenderId { get; set; }
