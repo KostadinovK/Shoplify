@@ -46,15 +46,7 @@ namespace Shoplify.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            var names = new List<string>() {"home", "test"};
-
-            await categoryService.CreateAllAsync(names);
-
-            var names2 = new List<string>() { "tedf", "sfsf" };
-            var icons = new List<string>() { "tedf", "sfsf" };
-
-            await categoryService.CreateAllAsync(names2, icons);
-
+           
             return View();
         }
 

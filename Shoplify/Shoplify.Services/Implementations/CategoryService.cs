@@ -1,4 +1,5 @@
-﻿using Shoplify.Domain;
+﻿using System.Linq;
+using Shoplify.Domain;
 
 namespace Shoplify.Services.Implementations
 {
@@ -40,12 +41,13 @@ namespace Shoplify.Services.Implementations
             await context.Categories.AddAsync(category);
 
             var result = await context.SaveChangesAsync();
-
+            var categories = context.Categories.ToList();
             return result > 0;
         }
 
         public async Task<bool> CreateAllAsync(IList<string> names, IList<string> cssIcons = null)
         {
+            var categories = context.Categories.ToList();
             if (names == null)
             {
                 throw new ArgumentNullException(NullCategoryNamesListErrorMessage);
@@ -73,7 +75,7 @@ namespace Shoplify.Services.Implementations
             }
 
             var result = await context.SaveChangesAsync();
-
+            categories = context.Categories.ToList();
             return result > 0;
         }
     }
