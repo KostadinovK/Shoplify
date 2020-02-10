@@ -1,20 +1,26 @@
-﻿namespace Shoplify.Data.Seeding
+﻿using Shoplify.Services.Interfaces;
+
+namespace Shoplify.Data.Seeding
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore.Internal;
+    using Microsoft.Extensions.DependencyInjection;
+    using Shoplify.Services.Implementations;
     using Shoplify.Web.Data;
 
     public class CategorySeeder : ISeeder
     {
-        public async Task<int> SeedAsync(ShoplifyDbContext context, IServiceProvider serviceProvider)
+        public async Task<bool> SeedAsync(ShoplifyDbContext context, IServiceProvider serviceProvider)
         {
             if (context.Categories.Any())
             {
-                return 0;
+                return false;
             }
+
+            var categoryService = serviceProvider.GetRequiredService<ICategoryService>();
 
             var categoryNames = new List<string>()
             {
@@ -48,9 +54,11 @@
                 "fas fa-tshirt"
             };
 
+            await categoryService.CreateAllAsync(categoryNames, categoryCssIcons);
+
             var addedCategoriesCount = await context.SaveChangesAsync();
 
-            return addedCategoriesCount;
+            return addedCategoriesCount > 0;
         }
     }
 }

@@ -7,6 +7,6 @@
 
     public interface ISeeder
     {
-        Task<int> SeedAsync(ShoplifyDbContext context, IServiceProvider serviceProvider);
+        Task<bool> SeedAsync(ShoplifyDbContext context, IServiceProvider serviceProvider);
     }
 }

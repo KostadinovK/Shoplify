@@ -1,3 +1,5 @@
+using Shoplify.Services.Seeding;
+
 namespace Shoplify.Web
 {
     using System.Linq;
@@ -16,6 +18,7 @@ namespace Shoplify.Web
     using Microsoft.Extensions.Hosting;
     using Services.EmailSender;
     using Services.Mapping;
+    using Shoplify.Data.Seeding;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
@@ -65,30 +68,13 @@ namespace Shoplify.Web
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
             AutoMapperConfig.RegisterMappings(typeof(CategoryServiceModel).GetTypeInfo().Assembly);
 
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                using (var context = serviceScope.ServiceProvider.GetRequiredService<ShoplifyDbContext>())
-                {
-                    context.Database.EnsureCreated();
+            using var serviceScope = app.ApplicationServices.CreateScope();
 
-                    if (!context.Roles.Any())
-                    {
-                        context.Roles.Add(new IdentityRole
-                        {
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
+            using var context = serviceScope.ServiceProvider.GetRequiredService<ShoplifyDbContext>();
 
-                        context.Roles.Add(new IdentityRole
-                        {
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
+            context.Database.EnsureCreated();
 
-                        context.SaveChanges();
-                    }
-                }
-            }
+            new ShoplifyDbContextSeeder().SeedAsync(context, serviceScope.ServiceProvider).GetAwaiter().GetResult();
 
             if (env.IsDevelopment())
             {
