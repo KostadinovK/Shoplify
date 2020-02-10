@@ -212,5 +212,50 @@ namespace Shoplify.Tests.ServicesTests
 
             AssertEx.PropertyValuesAreEquals(actualCategory, expectedCategory);
         }
+
+        [Test]
+        public async Task GetAll_ShouldReturnCorrectly()
+        {
+            var categoryName = "test";
+            var categoryName2 = "test2";
+
+            var category = new Category
+            {
+                Name = categoryName
+            };
+
+            var category2 = new Category
+            {
+                Name = categoryName2
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.Categories.AddAsync(category2);
+
+            await context.SaveChangesAsync();
+
+            var categories = service.GetAll().ToList();
+
+            var expectedCategory = new CategoryServiceModel
+            {
+                Name = category.Name,
+                CssIconClass = category.CssIconClass,
+                Id = category.Id,
+            };
+
+            var expectedCategory2 = new CategoryServiceModel
+            {
+                Name = category2.Name,
+                CssIconClass = category2.CssIconClass,
+                Id = category2.Id,
+            };
+
+            var expectedCategoriesCount = 2;
+            var actualCategoriesCount = categories.Count;
+
+            Assert.AreEqual(expectedCategoriesCount, actualCategoriesCount);
+            AssertEx.PropertyValuesAreEquals(categories[0], expectedCategory);
+            AssertEx.PropertyValuesAreEquals(categories[1], expectedCategory2);
+        }
     }
 }

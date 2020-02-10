@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
-using Shoplify.Services.Interfaces;
-using Shoplify.Services.Models;
+﻿using System.Linq;
 
 namespace Shoplify.Web.Controllers
 {
-    using System;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
@@ -16,7 +11,8 @@ namespace Shoplify.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Models;
-    using Services;
+    using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models;
 
     public class HomeController : Controller
     {
@@ -50,15 +46,7 @@ namespace Shoplify.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            var category = await categoryService.GetByNameAsync("Home");
-
-            var subCategory = new SubCategoryServiceModel
-            {
-                Name = "test",
-                CategoryId = category.Id
-            };
-
-            await subCategoryService.CreateAsync(subCategory);
+            var categories = categoryService.GetAll().ToList();
             return View();
         }
 

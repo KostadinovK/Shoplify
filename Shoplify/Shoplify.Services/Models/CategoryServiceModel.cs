@@ -3,7 +3,7 @@
     using Shoplify.Domain;
     using Shoplify.Services.Mapping;
 
-    public class CategoryServiceModel
+    public class CategoryServiceModel : IMapFrom<Category>, IMapTo<Category>
     {
         public string Id { get; set; }
 

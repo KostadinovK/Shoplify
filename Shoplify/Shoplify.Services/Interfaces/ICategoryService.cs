@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Shoplify.Domain;
     using Shoplify.Services.Models;
 
     public interface ICategoryService
@@ -18,5 +17,7 @@
         Task<CategoryServiceModel> GetByIdAsync(string id);
 
         Task<CategoryServiceModel> GetByNameAsync(string name);
+
+        IQueryable<CategoryServiceModel> GetAll();
     }
 }

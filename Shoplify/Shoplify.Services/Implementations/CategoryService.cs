@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using Shoplify.Services.Mapping;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -124,6 +126,17 @@
             };
 
             return categoryServiceModel;
+        }
+
+        public IQueryable<CategoryServiceModel> GetAll()
+        {
+            return context.Categories
+                .Select(c => new CategoryServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    CssIconClass = c.CssIconClass,
+                });
         }
     }
 }
