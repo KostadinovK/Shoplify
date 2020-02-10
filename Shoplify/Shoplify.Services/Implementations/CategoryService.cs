@@ -1,14 +1,14 @@
-﻿using System.Linq;
-using Shoplify.Domain;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Interfaces;
+    using Microsoft.EntityFrameworkCore;
     using Models;
+    using Shoplify.Domain;
     using Shoplify.Web.Data;
 
     public class CategoryService : ICategoryService
@@ -16,6 +16,7 @@ namespace Shoplify.Services.Implementations
         private const string NullOrEmptyNameErrorMessage = "Category name is null or empty.";
         private const string NullCategoryNamesListErrorMessage = "Category names list is null.";
         private const string InvalidCategoryIconList = "Category icons list count must be equal to category names list count.";
+        private const string InvalidIdErrorMessage = "Category with this Id doesn't exist";
 
         private ShoplifyDbContext context;
 
@@ -77,6 +78,32 @@ namespace Shoplify.Services.Implementations
             var result = await context.SaveChangesAsync();
             categories = context.Categories.ToList();
             return result > 0;
+        }
+
+        public async Task<bool> ContainsByIdAsync(string id)
+        {
+            var result = await context.Categories.FirstOrDefaultAsync(c => c.Id == id) != null;
+
+            return result;
+        }
+
+        public async Task<CategoryServiceModel> GetByIdAsync(string id)
+        {
+            if (!await ContainsByIdAsync(id))
+            {
+                throw new ArgumentException(InvalidIdErrorMessage);
+            }
+
+            var category = await context.Categories.SingleOrDefaultAsync(c => c.Id == id);
+
+            var categoryServiceModel = new CategoryServiceModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+                CssIconClass = category.CssIconClass
+            };
+
+            return categoryServiceModel;
         }
     }
 }

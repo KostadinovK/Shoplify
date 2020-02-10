@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using Shoplify.Domain;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System;
     using System.Collections.Generic;
@@ -109,6 +111,75 @@
             var expectedCategoryCount = 2;
 
             Assert.AreEqual(expectedCategoryCount, actualCategoryCount);
+        }
+
+        [Test]
+        public async Task ContainsByIdAsync_WithValidId_ShouldReturnTrue()
+        {
+            var categoryName = "test";
+
+            var category = new Category
+            {
+                Name = categoryName
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            var categoryFromDb = await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
+
+            var result = await service.ContainsByIdAsync(categoryFromDb.Id.ToString());
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public async Task ContainsByIdAsync_WithInvalidId_ShouldReturnFalse()
+        {
+            var category = new Category
+            {
+                Name = "test"
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            var result = await service.ContainsByIdAsync("invalidId");
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithInvalidId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync("invalidId"));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var categoryName = "test";
+
+            var category = new Category
+            {
+                Name = categoryName
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            var categoryFromDb = await context.Categories.FirstOrDefaultAsync(c => c.Name == categoryName);
+
+            var actualCategory = await service.GetByIdAsync(categoryFromDb.Id.ToString());
+
+            var expectedCategory = new CategoryServiceModel
+            {
+                Name = categoryFromDb.Name,
+                CssIconClass = categoryFromDb.CssIconClass,
+                Id = categoryFromDb.Id,
+            };
+
+            AssertEx.PropertyValuesAreEquals(actualCategory, expectedCategory);
         }
     }
 }
