@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using System.Collections.Generic;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System;
     using System.Linq;
@@ -83,6 +85,35 @@
             var expectedCategoryCount = 1;
 
             Assert.True(result);
+            Assert.AreEqual(expectedCategoryCount, actualCategoryCount);
+        }
+
+        [Test]
+        public async Task CreateAllAsync_WithNullNames_ShouldThrowArgumentNullException()
+        {
+            List<string> names = null;
+
+            Assert.ThrowsAsync<ArgumentNullException>(async () => await service.CreateAllAsync(names, "test"));
+        }
+
+        [Test]
+        public async Task CreateAllAsync_WithValidNamesWithoutIcons_ShouldCreateSuccessfully()
+        {
+            var category = new Category
+            {
+                Name = "Test",
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            var names = new List<string>() { "test1", "test2" };
+
+            await service.CreateAllAsync(names, category.Id);
+
+            var actualCategoryCount = context.SubCategories.Count();
+            var expectedCategoryCount = 2;
+
             Assert.AreEqual(expectedCategoryCount, actualCategoryCount);
         }
     }

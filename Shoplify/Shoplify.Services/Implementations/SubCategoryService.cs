@@ -15,6 +15,7 @@ namespace Shoplify.Services.Implementations
     {
         private const string NullOrEmptyNameErrorMessage = "SubCategory Name is null or empty.";
         private const string InvalidCategoryIdErrorMessage = "Invalid Category Id.";
+        private const string NullCategoryNamesListErrorMessage = "SubCategories names list is null.";
 
         private ShoplifyDbContext context;
         private ICategoryService categoryService;
@@ -52,7 +53,24 @@ namespace Shoplify.Services.Implementations
 
         public async Task<bool> CreateAllAsync(IList<string> names, string categoryId)
         {
-            throw new System.NotImplementedException();
+            if (names == null)
+            {
+                throw new ArgumentNullException(NullCategoryNamesListErrorMessage);
+            }
+
+            for (int i = 0; i < names.Count; i++)
+            {
+                var subCategoryServiceModel = new SubCategoryServiceModel()
+                {
+                    Name = names[i],
+                    CategoryId = categoryId
+                };
+
+                await CreateAsync(subCategoryServiceModel);
+            }
+
+            var result = await context.SaveChangesAsync();
+            return result > 0;
         }
     }
 }
