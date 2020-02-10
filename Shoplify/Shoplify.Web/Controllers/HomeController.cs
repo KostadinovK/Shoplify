@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Shoplify.Web.Controllers
 {
@@ -46,7 +47,7 @@ namespace Shoplify.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            var categories = categoryService.GetAll().ToList();
+            var categories = context.Categories.Include(c => c.Advertisements).Include(c => c.SubCategories).ToList();
             return View();
         }
 

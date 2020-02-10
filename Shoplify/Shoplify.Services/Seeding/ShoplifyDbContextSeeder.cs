@@ -24,7 +24,8 @@
             var seeders = new List<ISeeder>()
             {
                 new UserRoleSeeder(),
-                new CategorySeeder()
+                new CategorySeeder(),
+                new SubCategorySeeder(),
             };
 
             foreach (var seeder in seeders)

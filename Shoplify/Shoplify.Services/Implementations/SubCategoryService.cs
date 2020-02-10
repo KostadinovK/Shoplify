@@ -48,7 +48,10 @@ namespace Shoplify.Services.Implementations
                 throw new ArgumentNullException(InvalidCategoryIdErrorMessage);
             }
 
+            var category = await context.Categories.FirstOrDefaultAsync(c => c.Id == subCategory.CategoryId);
+
             await context.SubCategories.AddAsync(subCategory);
+            category.SubCategories.Add(subCategory);
 
             var result = await context.SaveChangesAsync();
             return result > 0;
