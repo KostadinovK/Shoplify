@@ -17,6 +17,7 @@
         private const string NullCategoryNamesListErrorMessage = "Category names list is null.";
         private const string InvalidCategoryIconList = "Category icons list count must be equal to category names list count.";
         private const string InvalidIdErrorMessage = "Category with this Id doesn't exist";
+        private const string InvalidNameErrorMessage = "Category with this Name doesn't exist";
 
         private ShoplifyDbContext context;
 
@@ -95,6 +96,25 @@
             }
 
             var category = await context.Categories.SingleOrDefaultAsync(c => c.Id == id);
+
+            var categoryServiceModel = new CategoryServiceModel
+            {
+                Id = category.Id,
+                Name = category.Name,
+                CssIconClass = category.CssIconClass
+            };
+
+            return categoryServiceModel;
+        }
+
+        public async Task<CategoryServiceModel> GetByNameAsync(string name)
+        {
+            var category = await context.Categories.SingleOrDefaultAsync(c => c.Name == name);
+
+            if (category == null)
+            {
+                throw new ArgumentException(InvalidNameErrorMessage);
+            }
 
             var categoryServiceModel = new CategoryServiceModel
             {

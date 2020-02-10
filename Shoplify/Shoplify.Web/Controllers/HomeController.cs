@@ -25,14 +25,16 @@ namespace Shoplify.Web.Controllers
         private UserManager<User> userManager;
         private RoleManager<IdentityRole> roleManager;
 
+        private ICategoryService categoryService;
         private ISubCategoryService subCategoryService;
 
-        public HomeController(ILogger<HomeController> logger, ShoplifyDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ISubCategoryService subCategoryService)
+        public HomeController(ILogger<HomeController> logger, ShoplifyDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ICategoryService categoryService, ISubCategoryService subCategoryService)
         {
             this.logger = logger;
             this.context = context;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.categoryService = categoryService;
             this.subCategoryService = subCategoryService;
         }
 
@@ -48,7 +50,7 @@ namespace Shoplify.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-
+            
             return View();
         }
 

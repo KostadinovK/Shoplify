@@ -181,5 +181,36 @@ namespace Shoplify.Tests.ServicesTests
 
             AssertEx.PropertyValuesAreEquals(actualCategory, expectedCategory);
         }
+
+        [Test]
+        public async Task GetByNameAsync_WithInvalidName_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByNameAsync("invalidName"));
+        }
+
+        [Test]
+        public async Task GetByNameAsync_WithValidName_ShouldReturnCorrectly()
+        {
+            var categoryName = "test";
+
+            var category = new Category
+            {
+                Name = categoryName
+            };
+
+            await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+            var actualCategory = await service.GetByNameAsync(category.Name);
+
+            var expectedCategory = new CategoryServiceModel
+            {
+                Name = category.Name,
+                CssIconClass = category.CssIconClass,
+                Id = category.Id,
+            };
+
+            AssertEx.PropertyValuesAreEquals(actualCategory, expectedCategory);
+        }
     }
 }

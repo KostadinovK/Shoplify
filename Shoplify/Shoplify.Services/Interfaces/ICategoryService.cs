@@ -16,5 +16,7 @@
         Task<bool> ContainsByIdAsync(string id);
 
         Task<CategoryServiceModel> GetByIdAsync(string id);
+
+        Task<CategoryServiceModel> GetByNameAsync(string name);
     }
 }
