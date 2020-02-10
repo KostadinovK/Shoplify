@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Shoplify.Domain;
 
 namespace Shoplify.Services.Implementations
@@ -16,6 +17,8 @@ namespace Shoplify.Services.Implementations
         private const string NullOrEmptyNameErrorMessage = "SubCategory Name is null or empty.";
         private const string InvalidCategoryIdErrorMessage = "Invalid Category Id.";
         private const string NullCategoryNamesListErrorMessage = "SubCategories names list is null.";
+        private const string InvalidIdErrorMessage = "Subcategory with this Id doesn't exist";
+        private const string InvalidNameErrorMessage = "Subcategory with this Name doesn't exist";
 
         private ShoplifyDbContext context;
         private ICategoryService categoryService;
@@ -71,6 +74,63 @@ namespace Shoplify.Services.Implementations
 
             var result = await context.SaveChangesAsync();
             return result > 0;
+        }
+
+        public async Task<bool> ContainsByIdAsync(string id)
+        {
+            var result = await context.SubCategories.SingleOrDefaultAsync(s => s.Id == id) != null;
+
+            return result;
+        }
+
+        public async Task<SubCategoryServiceModel> GetByIdAsync(string id)
+        {
+            if (!await ContainsByIdAsync(id))
+            {
+                throw new ArgumentException(InvalidIdErrorMessage);
+            }
+
+            var subCategory = await context.SubCategories.SingleOrDefaultAsync(s => s.Id == id);
+
+            var subCategoryServiceModel = new SubCategoryServiceModel()
+            {
+                Id = subCategory.Id,
+                Name = subCategory.Name,
+                CategoryId = subCategory.CategoryId
+            };
+
+            return subCategoryServiceModel;
+        }
+
+        public async Task<SubCategoryServiceModel> GetByNameAsync(string name)
+        {
+            var subCategory = await context.SubCategories.SingleOrDefaultAsync(s => s.Name == name);
+
+            if (subCategory == null)
+            {
+                throw new ArgumentException(InvalidNameErrorMessage);
+            }
+
+            var subCategoryServiceModel = new SubCategoryServiceModel()
+            {
+                Id = subCategory.Id,
+                Name = subCategory.Name,
+                CategoryId = subCategory.CategoryId
+            };
+
+            return subCategoryServiceModel;
+        }
+
+        public IQueryable<SubCategoryServiceModel> GetAllByCategoryId(string categoryId)
+        {
+            return context.SubCategories
+                .Where(s => s.CategoryId == categoryId)
+                .Select(s => new SubCategoryServiceModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    CategoryId = s.CategoryId,
+                });
         }
     }
 }
