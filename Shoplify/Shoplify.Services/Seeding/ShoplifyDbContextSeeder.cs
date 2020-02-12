@@ -26,6 +26,7 @@
                 new UserRoleSeeder(),
                 new CategorySeeder(),
                 new SubCategorySeeder(),
+                new TownSeeder(),
             };
 
             foreach (var seeder in seeders)
