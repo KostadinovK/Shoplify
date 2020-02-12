@@ -52,6 +52,11 @@
         public DateTime? ArchivedOn { get; set; }
 
         [Required]
+        public string TownId { get; set; }
+
+        public Town Town { get; set; }
+
+        [Required]
         [MaxLength(AttributesConstraints.AdvertisementAddressMaxLength)]
         public string Address { get; set; }
 

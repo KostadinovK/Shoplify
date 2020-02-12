@@ -33,6 +33,12 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             advertisement
+                .HasOne(a => a.Town)
+                .WithMany(t => t.Advertisements)
+                .HasForeignKey(a => a.TownId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            advertisement
                 .Property(a => a.Price)
                 .HasColumnType("decimal");
         }

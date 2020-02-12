@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Microsoft.EntityFrameworkCore;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Data;
@@ -13,7 +11,6 @@ namespace Shoplify.Web.Controllers
     using Microsoft.Extensions.Logging;
     using Models;
     using Shoplify.Services.Interfaces;
-    using Shoplify.Services.Models;
 
     public class HomeController : Controller
     {
@@ -47,7 +44,12 @@ namespace Shoplify.Web.Controllers
 
         public async Task<IActionResult> Test()
         {
-            var categories = context.Categories.Include(c => c.Advertisements).Include(c => c.SubCategories).ToList();
+            var categories = context.Categories.Select(c => new 
+            {
+                c.Name,
+                c.CssIconClass,
+                c.SubCategories,
+            }).ToList();
             return View();
         }
 
