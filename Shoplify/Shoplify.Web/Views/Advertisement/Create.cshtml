@@ -2,27 +2,113 @@
 @{
     ViewData["Title"] = "Add Advertisement";
 }
-    <div class="container-fluid margin-top-8rem">
-        
-        <div class="row">
-            <div class="col-md-4 mx-auto">
-                <div class="login-form margin-top-2rem">
-                    <h3 class="billing-title text-center">Create Advertisement</h3>
-                    <p class="text-center mt-80 mb-40">The fastest way to sell </p>
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <form method="post" asp-controller="Advertisement" asp-action="Create">
-                        <div class="form-group">
-                            <input asp-for="@Model.Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
-                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+<div class="container-fluid margin-top-8rem">
+
+    <div class="row">
+        <div class="col-md-6 mx-auto mb-100">
+            <div class="login-form margin-top-2rem">
+                <h3 class="billing-title text-center">Create Advertisement</h3>
+                <p class="text-center mt-80 mb-40">The fastest way to sell </p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form method="post" asp-controller="Advertisement" asp-action="Create" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input asp-for="Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <div class="form-group input-group-icon mt-10 col-md-6">
+                            <div class="form-select" id="default-select">
+                                <select asp-for="CategoryId" class="border">
+                                    <option value="0" disabled selected>Select Category</option>
+                                    <option value="1">Country</option>
+                                    <option value="2">Bangladesh</option>
+                                    <option value="3">India</option>
+                                    <option value="4">England</option>
+                                    <option value="5">Srilanka</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Create</span></button>
+
+                        <div class="form-group input-group-icon mt-10 col-md-6">
+                            <div class="form-select">
+                                <select asp-for="SubCategoryId" class="border">
+                                    <option value="0" disabled selected>Select SubCategory</option>
+                                    <option value="1">Country</option>
+                                    <option value="1">Bangladesh</option>
+                                    <option value="1">India</option>
+                                    <option value="1">England</option>
+                                    <option value="1">Srilanka</option>
+                                </select>
+                                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="form-group row mt-20 align-items-center">
+                        <div class="col-md-6">
+                            <input asp-for="Price" class="form-control common-input mt-20" placeholder="Price*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Price*'" required />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-select col-md-6">
+                            <select asp-for="Condition" class="border">
+                                <option value="0" disabled selected>Select Condition</option>
+                                <option value="1">New</option>
+                                <option value="2">Used</option>
+                                <option value="3">Damaged</option>
+                            </select>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class=" form-group mt-10">
+                        <textarea asp-for="Description" class="common-textarea" rows="50" cols="50" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Description'"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row mt-20 align-items-center">
+                        <div class="col-md-6">
+                            <input asp-for="Number" class="form-control common-input mt-20" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
+                        </div>
+                        <div class="form-select col-md-6">
+                            <select asp-for="TownId" class="border">
+                                <option value="0" disabled selected>Select Town</option>
+                                <option value="1">New</option>
+                                <option value="2">Used</option>
+                                <option value="3">Damaged</option>
+                            </select>
+                            <span asp-validation-for="TownId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Address" class="form-control common-input mt-20" placeholder="Address*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address*'" required />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row justify-content-md-between" id="imgRow">
+                            @for (int i = 0; i < 4; i++)
+                            {
+                                <div class="image mb-2" id="@("preview-picture" + i)">
+                                    <input type="file" asp-for="Images" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Create</span></button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
-
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 

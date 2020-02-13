@@ -13,6 +13,7 @@
         #region Advertisement
 
         public const string AdvertisementTitleInvalidLength = "Title must be at min {2} characters and max {1} characters long.";
+        public const string AdvertisementTitleRequired = "Title is required.";
 
         #endregion
     }

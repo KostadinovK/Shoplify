@@ -22,10 +22,10 @@ namespace Shoplify.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Redirect("Create");
+                return Redirect("/Advertisement/Create");
             }
 
-            return Json("md");
+            return Redirect("/Home/Test");
         }
     }
 }

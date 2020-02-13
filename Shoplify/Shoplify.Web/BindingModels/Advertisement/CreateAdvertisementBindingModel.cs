@@ -31,21 +31,13 @@
         public string SubCategoryId { get; set; }
 
         [Required]
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime? EditedOn { get; set; }
-
-        public bool IsArchived { get; set; }
-
-        public DateTime? ArchivedOn { get; set; }
-
-        [Required]
         public string TownId { get; set; }
 
         [Required]
         [MaxLength(AttributesConstraints.AdvertisementAddressMaxLength)]
         public string Address { get; set; }
 
+        [Phone]
         [MaxLength(AttributesConstraints.AdvertisementNumberMaxLength)]
         public string Number { get; set; }
 
