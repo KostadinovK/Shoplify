@@ -1,0 +1,28 @@
+﻿@model Shoplify.Web.BindingModels.Advertisement.CreateAdvertisementBindingModel
+@{
+    ViewData["Title"] = "Add Advertisement";
+}
+    <div class="container-fluid margin-top-8rem">
+        
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="login-form margin-top-2rem">
+                    <h3 class="billing-title text-center">Create Advertisement</h3>
+                    <p class="text-center mt-80 mb-40">The fastest way to sell </p>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <form method="post" asp-controller="Advertisement" asp-action="Create">
+                        <div class="form-group">
+                            <input asp-for="@Model.Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
+                            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Create</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+

@@ -9,5 +9,11 @@
         public const string ConfirmPasswordInvalid = "The password and confirmation password do not match.";
 
         #endregion
+
+        #region Advertisement
+
+        public const string AdvertisementTitleInvalidLength = "Title must be at min {2} characters and max {1} characters long.";
+
+        #endregion
     }
 }

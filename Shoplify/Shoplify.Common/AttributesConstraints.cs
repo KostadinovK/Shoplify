@@ -35,6 +35,8 @@ namespace Shoplify.Common
 
         public const int AdvertisementNameMaxLength = 30;
 
+        public const int AdvertisementNameMinLength = 3;
+
         public const string AdvertisementMinPrice = "0.1";
 
         public const string AdvertisementMaxPrice = "100000000";
