@@ -5,6 +5,7 @@ using Shoplify.Services.Seeding;
 using Shoplify.Web.BindingModels.Advertisement;
 using Shoplify.Web.ViewModels.Advertisement;
 using Shoplify.Web.ViewModels.Category;
+using Shoplify.Web.ViewModels.Town;
 
 namespace Shoplify.Web.Controllers
 {
@@ -17,16 +18,20 @@ namespace Shoplify.Web.Controllers
     public class AdvertisementController : Controller
     {
         private ICategoryService categoryService;
+        private ITownService townService;
 
-        public AdvertisementController(ICategoryService categoryService)
+        public AdvertisementController(ICategoryService categoryService, ITownService townService)
         {
             this.categoryService = categoryService;
+            this.townService = townService;
         }
 
         [Authorize]
         public async Task<IActionResult> Create()
         {
             var categories = categoryService.GetAll().To<CategoryDropdownViewModel>().ToList();
+            var towns = townService.GetAll().To<TownDropdownViewModel>().ToList();
+
             var viewModel = new CreateViewModel()
             {
                 BindingModel = new CreateAdvertisementBindingModel(),

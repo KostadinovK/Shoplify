@@ -60,6 +60,7 @@ namespace Shoplify.Web
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ISubCategoryService, SubCategoryService>();
+            services.AddTransient<ITownService, TownService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
