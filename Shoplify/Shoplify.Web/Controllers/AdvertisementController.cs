@@ -1,4 +1,10 @@
-﻿using Shoplify.Web.BindingModels.Advertisement;
+﻿using System.Linq;
+using Shoplify.Services.Interfaces;
+using Shoplify.Services.Mapping;
+using Shoplify.Services.Seeding;
+using Shoplify.Web.BindingModels.Advertisement;
+using Shoplify.Web.ViewModels.Advertisement;
+using Shoplify.Web.ViewModels.Category;
 
 namespace Shoplify.Web.Controllers
 {
@@ -10,10 +16,25 @@ namespace Shoplify.Web.Controllers
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
     {
+        private ICategoryService categoryService;
+
+        public AdvertisementController(ICategoryService categoryService)
+        {
+            this.categoryService = categoryService;
+        }
+
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            return View();
+            var categories = categoryService.GetAll().To<CategoryDropdownViewModel>().ToList();
+            var viewModel = new CreateViewModel()
+            {
+                BindingModel = new CreateAdvertisementBindingModel(),
+                Categories = categories,
+                Towns = towns,
+            };
+
+            return View(viewModel);
         }
 
         [Authorize]
