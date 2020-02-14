@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Shoplify.Tests.ServicesTests
 {
@@ -37,6 +38,69 @@ namespace Shoplify.Tests.ServicesTests
         {
             await context.DisposeAsync();
         }
+
+        [Test]
+        public async Task GetByIdAsync_WithInvalidId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync("invalidId"));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var townName = "test";
+
+            var town = new Town
+            {
+                Name = townName
+            };
+
+            await context.Towns.AddAsync(town);
+            await context.SaveChangesAsync();
+
+            var townFromDb = await context.Towns.FirstOrDefaultAsync(t => t.Name == townName);
+
+            var actualTown = await service.GetByIdAsync(townFromDb.Id.ToString());
+
+            var expectedTown = new TownServiceModel()
+            {
+                Name = townFromDb.Name,
+                Id = townFromDb.Id,
+            };
+
+            AssertEx.PropertyValuesAreEquals(actualTown, expectedTown);
+        }
+
+        [Test]
+        public async Task GetByNameAsync_WithInvalidName_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByNameAsync("invalidName"));
+        }
+
+        [Test]
+        public async Task GetByNameAsync_WithValidName_ShouldReturnCorrectly()
+        {
+            var townName = "test";
+
+            var town = new Town()
+            {
+                Name = townName
+            };
+
+            await context.Towns.AddAsync(town);
+            await context.SaveChangesAsync();
+
+            var actualTown = await service.GetByNameAsync(town.Name);
+
+            var expectedTown = new TownServiceModel()
+            {
+                Name = town.Name,
+                Id = town.Id,
+            };
+
+            AssertEx.PropertyValuesAreEquals(actualTown, expectedTown);
+        }
+
 
         [Test]
         public async Task GetAll_ShouldReturnCorrectly()
