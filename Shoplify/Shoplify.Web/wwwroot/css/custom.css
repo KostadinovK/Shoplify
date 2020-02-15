@@ -39,6 +39,11 @@ li.nav-item:hover a {
     color: rgb(255, 255, 255) !important;
 }
 
-.subCategory-dropdown {
-    background: aqua !important;
+.subCategory-option {
+    color: #777777 !important;
 }
+
+    .subCategory-option:hover {
+        cursor: pointer !important;
+        color: rgb(244, 16, 104) !important
+    }

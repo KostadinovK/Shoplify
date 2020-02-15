@@ -19,7 +19,7 @@
                     <div class="form-group row align-items-center">
                         <div class="form-group input-group-icon mt-10 col-md-6">
                             <div class="form-select" id="default-select">
-                                <select onchange="displaySubCategories(this)" asp-for="CategoryId" class="border">
+                                <select onchange="getSubCategories(this)" asp-for="CategoryId" class="border">
                                     <option value="0" disabled selected>Select Category</option>
                                     @foreach (var category in Model.Categories)
                                     {
