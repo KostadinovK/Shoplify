@@ -1,18 +1,15 @@
-﻿using System.Linq;
-using Shoplify.Services.Interfaces;
-using Shoplify.Services.Mapping;
-using Shoplify.Services.Seeding;
-using Shoplify.Web.BindingModels.Advertisement;
-using Shoplify.Web.ViewModels.Advertisement;
-using Shoplify.Web.ViewModels.Category;
-using Shoplify.Web.ViewModels.Town;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Mapping;
+    using Shoplify.Web.ViewModels.Advertisement;
+    using Shoplify.Web.ViewModels.Category;
+    using Shoplify.Web.ViewModels.Town;
 
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
@@ -34,7 +31,6 @@ namespace Shoplify.Web.Controllers
 
             var viewModel = new CreateViewModel()
             {
-                BindingModel = new CreateAdvertisementBindingModel(),
                 Categories = categories,
                 Towns = towns,
             };
@@ -44,7 +40,7 @@ namespace Shoplify.Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAdvertisementBindingModel advertisement)
+        public async Task<IActionResult> Create(CreateViewModel advertisement)
         {
             if (!ModelState.IsValid)
             {

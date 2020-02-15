@@ -47,4 +47,9 @@
     <ProjectReference Include="..\Shoplify.Services\Shoplify.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="BindingModels\" />
+  </ItemGroup>
+
 </Project>

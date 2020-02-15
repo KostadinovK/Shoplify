@@ -12,76 +12,76 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <form method="post" asp-controller="Advertisement" asp-action="Create" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input asp-for="BindingModel.Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
-                        <span asp-validation-for="BindingModel.Name" class="text-danger"></span>
+                        <input asp-for="Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
                     <div class="form-group row align-items-center">
                         <div class="form-group input-group-icon mt-10 col-md-6">
                             <div class="form-select" id="default-select">
-                                <select onchange="displaySubCategories(this)" asp-for="BindingModel.CategoryId" class="border">
+                                <select onchange="displaySubCategories(this)" asp-for="CategoryId" class="border">
                                     <option value="0" disabled selected>Select Category</option>
                                     @foreach (var category in Model.Categories)
                                     {
                                         <option value="@category.Id">@category.Name</option>
                                     }
                                 </select>
-                                <span asp-validation-for="BindingModel.CategoryId" class="text-danger"></span>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="form-group input-group-icon mt-10 col-md-6">
-                            <div class="form-select">
-                                <select id="subCategorySelectMenu" asp-for="BindingModel.SubCategoryId" class="border">
+                            <div id="subCategoryDiv" class="form-select">
+                                <select id="subCategorySelectMenu" asp-for="SubCategoryId" class="border">
                                     <option value="0" disabled selected>Select SubCategory</option>
                                     <option value="0" disabled>Select Category first</option>
                                 </select>
-                                <span asp-validation-for="BindingModel.SubCategoryId" class="text-danger"></span>
+                                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group row mt-20 align-items-center">
                         <div class="col-md-6">
-                            <input asp-for="BindingModel.Price" type="number" class="form-control common-input mt-20" placeholder="Price*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Price*'" required />
-                            <span asp-validation-for="BindingModel.Price" class="text-danger"></span>
+                            <input asp-for="Price" type="number" class="form-control common-input mt-20" placeholder="Price*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Price*'" required />
+                            <span asp-validation-for="Price" class="text-danger"></span>
                         </div>
                         <div class="form-select col-md-6">
-                            <select asp-for="BindingModel.Condition" class="border">
+                            <select asp-for="Condition" class="border">
                                 <option value="0" disabled selected>Select Condition</option>
                                 <option value="1">New</option>
                                 <option value="2">Used</option>
                                 <option value="3">Damaged</option>
                             </select>
-                            <span asp-validation-for="BindingModel.Condition" class="text-danger"></span>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class=" form-group mt-10">
-                        <textarea asp-for="BindingModel.Description" class="common-textarea" rows="50" cols="50" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Description'"></textarea>
-                        <span asp-validation-for="BindingModel.Description" class="text-danger"></span>
+                        <textarea asp-for="Description" class="common-textarea" rows="50" cols="50" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Description'"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="form-group row mt-20 align-items-center">
                         <div class="col-md-6">
-                            <input asp-for="BindingModel.Number" class="form-control common-input mt-20" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'" />
-                            <span asp-validation-for="BindingModel.Number" class="text-danger"></span>
+                            <input asp-for="Number" class="form-control common-input mt-20" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
                         </div>
                         <div class="form-select col-md-6">
-                            <select asp-for="BindingModel.TownId" class="border">
+                            <select asp-for="TownId" class="border">
                                 <option value="0" disabled selected>Select Town</option>
                                 @foreach (var town in Model.Towns)
                                 {
                                     <option value="@town.Id">@town.Name</option>
                                 }
                             </select>
-                            <span asp-validation-for="BindingModel.TownId" class="text-danger"></span>
+                            <span asp-validation-for="TownId" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <input asp-for="BindingModel.Address" class="form-control common-input mt-20" placeholder="Address*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address*'" required />
-                        <span asp-validation-for="BindingModel.Address" class="text-danger"></span>
+                        <input asp-for="Address" class="form-control common-input mt-20" placeholder="Address*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address*'" required />
+                        <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
@@ -90,7 +90,7 @@
                             {
                             <div class="image mb-2" id="@("preview-picture" + i)">
                                 <label for="@("image" + i)" class="image-upload"></label>
-                                <input type="file" asp-for="BindingModel.Images" id="@("image" + i)" class="image-upload" />
+                                <input type="file" asp-for="Images" id="@("image" + i)" class="image-upload" />
                             </div>
                             }
                         </div>
@@ -99,7 +99,7 @@
                             {
                                 <div class="image mb-2" id="@("preview-picture" + i)">
                                     <label for="@("image" + i)" class="image-upload"></label>
-                                    <input type="file" asp-for="BindingModel.Images" id="@("image" + i)" class="image-upload" />
+                                    <input type="file" asp-for="Images" id="@("image" + i)" class="image-upload" />
                                 </div>
                             }
                         </div>
