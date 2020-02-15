@@ -49,7 +49,7 @@
 
 
   <ItemGroup>
-    <Folder Include="BindingModels\" />
+    <Folder Include="ViewModels\Advertisement\" />
   </ItemGroup>
 
 </Project>

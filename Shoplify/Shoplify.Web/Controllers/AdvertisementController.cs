@@ -1,15 +1,12 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using Shoplify.Web.BindingModels.Advertisement;
+
+namespace Shoplify.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Shoplify.Services.Interfaces;
-    using Shoplify.Services.Mapping;
-    using Shoplify.Web.ViewModels.Advertisement;
-    using Shoplify.Web.ViewModels.Category;
-    using Shoplify.Web.ViewModels.Town;
 
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
@@ -26,21 +23,12 @@
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            var categories = categoryService.GetAll().To<CategoryDropdownViewModel>().ToList();
-            var towns = townService.GetAll().To<TownDropdownViewModel>().ToList();
-
-            var viewModel = new CreateViewModel()
-            {
-                Categories = categories,
-                Towns = towns,
-            };
-
-            return View(viewModel);
+            return View(new CreateBindingModel());
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(CreateViewModel advertisement)
+        public async Task<IActionResult> Create(CreateBindingModel advertisement)
         {
             if (!ModelState.IsValid)
             {

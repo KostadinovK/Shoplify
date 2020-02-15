@@ -1,8 +1,5 @@
-using Shoplify.Services.Seeding;
-
 namespace Shoplify.Web
 {
-    using System.Linq;
     using System.Reflection;
 
     using AutoMapper;
@@ -18,10 +15,10 @@ namespace Shoplify.Web
     using Microsoft.Extensions.Hosting;
     using Services.EmailSender;
     using Services.Mapping;
-    using Shoplify.Data.Seeding;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
+    using Shoplify.Services.Seeding;
     using Shoplify.Web.Models;
 
     public class Startup
@@ -93,7 +90,6 @@ namespace Shoplify.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

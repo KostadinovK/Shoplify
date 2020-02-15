@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Shoplify.Services.Models.CategoryServiceModel>
+
+@foreach (var category in Model)
+{
+    <option value="@category.Id">@category.Name</option>
+}

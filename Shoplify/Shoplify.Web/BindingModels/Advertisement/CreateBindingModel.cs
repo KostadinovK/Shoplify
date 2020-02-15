@@ -1,15 +1,13 @@
-﻿namespace Shoplify.Web.ViewModels.Advertisement
+﻿namespace Shoplify.Web.BindingModels.Advertisement
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Category;
     using Microsoft.AspNetCore.Http;
     using Shoplify.Common;
     using Shoplify.Domain.Enums;
-    using Shoplify.Web.ViewModels.Town;
 
-    public class CreateViewModel
+    public class CreateBindingModel
     {
         [Required]
         [StringLength(AttributesConstraints.AdvertisementNameMaxLength, MinimumLength = AttributesConstraints.AdvertisementNameMinLength, ErrorMessage = AttributesErrorMessages.AdvertisementTitleInvalidLength)]
@@ -44,9 +42,5 @@
 
         [DataType(DataType.Upload)]
         public ICollection<IFormFile> Images { get; set; }
-
-        public IEnumerable<CategoryDropdownViewModel> Categories { get; set; }
-
-        public IEnumerable<TownDropdownViewModel> Towns { get; set; }
     }
 }

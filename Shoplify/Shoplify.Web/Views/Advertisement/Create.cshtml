@@ -1,4 +1,4 @@
-﻿@model Shoplify.Web.ViewModels.Advertisement.CreateViewModel
+﻿@model Shoplify.Web.BindingModels.Advertisement.CreateBindingModel
 @{
     ViewData["Title"] = "Add Advertisement";
 }
@@ -21,10 +21,7 @@
                             <div class="form-select" id="default-select">
                                 <select onchange="getSubCategories(this)" asp-for="CategoryId" class="border">
                                     <option value="0" disabled selected>Select Category</option>
-                                    @foreach (var category in Model.Categories)
-                                    {
-                                        <option value="@category.Id">@category.Name</option>
-                                    }
+                                    @await Component.InvokeAsync("CategoriesDropdown")
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
@@ -70,10 +67,7 @@
                         <div class="form-select col-md-6">
                             <select asp-for="TownId" class="border">
                                 <option value="0" disabled selected>Select Town</option>
-                                @foreach (var town in Model.Towns)
-                                {
-                                    <option value="@town.Id">@town.Name</option>
-                                }
+                                @await Component.InvokeAsync("TownsDropdown")
                             </select>
                             <span asp-validation-for="TownId" class="text-danger"></span>
                         </div>
