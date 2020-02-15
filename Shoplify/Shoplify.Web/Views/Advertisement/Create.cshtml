@@ -19,7 +19,7 @@
                     <div class="form-group row align-items-center">
                         <div class="form-group input-group-icon mt-10 col-md-6">
                             <div class="form-select" id="default-select">
-                                <select asp-for="BindingModel.CategoryId" class="border">
+                                <select onchange="displaySubCategories(this)" asp-for="BindingModel.CategoryId" class="border">
                                     <option value="0" disabled selected>Select Category</option>
                                     @foreach (var category in Model.Categories)
                                     {
@@ -32,13 +32,9 @@
 
                         <div class="form-group input-group-icon mt-10 col-md-6">
                             <div class="form-select">
-                                <select asp-for="BindingModel.SubCategoryId" class="border">
+                                <select id="subCategorySelectMenu" asp-for="BindingModel.SubCategoryId" class="border">
                                     <option value="0" disabled selected>Select SubCategory</option>
-                                    <option value="1">Country</option>
-                                    <option value="1">Bangladesh</option>
-                                    <option value="1">India</option>
-                                    <option value="1">England</option>
-                                    <option value="1">Srilanka</option>
+                                    <option value="0" disabled>Select Category first</option>
                                 </select>
                                 <span asp-validation-for="BindingModel.SubCategoryId" class="text-danger"></span>
                             </div>
@@ -121,5 +117,6 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/uploadImage.js" asp-append-version="true"></script>
+    <script src="~/js/fetchSubCategories.js" asp-append-version="true"></script>
 }
 
