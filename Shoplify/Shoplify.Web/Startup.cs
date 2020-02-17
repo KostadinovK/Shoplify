@@ -3,6 +3,7 @@ namespace Shoplify.Web
     using System.Reflection;
 
     using AutoMapper;
+    using CloudinaryDotNet;
     using Data;
     using Domain;
     using Microsoft.AspNetCore.Builder;
@@ -50,6 +51,16 @@ namespace Shoplify.Web
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ShoplifyDbContext>();
+
+            Account cloudinaryCredentials = new Account(
+                this.Configuration["Cloudinary:CloudName"],
+                this.Configuration["Cloudinary:ApiKey"],
+                this.Configuration["Cloudinary:ApiSecret"]);
+
+            Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
+
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
@@ -58,6 +69,8 @@ namespace Shoplify.Web
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<ISubCategoryService, SubCategoryService>();
             services.AddTransient<ITownService, TownService>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IAdvertisementService, AdvertisementService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

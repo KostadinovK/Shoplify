@@ -1,4 +1,8 @@
-﻿using Shoplify.Web.BindingModels.Advertisement;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Shoplify.Domain;
+using Shoplify.Services.Models;
+using Shoplify.Web.BindingModels.Advertisement;
 
 namespace Shoplify.Web.Controllers
 {
@@ -11,17 +15,17 @@ namespace Shoplify.Web.Controllers
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
     {
-        private ICategoryService categoryService;
-        private ITownService townService;
+        private IAdvertisementService advertisementService;
+        private readonly UserManager<User> userManager;
 
-        public AdvertisementController(ICategoryService categoryService, ITownService townService)
+        public AdvertisementController(IAdvertisementService advertisementService, UserManager<User> userManager)
         {
-            this.categoryService = categoryService;
-            this.townService = townService;
+            this.advertisementService = advertisementService;
+            this.userManager = userManager;
         }
 
         [Authorize]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             return View(new CreateBindingModel());
         }
@@ -35,7 +39,26 @@ namespace Shoplify.Web.Controllers
                 return Redirect("/Advertisement/Create");
             }
 
-            return Redirect("/Home/Test");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var advertisementServiceModel = new AdvertisementServiceModel
+            {
+                Name = advertisement.Name,
+                Price = advertisement.Price,
+                Description = advertisement.Description,
+                Condition = advertisement.Condition,
+                CategoryId = advertisement.CategoryId,
+                SubCategoryId = advertisement.SubCategoryId,
+                TownId = advertisement.TownId,
+                Address = advertisement.Address,
+                Number = advertisement.Number,
+                UserId = userId,
+                Images = advertisement.Images
+            };
+
+            await advertisementService.CreateAsync(advertisementServiceModel);
+
+            return Redirect("/Home/Index");
         }
     }
 }
