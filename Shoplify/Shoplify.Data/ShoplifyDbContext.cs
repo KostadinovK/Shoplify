@@ -28,10 +28,6 @@ namespace Shoplify.Web.Data
 
         public DbSet<Report> Reports { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
-
-        public DbSet<Courier> Couriers { get; set; }
-
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<UserNotification> UsersNotifications { get; set; }

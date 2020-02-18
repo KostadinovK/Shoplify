@@ -21,12 +21,6 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             user
-                .HasMany(u => u.Orders)
-                .WithOne(o => o.Buyer)
-                .HasForeignKey(o => o.BuyerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            user
                 .HasMany(u => u.Comments)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)

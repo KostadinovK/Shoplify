@@ -20,8 +20,6 @@
 
         public ICollection<IdentityUserRole<string>> Roles { get; set; } = new HashSet<IdentityUserRole<string>>();
 
-        public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
-
         public ICollection<Advertisement> Advertisements { get; set; } = new HashSet<Advertisement>();
 
         public ICollection<Message> Messages { get; set; } = new HashSet<Message>();
