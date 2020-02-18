@@ -6,7 +6,7 @@
 
         @if (User.Identity.Name != null)
         {
-            <p>Hello @User.Identity.Name</p>
+            @await Component.InvokeAsync("AllCategoriesAndSubCategoriesListing")
         }
         else
         {
