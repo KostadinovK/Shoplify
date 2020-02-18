@@ -57,7 +57,7 @@ namespace Shoplify.Services.Implementations
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetAllByCategoryIdAsync(string categoryId)
         {
             var ads = await context.Advertisements
                 .Where(a => a.CategoryId == categoryId || a.SubCategoryId == categoryId).ToListAsync();

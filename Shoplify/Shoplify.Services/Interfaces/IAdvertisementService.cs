@@ -9,6 +9,6 @@
     {
         Task CreateAsync(AdvertisementCreateServiceModel advertisement);
 
-        Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId);
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetAllByCategoryIdAsync(string categoryId);
     }
 }

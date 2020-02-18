@@ -77,5 +77,66 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.AreEqual(expectedCategoryCount, actualCategoryCount);
         }
+
+        [Test]
+        public async Task GetByCategoryIdAsync_WithInvalidCategoryId_ShouldReturnEmptyCollection()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetAllByCategoryIdAsync("testCategoryId");
+
+            var actualResult = ads.Count();
+            var expectedResult = 0;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("Electronics")]
+        [TestCase("Phone")]
+        public async Task GetByCategoryIdAsync_WithValidCategoryId_ShouldReturnCorrectly(string categoryId)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetAllByCategoryIdAsync(categoryId);
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }

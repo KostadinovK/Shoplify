@@ -64,7 +64,7 @@ namespace Shoplify.Web.Controllers
         [Authorize]
         public async Task<IActionResult> GetByCategory(string categoryId)
         {
-            var ads = await advertisementService.GetByCategoryIdAsync(categoryId);
+            var ads = await advertisementService.GetAllByCategoryIdAsync(categoryId);
 
             return Json(ads);
         }
