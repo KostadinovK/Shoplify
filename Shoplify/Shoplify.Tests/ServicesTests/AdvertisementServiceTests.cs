@@ -53,7 +53,7 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task CreateAsync_WithValidData_ShouldCreateSuccessfully()
         {
-            var advertisement = new AdvertisementServiceModel()
+            var advertisement = new AdvertisementCreateServiceModel()
             {
                 Name = "OnePlus 7 Pro",
                 Description = "cool phone for everyday use, excellent performance",

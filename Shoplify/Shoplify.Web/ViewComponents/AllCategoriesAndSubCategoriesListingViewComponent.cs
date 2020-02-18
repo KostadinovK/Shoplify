@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using Shoplify.Web.ViewModels.Category;
 using Shoplify.Web.ViewModels.CategoryAndSubCategory;
 using Shoplify.Web.ViewModels.SubCategory;
@@ -34,7 +35,7 @@ namespace Shoplify.Web.ViewComponents
 
             foreach (var category in categories)
             {
-                var subCategories = subCategoryService
+                var subCategories = await subCategoryService
                     .GetAllByCategoryId(category.Id)
                     .OrderBy(s => s.Name)
                     .Select(s => new SubCategoryViewModel
@@ -42,7 +43,7 @@ namespace Shoplify.Web.ViewComponents
                         Name = s.Name,
                         Id = s.Id
                     })
-                    .ToList();
+                    .ToListAsync();
 
                 viewModel.CategoriesWithSubCategories
                     .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);

@@ -41,7 +41,7 @@ namespace Shoplify.Web.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var advertisementServiceModel = new AdvertisementServiceModel
+            var advertisementServiceModel = new AdvertisementCreateServiceModel
             {
                 Name = advertisement.Name,
                 Price = advertisement.Price,
@@ -59,6 +59,14 @@ namespace Shoplify.Web.Controllers
             await advertisementService.CreateAsync(advertisementServiceModel);
 
             return Redirect("/Home/Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> GetByCategory(string categoryId)
+        {
+            var ads = await advertisementService.GetByCategoryIdAsync(categoryId);
+
+            return Json(ads);
         }
     }
 }

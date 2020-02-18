@@ -20,7 +20,7 @@
                     @foreach (var subCategory in kvp.Value)
                     {
                         <li>
-                            <a href="/Advertisement/GetBySubCategory?subCategoryId=@subCategory.Id">@subCategory.Name</a>
+                            <a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id">@subCategory.Name</a>
                         </li>
                     }
                 </ul>

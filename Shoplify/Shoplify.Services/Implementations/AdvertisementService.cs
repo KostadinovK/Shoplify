@@ -1,4 +1,7 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Linq;
@@ -21,7 +24,7 @@
             this.cloudinaryService = cloudinaryService;
         }
 
-        public async Task CreateAsync(AdvertisementServiceModel advertisement)
+        public async Task CreateAsync(AdvertisementCreateServiceModel advertisement)
         {
             var imageUrls = advertisement.Images
                 .Select(async x =>
@@ -52,6 +55,29 @@
 
             await context.Advertisements.AddAsync(ad);
             await context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId)
+        {
+            var ads = await context.Advertisements
+                .Where(a => a.CategoryId == categoryId || a.SubCategoryId == categoryId).ToListAsync();
+
+            var result = ads.Select(a => new AdvertisementViewServiceModel
+                {
+                    Address = a.Address,
+                    CategoryId = a.CategoryId,
+                    Condition = a.Condition,
+                    CreatedOn = a.CreatedOn,
+                    Description = a.Description,
+                    Id = a.Id,
+                    Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
+                    SubCategoryId = a.SubCategoryId,
+                    Name = a.Name,
+                    Number = a.Number
+                })
+                .ToList();
+
+            return result;
         }
     }
 }

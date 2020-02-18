@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Http;
     using Shoplify.Domain.Enums;
 
-    public class AdvertisementServiceModel
+    public class AdvertisementCreateServiceModel
     {
         public string Id { get; set; }
 
