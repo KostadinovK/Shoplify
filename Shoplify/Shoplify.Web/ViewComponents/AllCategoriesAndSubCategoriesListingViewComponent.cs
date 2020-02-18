@@ -30,20 +30,23 @@ namespace Shoplify.Web.ViewComponents
                 CategoriesWithSubCategories = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>()
             };
 
-            viewModel.CategoriesWithSubCategories.Add(new CategoryViewModel { Name = "Home", Id = "test", CssIconClass = "fas fa-home"},
-                new List<SubCategoryViewModel>() {new SubCategoryViewModel{ Id = "test", Name = "Household"}, new SubCategoryViewModel{Id = "test2", Name = "Cleaning"}});
+            var categories = categoryService.GetAll();
 
-            viewModel.CategoriesWithSubCategories.Add(new CategoryViewModel { Name = "Electronics", Id = "test2", CssIconClass = "fas fa-mobile-alt" },
-                new List<SubCategoryViewModel>() { new SubCategoryViewModel { Id = "test", Name = "Laptops" }, new SubCategoryViewModel { Id = "Phones", Name = "Phones" } });
+            foreach (var category in categories)
+            {
+                var subCategories = subCategoryService
+                    .GetAllByCategoryId(category.Id)
+                    .OrderBy(s => s.Name)
+                    .Select(s => new SubCategoryViewModel
+                    {
+                        Name = s.Name,
+                        Id = s.Id
+                    })
+                    .ToList();
 
-            viewModel.CategoriesWithSubCategories.Add(new CategoryViewModel { Name = "Electronics", Id = "test2", CssIconClass = "fas fa-mobile-alt" },
-                new List<SubCategoryViewModel>() { new SubCategoryViewModel { Id = "test", Name = "Laptops" }, new SubCategoryViewModel { Id = "Phones", Name = "Phones" } });
-
-          
-
-
-
-
+                viewModel.CategoriesWithSubCategories
+                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
+            }
 
             return View(viewModel);
         }
