@@ -32,3 +32,13 @@
 input[type='file']{
     display: none;
 }
+
+@media(max-width: 980px) {
+    .image {
+        width: 100px;
+    }
+
+    .image-upload {
+        width: 100px;
+    }
+}

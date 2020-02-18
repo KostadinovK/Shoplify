@@ -1,0 +1,21 @@
+﻿@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+div.category:hover .subCategories {
+    animation: fadeIn 0.5s linear;
+    animation-fill-mode: both;
+}
+
+@media(max-width: 980px) {
+    div.category:hover .subCategories {
+        display: none;
+        animation: none;
+    }
+}
