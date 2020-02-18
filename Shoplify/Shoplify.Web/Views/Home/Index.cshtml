@@ -2,14 +2,34 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="container-fluid margin-top-8rem">
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    </div>
-    @if (User != null)
-    {
-        <p>Hello @User.Identity.Name</p>
-    }
+    <div class="container-fluid margin-top-8rem">
 
-</div>
+        @if (User.Identity.Name != null)
+        {
+            <p>Hello @User.Identity.Name</p>
+        }
+        else
+        {
+            <section class="banner-area relative mb-100 margin-top-4rem" id="home">
+                <div class="container-fluid">
+                    <div class="row fullscreen align-items-center justify-content-center">
+                        <div class="col-lg-6 col-md-12 d-flex align-self-end img-right no-padding">
+                            <img class="img-fluid" src="~/img/cta.png" alt="">
+                        </div>
+                        <div class="banner-content col-lg-6 col-md-12">
+                            <h1 class="title-top text-uppercase">Welcome!</h1>
+                            <h1 class="text">
+                                Find Anything <br>
+                                that you need
+                            </h1>
+                            <h1>
+                                Or Sell Anything
+                            </h1>
+                            <button class="primary-btn text-uppercase"><a href="/Identity/Account/Register">Register Now</a></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+
+    </div>
