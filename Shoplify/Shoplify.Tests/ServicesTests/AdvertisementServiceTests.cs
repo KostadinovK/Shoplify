@@ -138,5 +138,73 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [TestCase("OneTwo")]
+        [TestCase("PlusMinus")]
+        [TestCase("7dssffsfPro")]
+        [TestCase("jofifjfjdo")]
+        [TestCase("OnePLUSs7 PRO")]
+        public async Task GetBySearchAsync_SearchWithNoResults_ShouldReturnEmptyCollection(string search)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetAllBySearchAsync(search);
+
+            var actualResult = ads.Count();
+            var expectedResult = 0;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("One")]
+        [TestCase("Plus")]
+        [TestCase("7 Pro")]
+        [TestCase("OnePlus")]
+        [TestCase("OnePLUS 7 PRO")]
+        public async Task GetBySearchAsync_WithValidSearch_ShouldReturnCorrectly(string search)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetAllBySearchAsync(search);
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }
