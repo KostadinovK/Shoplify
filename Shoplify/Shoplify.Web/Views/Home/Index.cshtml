@@ -6,6 +6,7 @@
 
         @if (User.Identity.Name != null)
         {
+            <partial name="_SearchbarPartial"/>
             @await Component.InvokeAsync("AllCategoriesAndSubCategoriesListing")
         }
         else
