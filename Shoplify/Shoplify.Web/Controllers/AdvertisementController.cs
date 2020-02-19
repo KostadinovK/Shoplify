@@ -68,5 +68,13 @@ namespace Shoplify.Web.Controllers
 
             return Json(ads);
         }
+
+        [Authorize]
+        public async Task<IActionResult> GetBySearch(string search)
+        {
+            var ads = await advertisementService.GetAllBySearchAsync(search);
+
+            return Json(ads);
+        }
     }
 }

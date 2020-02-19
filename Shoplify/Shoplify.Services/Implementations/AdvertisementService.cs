@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
@@ -60,7 +59,30 @@ namespace Shoplify.Services.Implementations
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetAllByCategoryIdAsync(string categoryId)
         {
             var ads = await context.Advertisements
-                .Where(a => a.CategoryId == categoryId || a.SubCategoryId == categoryId).ToListAsync();
+                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false).ToListAsync();
+
+            var result = ads.Select(a => new AdvertisementViewServiceModel
+                {
+                    Address = a.Address,
+                    CategoryId = a.CategoryId,
+                    Condition = a.Condition,
+                    CreatedOn = a.CreatedOn,
+                    Description = a.Description,
+                    Id = a.Id,
+                    Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
+                    SubCategoryId = a.SubCategoryId,
+                    Name = a.Name,
+                    Number = a.Number
+                })
+                .ToList();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetAllBySearchAsync(string search)
+        {
+            var ads = await context.Advertisements
+                .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false).ToListAsync();
 
             var result = ads.Select(a => new AdvertisementViewServiceModel
                 {
