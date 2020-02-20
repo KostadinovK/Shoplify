@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Shoplify.Web.ViewModels.Advertisement.ListingViewModel>
+@{
+    ViewData["Title"] = "Listing";
+}
+
+    <div class="container-fluid margin-top-4rem">
+        <h1>Listing</h1>
+        @foreach (var ad in Model)
+        {
+            <div class="row">
+                <p>@ad.Name</p>
+                <p>@ad.Address</p>
+                <p>@ad.CategoryName</p>
+                <p>@ad.CreatedOn</p>
+                <p>@ad.Id</p>
+                <p>@ad.Price</p>
+                <p>@ad.SubCategoryName</p>
+                <p>@ad.TownName</p>
+            </div>
+        }
+    </div>
+
+

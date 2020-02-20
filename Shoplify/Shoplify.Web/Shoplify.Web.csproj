@@ -47,9 +47,4 @@
     <ProjectReference Include="..\Shoplify.Services\Shoplify.Services.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Advertisement\" />
-  </ItemGroup>
-
 </Project>

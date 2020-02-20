@@ -1,26 +1,35 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using Shoplify.Domain;
-using Shoplify.Services.Models;
-using Shoplify.Web.BindingModels.Advertisement;
+﻿using System.Collections.Generic;
 
 namespace Shoplify.Web.Controllers
 {
+    using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models;
+    using Shoplify.Web.BindingModels.Advertisement;
+    using Shoplify.Web.ViewModels.Advertisement;
 
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
     {
         private IAdvertisementService advertisementService;
+        private ICategoryService categoryService;
+        private ISubCategoryService subCategoryService;
+        private ITownService townService;
         private readonly UserManager<User> userManager;
 
-        public AdvertisementController(IAdvertisementService advertisementService, UserManager<User> userManager)
+        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, UserManager<User> userManager)
         {
             this.advertisementService = advertisementService;
+            this.categoryService = categoryService;
+            this.subCategoryService = subCategoryService;
+            this.townService = townService;
             this.userManager = userManager;
         }
 
@@ -66,7 +75,38 @@ namespace Shoplify.Web.Controllers
         {
             var ads = await advertisementService.GetAllByCategoryIdAsync(categoryId);
 
-            return Json(ads);
+            var result = new List<ListingViewModel>();
+
+            foreach (var ad in ads)
+            {
+                var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+                string subCategoryName = null;
+
+                if (await subCategoryService.ContainsByIdAsync(ad.SubCategoryId))
+                {
+                    var subCategory = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+                    subCategoryName = subCategory.Name;
+                }
+
+                var town = await townService.GetByIdAsync(ad.TownId);
+
+                var adViewModel = new ListingViewModel
+                {
+                    Address = ad.Address,
+                    CategoryName = category.Name,
+                    CreatedOn = ad.CreatedOn.ToString(),
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    Price = ad.Price,
+                    SubCategoryName = subCategoryName,
+                    TownName = town.Name
+                };
+
+                result.Add(adViewModel);
+            }
+
+            return View("Listing", result);
         }
 
         [Authorize]
@@ -74,7 +114,38 @@ namespace Shoplify.Web.Controllers
         {
             var ads = await advertisementService.GetAllBySearchAsync(search);
 
-            return Json(ads);
+            var result = new List<ListingViewModel>();
+
+            foreach (var ad in ads)
+            {
+                var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+                string subCategoryName = null;
+
+                if (await subCategoryService.ContainsByIdAsync(ad.SubCategoryId))
+                {
+                    var subCategory = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+                    subCategoryName = subCategory.Name;
+                }
+
+                var town = await townService.GetByIdAsync(ad.TownId);
+
+                var adViewModel = new ListingViewModel
+                {
+                    Address = ad.Address,
+                    CategoryName = category.Name,
+                    CreatedOn = ad.CreatedOn.ToString(),
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    Price = ad.Price,
+                    SubCategoryName = subCategoryName,
+                    TownName = town.Name
+                };
+
+                result.Add(adViewModel);
+            }
+
+            return View("Listing", result);
         }
     }
 }

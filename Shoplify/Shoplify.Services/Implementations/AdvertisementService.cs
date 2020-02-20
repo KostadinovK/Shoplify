@@ -72,7 +72,9 @@
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
                     SubCategoryId = a.SubCategoryId,
                     Name = a.Name,
-                    Number = a.Number
+                    Number = a.Number,
+                    TownId = a.TownId,
+                    UserId = a.UserId
                 })
                 .ToList();
 
@@ -95,8 +97,10 @@
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
                     SubCategoryId = a.SubCategoryId,
                     Name = a.Name,
-                    Number = a.Number
-                })
+                    Number = a.Number,
+                    TownId = a.TownId,
+                    UserId = a.UserId
+            })
                 .ToList();
 
             return result;
