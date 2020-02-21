@@ -100,7 +100,8 @@ namespace Shoplify.Web.Controllers
                     Name = ad.Name,
                     Price = ad.Price,
                     SubCategoryName = subCategoryName,
-                    TownName = town.Name
+                    TownName = town.Name,
+                    Image = ad.Images.FirstOrDefault()
                 };
 
                 result.Add(adViewModel);
@@ -139,7 +140,8 @@ namespace Shoplify.Web.Controllers
                     Name = ad.Name,
                     Price = ad.Price,
                     SubCategoryName = subCategoryName,
-                    TownName = town.Name
+                    TownName = town.Name,
+                    Image = ad.Images.FirstOrDefault()
                 };
 
                 result.Add(adViewModel);

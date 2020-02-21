@@ -81,10 +81,12 @@ div.category > a {
     color: white;
 }
 
+.ad-image{
+    display: block;
+}
 
-@media(min-width: 1080px){
-    
-    div.category:hover > a {
+@media(min-width: 1080px) {
+    div .category:hover > a {
         background: white;
         color: rgb(244, 16, 104);
         border: 2px solid rgb(244, 16, 104);
