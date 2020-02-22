@@ -118,7 +118,12 @@ namespace Shoplify.Web.Controllers
         [Authorize]
         public async Task<IActionResult> GetBySearch(string search, int page = 1)
         {
-            var ads = await advertisementService.GetAllBySearchAsync(search);
+            if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var ads = await advertisementService.GetBySearchAsync(search, page);
 
             var result = new List<ListingViewModel>();
 

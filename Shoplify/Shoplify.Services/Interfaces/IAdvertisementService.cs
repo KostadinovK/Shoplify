@@ -11,6 +11,6 @@
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page);
 
-        Task<IEnumerable<AdvertisementViewServiceModel>> GetAllBySearchAsync(string search);
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page);
     }
 }
