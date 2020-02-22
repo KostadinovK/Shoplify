@@ -20,7 +20,7 @@
                         <div class="form-group input-group-icon mt-10 col-md-6">
                             <div class="form-select" id="default-select">
                                 <select onchange="getSubCategories(this)" asp-for="CategoryId" class="border">
-                                    <option value="0" disabled selected>Select Category</option>
+                                    <option disabled selected>Select Category</option>
                                     @await Component.InvokeAsync("CategoriesDropdown")
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>

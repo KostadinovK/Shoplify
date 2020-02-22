@@ -36,7 +36,7 @@
         [MaxLength(AttributesConstraints.AdvertisementAddressMaxLength)]
         public string Address { get; set; }
 
-        [Phone]
+        [Phone(ErrorMessage = AttributesErrorMessages.AdvertisementInvalidNumber)]
         [MaxLength(AttributesConstraints.AdvertisementNumberMaxLength)]
         public string Number { get; set; }
 

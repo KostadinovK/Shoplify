@@ -29,7 +29,6 @@ namespace Shoplify.Services.Seeding
             {
                 {"Real Estates", new List<string>() {"Sales", "Rents", "Roommate"}},
                 {"Animals", new List<string>() {"Dogs", "Cats", "Fish", "Birds", "Goods", "Other"}},
-                {"Gifts", new List<string>()},
                 {
                     "Vehicles",
                     new List<string>() {"Cars/Car Parts", "Motorbikes/Parts", "Tires", "ATMs", "Mopeds", "Other"}
@@ -46,6 +45,7 @@ namespace Shoplify.Services.Seeding
                 {"Books", new List<string>() {"Sci-Fi", "Technical", "SchoolBooks", "Other"}},
                 {"Hobby", new List<string>() {"Games", "Music", "Films", "Board games", "Playing Cards", "Other"}},
                 {"Fashion", new List<string>() {"Clothes", "Perfumes", "Jewelry", "Shoes", "Watches", "Other"}},
+                {"Gifts", new List<string>() {"Gifts"}},
             };
 
             foreach (var kvp in categoriesWithSubCategories)

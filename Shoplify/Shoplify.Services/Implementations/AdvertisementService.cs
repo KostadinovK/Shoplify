@@ -25,12 +25,17 @@
 
         public async Task CreateAsync(AdvertisementCreateServiceModel advertisement)
         {
-            var imageUrls = advertisement.Images
-                .Select(async x =>
-                    await cloudinaryService.UploadPictureAsync(x, x.FileName))
-                .Select(x => x.Result)
-                .ToList();
+            List<string> imageUrls = new List<string>();
 
+            if (advertisement.Images != null && advertisement.Images.Count != 0)
+            {
+                imageUrls = advertisement.Images
+                    .Select(async x =>
+                        await cloudinaryService.UploadPictureAsync(x, x.FileName))
+                    .Select(x => x.Result)
+                    .ToList();
+            }
+            
             var ad = new Advertisement
             {
                 Name = advertisement.Name,
@@ -66,7 +71,7 @@
                     Address = a.Address,
                     CategoryId = a.CategoryId,
                     Condition = a.Condition,
-                    CreatedOn = a.CreatedOn,
+                    CreatedOn = a.CreatedOn.ToLocalTime(),
                     Description = a.Description,
                     Id = a.Id,
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -74,7 +79,8 @@
                     Name = a.Name,
                     Number = a.Number,
                     TownId = a.TownId,
-                    UserId = a.UserId
+                    UserId = a.UserId,
+                    Price = a.Price
                 })
                 .ToList();
 
@@ -91,7 +97,7 @@
                     Address = a.Address,
                     CategoryId = a.CategoryId,
                     Condition = a.Condition,
-                    CreatedOn = a.CreatedOn,
+                    CreatedOn = a.CreatedOn.ToLocalTime(),
                     Description = a.Description,
                     Id = a.Id,
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -99,7 +105,8 @@
                     Name = a.Name,
                     Number = a.Number,
                     TownId = a.TownId,
-                    UserId = a.UserId
+                    UserId = a.UserId,
+                    Price = a.Price
             })
                 .ToList();
 

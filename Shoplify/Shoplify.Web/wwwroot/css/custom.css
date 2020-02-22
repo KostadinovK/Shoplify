@@ -85,12 +85,26 @@ div.category > a {
     display: block;
 }
 
-@media(min-width: 1080px) {
-    div .category:hover > a {
+.product-info{
+    padding: 1rem;
+}
+
+.product-info p {
+    margin-bottom: 0.3rem;
+    color: rgb(119, 119, 119);
+}
+
+.product-info h1, .product-info h2, .product-info h3, .product-info h4, .product-info h5, .product-info h6{
+    margin-bottom: 0.5rem;
+}
+
+
+    @media(min-width: 1080px) {
+        div .category:hover > a {
         background: white;
         color: rgb(244, 16, 104);
         border: 2px solid rgb(244, 16, 104);
-    }
+        }
 
     div.category:hover .subCategories {
         display: block;
