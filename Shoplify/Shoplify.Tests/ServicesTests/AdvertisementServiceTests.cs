@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using Shoplify.Domain.Enums;
-
-namespace Shoplify.Tests.ServicesTests
+﻿namespace Shoplify.Tests.ServicesTests
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Moq;
     using NUnit.Framework;
+    using Shoplify.Domain.Enums;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
@@ -305,6 +304,66 @@ namespace Shoplify.Tests.ServicesTests
 
             var actualResult = ads.Count();
             var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetLatestAsync_WithNoAds_ShouldReturnEmptyCollection()
+        {
+            var ads = await service.GetLatestAsync(4, "test");
+
+            var actualResult = ads.Count();
+            var expectedResult = 0;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetLatestAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 6T",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var expectedResult = 2;
+
+            var ads = await service.GetLatestAsync(expectedResult, "test");
+
+            var actualResult = ads.Count();
 
             Assert.AreEqual(expectedResult, actualResult);
         }
