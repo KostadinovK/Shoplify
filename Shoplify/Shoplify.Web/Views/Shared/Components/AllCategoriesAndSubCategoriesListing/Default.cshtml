@@ -1,32 +1,32 @@
 ﻿@model Shoplify.Web.ViewModels.CategoryAndSubCategory.ListingViewModel
 
-<div class="categories-wrapper container-fluid mb-100">
-    <h2 class="text-center text-white mb-30">Categories</h2>
-    @{ var i = 0; }
-    @foreach (var kvp in Model.CategoriesWithSubCategories)
-    {
-        @if (i == 0)
+    <div class="categories-wrapper container-fluid mb-100">
+        <h2 class="text-center text-white mb-30">Categories</h2>
+        @{ var i = 0; }
+        @foreach (var kvp in Model.CategoriesWithSubCategories)
         {
-            @Html.Raw("<div class='row col-md-8 mx-auto category-row'>")
+            @if (i == 0)
+            {
+                @Html.Raw("<div class='row col-md-8 mx-auto category-row'>")
+            }
+
+            @if (i % 4 == 0 && i != 0)
+            {
+                @Html.Raw("</div><div class='row col-md-8 mx-auto category-row'>")
+            }
+            <div class="col-md mx-2 category my-2">
+                <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id&page=1"><i class="@kvp.Key.CssIconClass"></i> @kvp.Key.Name</a>
+                <ul class="subCategories">
+                    @foreach (var subCategory in kvp.Value)
+                    {
+                        <li>
+                            <a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page=1">@subCategory.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            i++;
         }
-
-        @if (i % 4 == 0 && i != 0)
-        {
-            @Html.Raw("</div><div class='row col-md-8 mx-auto category-row'>")
-        }
-        <div class="col-md mx-2 category my-2">
-            <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id&page=1"><i class="@kvp.Key.CssIconClass"></i> @kvp.Key.Name</a>
-            <ul class="subCategories">
-                @foreach (var subCategory in kvp.Value)
-                {
-                    <li>
-                        <a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page=1">@subCategory.Name</a>
-                    </li>
-                }
-            </ul>
-        </div>
-
-        i++;
-    }
-
-</div>
+        @Html.Raw("</div>")
+    </div>

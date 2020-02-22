@@ -118,5 +118,34 @@
 
             return result;
         }
+
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetLatestAsync(int count, string userId)
+        {
+            var ads = await context.Advertisements
+                .Where(a => a.UserId != userId && a.IsArchived == false)
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(count)
+                .ToListAsync();
+
+            var result = ads.Select(a => new AdvertisementViewServiceModel
+                {
+                    Address = a.Address,
+                    CategoryId = a.CategoryId,
+                    Condition = a.Condition,
+                    CreatedOn = a.CreatedOn.ToLocalTime(),
+                    Description = a.Description,
+                    Id = a.Id,
+                    Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
+                    SubCategoryId = a.SubCategoryId,
+                    Name = a.Name,
+                    Number = a.Number,
+                    TownId = a.TownId,
+                    UserId = a.UserId,
+                    Price = a.Price
+                })
+                .ToList();
+
+            return result;
+        }
     }
 }

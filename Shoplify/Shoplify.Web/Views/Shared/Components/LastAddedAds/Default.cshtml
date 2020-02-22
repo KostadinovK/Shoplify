@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Shoplify.Web.ViewModels.Advertisement.ListingViewModel>
+
+<section class="relative">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-40">
+                <div class="title text-center">
+                    <h1 class="text-dark mb-10">Latest Ads</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var ad in Model)
+            {
+                <div class="col-lg-3 col-md-6 single-product">
+                    <a href="/Advertisement/Details?id=@ad.Id">
+                        <div class="content">
+                            <div class="content-overlay"></div>
+                            <img class="content-image img-fluid d-block mx-auto ad-image" src="@ad.Image" alt="">
+                        </div>
+                        <div class="product-info">
+                            <h5>@ad.Name</h5>
+                            <p>@ad.CategoryName -> @ad.SubCategoryName</p>
+                            <p><i class="fas fa-map-marker-alt"></i> @ad.TownName</p>
+
+                            @if (ad.Address.Length > 20)
+                            {
+                                <p>@ad.Address.Substring(0, 20)</p>
+                            }
+                            else
+                            {
+                                <p>@ad.Address</p>
+                            }
+
+                            <p><i class="fas fa-clock"></i> @ad.CreatedOn</p>
+                            <h3>$@ad.Price</h3>
+                        </div>
+                    </a>
+
+                </div>
+            }
+        </div>
+    </div>
+</section>

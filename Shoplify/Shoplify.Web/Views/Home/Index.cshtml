@@ -8,6 +8,7 @@
         {
             <partial name="_SearchbarPartial"/>
             @await Component.InvokeAsync("AllCategoriesAndSubCategoriesListing")
+            @await Component.InvokeAsync("LastAddedAds")
         }
         else
         {

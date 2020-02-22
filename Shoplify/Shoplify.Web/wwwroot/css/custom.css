@@ -45,7 +45,16 @@ li.nav-item:hover a {
 .categories-wrapper {
     padding: 4rem;
     background: rgb(244, 16, 104);
-    margin-bottom: 100rem;
+    margin-bottom: 6rem;
+}
+
+.single-product{
+    border: 2px solid white;
+    padding: 0.3rem;
+}
+
+.single-product:hover {
+    border: 2px solid rgb(244, 16, 104);
 }
 
 div.category-row {
