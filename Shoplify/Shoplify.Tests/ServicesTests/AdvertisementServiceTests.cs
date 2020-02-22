@@ -100,7 +100,7 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetAllByCategoryIdAsync("testCategoryId");
+            var ads = await service.GetByCategoryIdAsync("testCategoryId", 1);
 
             var actualResult = ads.Count();
             var expectedResult = 0;
@@ -131,7 +131,7 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetAllByCategoryIdAsync(categoryId);
+            var ads = await service.GetByCategoryIdAsync(categoryId, 1);
 
             var actualResult = ads.Count();
             var expectedResult = 1;

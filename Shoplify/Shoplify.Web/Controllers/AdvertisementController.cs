@@ -71,9 +71,14 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> GetByCategory(string categoryId)
+        public async Task<IActionResult> GetByCategory(string categoryId, int page = 1)
         {
-            var ads = await advertisementService.GetAllByCategoryIdAsync(categoryId);
+            if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page);
 
             var result = new List<ListingViewModel>();
 
@@ -95,7 +100,7 @@ namespace Shoplify.Web.Controllers
                 {
                     Address = ad.Address,
                     CategoryName = category.Name,
-                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm"),
+                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
@@ -111,7 +116,7 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> GetBySearch(string search)
+        public async Task<IActionResult> GetBySearch(string search, int page = 1)
         {
             var ads = await advertisementService.GetAllBySearchAsync(search);
 
@@ -135,7 +140,7 @@ namespace Shoplify.Web.Controllers
                 {
                     Address = ad.Address,
                     CategoryName = category.Name,
-                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm"),
+                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,

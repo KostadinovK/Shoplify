@@ -9,7 +9,7 @@
     {
         Task CreateAsync(AdvertisementCreateServiceModel advertisement);
 
-        Task<IEnumerable<AdvertisementViewServiceModel>> GetAllByCategoryIdAsync(string categoryId);
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetAllBySearchAsync(string search);
     }

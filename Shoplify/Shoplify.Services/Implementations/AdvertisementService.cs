@@ -61,10 +61,13 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetAllByCategoryIdAsync(string categoryId)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page)
         {
             var ads = await context.Advertisements
-                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false).ToListAsync();
+                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false)
+                .Take(page * GlobalConstants.AdsOnPageCount)
+                .Skip((page - 1) * GlobalConstants.AdsOnPageCount)
+                .ToListAsync();
 
             var result = ads.Select(a => new AdvertisementViewServiceModel
                 {
