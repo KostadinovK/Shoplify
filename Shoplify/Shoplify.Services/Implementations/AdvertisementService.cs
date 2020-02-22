@@ -61,12 +61,12 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page = 1)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage)
         {
             var ads = await context.Advertisements
                 .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false)
-                .Take(page * GlobalConstants.AdsOnPageCount)
-                .Skip((page - 1) * GlobalConstants.AdsOnPageCount)
+                .Take(page * adsPerPage)
+                .Skip((page - 1) * adsPerPage)
                 .ToListAsync();
 
             var result = ads.Select(a => new AdvertisementViewServiceModel
@@ -90,12 +90,12 @@
             return result;
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page = 1)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage)
         {
             var ads = await context.Advertisements
                 .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false)
-                .Take(page * GlobalConstants.AdsOnPageCount)
-                .Skip((page - 1) * GlobalConstants.AdsOnPageCount)
+                .Take(page * adsPerPage)
+                .Skip((page - 1) * adsPerPage)
                 .ToListAsync();
 
             var result = ads.Select(a => new AdvertisementViewServiceModel

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Shoplify.Common;
 
 namespace Shoplify.Web.Controllers
 {
@@ -78,7 +79,7 @@ namespace Shoplify.Web.Controllers
                 return Redirect("/Home/Index");
             }
 
-            var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page);
+            var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount);
 
             var result = new List<ListingViewModel>();
 
@@ -123,7 +124,7 @@ namespace Shoplify.Web.Controllers
                 return Redirect("/Home/Index");
             }
 
-            var ads = await advertisementService.GetBySearchAsync(search, page);
+            var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount);
 
             var result = new List<ListingViewModel>();
 

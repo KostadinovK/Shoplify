@@ -100,7 +100,7 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetByCategoryIdAsync("testCategoryId", 1);
+            var ads = await service.GetByCategoryIdAsync("testCategoryId", 1, 1);
 
             var actualResult = ads.Count();
             var expectedResult = 0;
@@ -131,7 +131,58 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetByCategoryIdAsync(categoryId, 1);
+            var ads = await service.GetByCategoryIdAsync(categoryId, 1, 1);
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("Electronics", 1)]
+        [TestCase("Electronics", 2)]
+        public async Task GetByCategoryIdAsync_WithValidCategoryId_ShouldReturnCorrectlyPages(string categoryId, int page)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "Phone",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var adsPerPage = 1;
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var ads = await service.GetByCategoryIdAsync(categoryId, page, adsPerPage);
 
             var actualResult = ads.Count();
             var expectedResult = 1;
@@ -165,7 +216,7 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetAllBySearchAsync(search);
+            var ads = await service.GetBySearchAsync(search, 1, 5);
 
             var actualResult = ads.Count();
             var expectedResult = 0;
@@ -199,7 +250,58 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetAllBySearchAsync(search);
+            var ads = await service.GetBySearchAsync(search, 1, 5);
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("OnePlus", 1)]
+        [TestCase("OnePlus", 2)]
+        public async Task GetBySearchAsync_WithValidSearch_ShouldReturnCorrectlyPages(string categoryId, int page)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 6T",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var adsPerPage = 1;
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var ads = await service.GetBySearchAsync(categoryId, page, adsPerPage);
 
             var actualResult = ads.Count();
             var expectedResult = 1;
