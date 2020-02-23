@@ -11,20 +11,21 @@
 <div class="container mb-100">
     <div class="row">
         <div class="col-xl-9 col-lg-8 col-md-7">
+            <h1 class="text-center ">Ads Results</h1>
             <!-- Start Filter Bar -->
             <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div class="sorting">
-                    <select>
-                        <option value="1">Default sorting</option>
-                        <option value="1">Default sorting</option>
-                        <option value="1">Default sorting</option>
-                    </select>
+                    <h2 class="mb-10">Sort By: </h2>
+                    <a class="mx-2" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@Model.CurrentPage&orderBy=priceAsc">Price Asc</a>
+                    <a class="mx-2" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@Model.CurrentPage&orderBy=priceDesc">Price Desc</a>
+                    <a class="mx-2" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@Model.CurrentPage&orderBy=dateAsc">Date Asc</a>
+                    <a class="mx-2" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@Model.CurrentPage&orderBy=dateDesc">Date Desc</a>
                 </div>
             </div>
             <!-- End Filter Bar -->
 
             <section class="lattest-product-area pb-40 category-list">
-                
+
                 @if (Model.Advertisements.Count == 0)
                 {
                     <h1 class="text-center margin-bottom-4rem margin-top-4rem">Sorry, no ads found...</h1>
@@ -78,31 +79,31 @@
 
             <!-- Start Filter Bar -->
             <div class="filter-bar d-flex flex-wrap align-items-center">
-                <div class="pagination">
+                <div class="pagination mx-auto">
                     @{
                         var prevPage = Model.CurrentPage - 1;
                         var nextPage = Model.CurrentPage + 1;
                     }
                     @if (Model.CurrentPage != 1)
                     {
-                        <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
+                        <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@prevPage&@Model.OrderParam" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
                     }
 
                     @for (var j = 1; j <= (Model.TotalAdsCount / GlobalConstants.AdsOnPageCount) + 1; j++)
                     {
                         @if (j == Model.CurrentPage)
                         {
-                            <a class="active" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@j">@j</a>
+                            <a class="active" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@j&@Model.OrderParam">@j</a>
                         }
                         else if (j >= Model.CurrentPage - 4 && (j <= Model.CurrentPage + 4 && j <= Model.LastPage))
                         {
-                            <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@j">@j</a>
+                            <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@j&@Model.OrderParam">@j</a>
                         }
                     }
 
                     @if (Model.CurrentPage != Model.LastPage)
                     {
-                        <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
+                        <a href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@nextPage&@Model.OrderParam" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
                     }
 
                 </div>
@@ -120,7 +121,7 @@
                             <ul class="collapse" id="@kvp.Key.Id">
                                 @foreach (var subCategory in kvp.Value)
                                 {
-                                    <li class="main-nav-list child"><a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page=1">@subCategory.Name</a></li>
+                                    <li class="main-nav-list child"><a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page">@subCategory.Name</a></li>
                                 }
                             </ul>
                         </li>

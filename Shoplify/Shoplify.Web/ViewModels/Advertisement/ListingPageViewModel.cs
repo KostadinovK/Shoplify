@@ -10,6 +10,8 @@
 
         public string PageParam { get; set; }
 
+        public string OrderParam { get; set; }
+
         public string GetByParam { get; set; }
 
         public int TotalAdsCount { get; set; }

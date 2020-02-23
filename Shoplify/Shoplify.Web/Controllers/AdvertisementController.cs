@@ -75,7 +75,7 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> GetByCategory(string categoryId, int page = 1)
+        public async Task<IActionResult> GetByCategory(string categoryId, string orderBy, int page = 1)
         {
             if (page <= 0)
             {
@@ -91,6 +91,20 @@ namespace Shoplify.Web.Controllers
             }
 
             var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount);
+
+            if (orderBy == "priceAsc")
+            {
+                ads = ads.OrderBy(a => a.Price);
+            }else if (orderBy == "priceDesc")
+            {
+                ads = ads.OrderByDescending(a => a.Price);
+            }else if (orderBy == "dateAsc")
+            {
+                ads = ads.OrderBy(a => a.CreatedOn);
+            }else if (orderBy == "dateDesc")
+            {
+                ads = ads.OrderByDescending(a => a.CreatedOn);
+            }
 
             var result = new ListingPageViewModel();
 
@@ -146,6 +160,7 @@ namespace Shoplify.Web.Controllers
             result.LastPage = lastPage;
             result.TotalAdsCount = adsCount;
             result.GetByParam = "GetByCategory";
+            result.OrderParam = "orderBy=" + orderBy;
             result.PageParam = "categoryId=" + categoryId;
 
             return View("Listing", result);
