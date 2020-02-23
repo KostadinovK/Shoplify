@@ -92,39 +92,11 @@ namespace Shoplify.Web.Controllers
 
             var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount, orderBy);
 
-            if (orderBy == "priceAsc")
-            {
-                ads = ads.OrderBy(a => a.Price);
-            }else if (orderBy == "priceDesc")
-            {
-                ads = ads.OrderByDescending(a => a.Price);
-            }else if (orderBy == "dateAsc")
-            {
-                ads = ads.OrderBy(a => a.CreatedOn);
-            }else if (orderBy == "dateDesc")
-            {
-                ads = ads.OrderByDescending(a => a.CreatedOn);
-            }
+            ads = OrderAds(ads, orderBy);
 
             var result = new ListingPageViewModel();
 
-            var categories = categoryService.GetAll();
-
-            foreach (var category in categories)
-            {
-                var subCategories = await subCategoryService
-                    .GetAllByCategoryId(category.Id)
-                    .OrderBy(s => s.Name)
-                    .Select(s => new SubCategoryViewModel
-                    {
-                        Name = s.Name,
-                        Id = s.Id
-                    })
-                    .ToListAsync();
-
-                result.CategoiesAndSubCategories.CategoriesWithSubCategories
-                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
-            }
+            result = await GetCategoriesAndSubCategoriesAsync(result);
 
             foreach (var ad in ads)
             {
@@ -166,6 +138,8 @@ namespace Shoplify.Web.Controllers
             return View("Listing", result);
         }
 
+        
+
         [Authorize]
         public async Task<IActionResult> GetBySearch(string search, string orderBy = "dateDesc", int page = 1)
         {
@@ -183,26 +157,11 @@ namespace Shoplify.Web.Controllers
             }
 
             var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount, orderBy);
+            ads = OrderAds(ads, orderBy);
 
             var result = new ListingPageViewModel();
 
-            var categories = categoryService.GetAll();
-
-            foreach (var category in categories)
-            {
-                var subCategories = await subCategoryService
-                    .GetAllByCategoryId(category.Id)
-                    .OrderBy(s => s.Name)
-                    .Select(s => new SubCategoryViewModel
-                    {
-                        Name = s.Name,
-                        Id = s.Id
-                    })
-                    .ToListAsync();
-
-                result.CategoiesAndSubCategories.CategoriesWithSubCategories
-                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
-            }
+            result = await GetCategoriesAndSubCategoriesAsync(result);
 
             foreach (var ad in ads)
             {
@@ -243,5 +202,49 @@ namespace Shoplify.Web.Controllers
 
             return View("Listing", result);
         }
+
+        private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
+        {
+            if (orderBy == "priceAsc")
+            {
+                return ads.OrderBy(a => a.Price);
+            }
+            else if (orderBy == "priceDesc")
+            {
+                return ads.OrderByDescending(a => a.Price);
+            }
+            else if (orderBy == "dateAsc")
+            {
+                return ads.OrderBy(a => a.CreatedOn);
+            }
+            else
+            {
+                return ads.OrderByDescending(a => a.CreatedOn);
+            }
+        }
+
+        private async Task<ListingPageViewModel> GetCategoriesAndSubCategoriesAsync(ListingPageViewModel result)
+        {
+            var categories = categoryService.GetAll();
+
+            foreach (var category in categories)
+            {
+                var subCategories = await subCategoryService
+                    .GetAllByCategoryId(category.Id)
+                    .OrderBy(s => s.Name)
+                    .Select(s => new SubCategoryViewModel
+                    {
+                        Name = s.Name,
+                        Id = s.Id
+                    })
+                    .ToListAsync();
+
+                result.CategoiesAndSubCategories.CategoriesWithSubCategories
+                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
+            }
+
+            return result;
+        }
+
     }
 }
