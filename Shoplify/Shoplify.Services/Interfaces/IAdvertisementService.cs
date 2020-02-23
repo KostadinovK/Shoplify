@@ -9,9 +9,9 @@
     {
         Task CreateAsync(AdvertisementCreateServiceModel advertisement);
 
-        Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage);
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage, string orderBy);
 
-        Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage);
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage, string orderBy);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetLatestAsync(int count, string userId);
 

@@ -61,15 +61,48 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage, string orderBy)
         {
-            var ads = await context.Advertisements
-                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false)
-                .Take(page * adsPerPage)
-                .Skip((page - 1) * adsPerPage)
-                .ToListAsync();
+            var ads = context.Advertisements
+                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false);
 
-            var result = ads.Select(a => new AdvertisementViewServiceModel
+            var orderedAds = new List<Advertisement>();
+
+            if (orderBy == "priceDesc")
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+
+            }
+            else if (orderBy == "priceAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "dateAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+            else
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+
+            var result = orderedAds.Select(a => new AdvertisementViewServiceModel
                 {
                     Address = a.Address,
                     CategoryId = a.CategoryId,
@@ -90,15 +123,45 @@
             return result;
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage, string orderBy)
         {
-            var ads = await context.Advertisements
-                .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false)
-                .Take(page * adsPerPage)
-                .Skip((page - 1) * adsPerPage)
-                .ToListAsync();
+            var ads = context.Advertisements
+                .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false);
 
-            var result = ads.Select(a => new AdvertisementViewServiceModel
+            var orderedAds = new List<Advertisement>();
+
+            if (orderBy == "priceDesc")
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+
+            }else if (orderBy == "priceAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }else if (orderBy == "dateAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }else
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+
+            var result = orderedAds.Select(a => new AdvertisementViewServiceModel
                 {
                     Address = a.Address,
                     CategoryId = a.CategoryId,

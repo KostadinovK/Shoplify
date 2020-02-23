@@ -99,7 +99,7 @@
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetByCategoryIdAsync("testCategoryId", 1, 1);
+            var ads = await service.GetByCategoryIdAsync("testCategoryId", 1, 1, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 0;
@@ -130,7 +130,7 @@
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetByCategoryIdAsync(categoryId, 1, 1);
+            var ads = await service.GetByCategoryIdAsync(categoryId, 1, 1, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 1;
@@ -181,7 +181,7 @@
             await service.CreateAsync(advertisement);
             await service.CreateAsync(advertisement2);
 
-            var ads = await service.GetByCategoryIdAsync(categoryId, page, adsPerPage);
+            var ads = await service.GetByCategoryIdAsync(categoryId, page, adsPerPage, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 1;
@@ -215,7 +215,7 @@
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetBySearchAsync(search, 1, 5);
+            var ads = await service.GetBySearchAsync(search, 1, 5, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 0;
@@ -249,7 +249,7 @@
 
             await service.CreateAsync(advertisement);
 
-            var ads = await service.GetBySearchAsync(search, 1, 5);
+            var ads = await service.GetBySearchAsync(search, 1, 5, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 1;
@@ -300,7 +300,7 @@
             await service.CreateAsync(advertisement);
             await service.CreateAsync(advertisement2);
 
-            var ads = await service.GetBySearchAsync(categoryId, page, adsPerPage);
+            var ads = await service.GetBySearchAsync(categoryId, page, adsPerPage, "test");
 
             var actualResult = ads.Count();
             var expectedResult = 1;

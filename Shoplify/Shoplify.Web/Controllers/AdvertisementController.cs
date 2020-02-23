@@ -75,7 +75,7 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> GetByCategory(string categoryId, string orderBy, int page = 1)
+        public async Task<IActionResult> GetByCategory(string categoryId, string orderBy = "dateDesc", int page = 1)
         {
             if (page <= 0)
             {
@@ -90,7 +90,7 @@ namespace Shoplify.Web.Controllers
                 return Redirect("/Home/Index");
             }
 
-            var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount);
+            var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount, orderBy);
 
             if (orderBy == "priceAsc")
             {
@@ -167,7 +167,7 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> GetBySearch(string search, int page = 1)
+        public async Task<IActionResult> GetBySearch(string search, string orderBy = "dateDesc", int page = 1)
         {
             if (page <= 0)
             {
@@ -182,7 +182,7 @@ namespace Shoplify.Web.Controllers
                 return Redirect("/Home/Index");
             }
 
-            var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount);
+            var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount, orderBy);
 
             var result = new ListingPageViewModel();
 
@@ -237,6 +237,7 @@ namespace Shoplify.Web.Controllers
             result.CurrentPage = page;
             result.LastPage = lastPage;
             result.TotalAdsCount = adsCount;
+            result.OrderParam = "orderBy=" + orderBy;
             result.GetByParam = "GetBySearch";
             result.PageParam = "search=" + search;
 
