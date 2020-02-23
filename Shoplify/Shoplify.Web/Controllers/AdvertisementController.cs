@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Shoplify.Common;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -10,6 +8,7 @@ namespace Shoplify.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
@@ -81,7 +80,7 @@ namespace Shoplify.Web.Controllers
 
             var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount);
 
-            var result = new List<ListingViewModel>();
+            var result = new ListingPageViewModel();
 
             foreach (var ad in ads)
             {
@@ -110,8 +109,12 @@ namespace Shoplify.Web.Controllers
                     Image = ad.Images.FirstOrDefault()
                 };
 
-                result.Add(adViewModel);
+                result.Advertisements.Add(adViewModel);
             }
+
+            result.TotalAdsCount = await advertisementService.GetCountByCategoryIdAsync(categoryId);
+            result.GetByParam = "GetByCategory";
+            result.PageParam = "categoryId=" + categoryId;
 
             return View("Listing", result);
         }
@@ -126,7 +129,7 @@ namespace Shoplify.Web.Controllers
 
             var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount);
 
-            var result = new List<ListingViewModel>();
+            var result = new ListingPageViewModel();
 
             foreach (var ad in ads)
             {
@@ -155,8 +158,12 @@ namespace Shoplify.Web.Controllers
                     Image = ad.Images.FirstOrDefault()
                 };
 
-                result.Add(adViewModel);
+                result.Advertisements.Add(adViewModel);
             }
+
+            result.TotalAdsCount = await advertisementService.GetCountBySearchAsync(search);
+            result.GetByParam = "GetBySearch";
+            result.PageParam = "search=" + search;
 
             return View("Listing", result);
         }

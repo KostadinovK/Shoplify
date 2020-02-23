@@ -14,5 +14,9 @@
         Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetLatestAsync(int count, string userId);
+
+        Task<int> GetCountByCategoryIdAsync(string categoryId);
+
+        Task<int> GetCountBySearchAsync(string search);
     }
 }

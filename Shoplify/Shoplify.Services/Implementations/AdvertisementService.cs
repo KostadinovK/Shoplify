@@ -147,5 +147,17 @@
 
             return result;
         }
+
+        public async Task<int> GetCountByCategoryIdAsync(string categoryId)
+        {
+            return await context.Advertisements
+                .CountAsync(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false);
+        }
+
+        public async Task<int> GetCountBySearchAsync(string search)
+        {
+            return await context.Advertisements
+                .CountAsync(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false);
+        }
     }
 }
