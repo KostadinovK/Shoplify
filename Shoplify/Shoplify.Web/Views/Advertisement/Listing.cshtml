@@ -24,6 +24,12 @@
             <!-- End Filter Bar -->
 
             <section class="lattest-product-area pb-40 category-list">
+                
+                @if (Model.Advertisements.Count == 0)
+                {
+                    <h1 class="text-center margin-bottom-4rem margin-top-4rem">Sorry, no ads found...</h1>
+                }
+
                 @{ var i = 0;}
                 @foreach (var ad in Model.Advertisements)
                 {
@@ -110,11 +116,11 @@
                     @foreach (var kvp in Model.CategoiesAndSubCategories.CategoriesWithSubCategories)
                     {
                         <li class="main-nav-list" onmouseover="showSubCategories(this)" onmouseout="hideSubCategories(this)">
-                            <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id"><span class="lnr lnr-arrow-right"></span>@kvp.Key.Name</a>
+                            <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id&page=1"><span class="lnr lnr-arrow-right"></span>@kvp.Key.Name</a>
                             <ul class="collapse" id="@kvp.Key.Id">
                                 @foreach (var subCategory in kvp.Value)
                                 {
-                                    <li class="main-nav-list child"><a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id">@subCategory.Name</a></li>
+                                    <li class="main-nav-list child"><a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page=1">@subCategory.Name</a></li>
                                 }
                             </ul>
                         </li>
