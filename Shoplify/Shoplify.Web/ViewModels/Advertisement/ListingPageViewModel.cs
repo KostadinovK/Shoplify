@@ -6,6 +6,8 @@
     {
         public ICollection<ListingViewModel> Advertisements { get; set; } = new List<ListingViewModel>();
 
+        public Shoplify.Web.ViewModels.CategoryAndSubCategory.ListingViewModel CategoiesAndSubCategories { get; set; } = new Shoplify.Web.ViewModels.CategoryAndSubCategory.ListingViewModel();
+
         public string PageParam { get; set; }
 
         public string GetByParam { get; set; }

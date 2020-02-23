@@ -7,6 +7,6 @@
 
     public class ListingViewModel
     {
-        public Dictionary<CategoryViewModel, List<SubCategoryViewModel>> CategoriesWithSubCategories { get; set; }
+        public Dictionary<CategoryViewModel, List<SubCategoryViewModel>> CategoriesWithSubCategories { get; set; } = new Dictionary<CategoryViewModel, List<SubCategoryViewModel>>();
     }
 }

@@ -5,6 +5,6 @@
         public const int AdvertisementDurationDays = 30;
         public const char ImageUrlInDatabaseSeparator = '$';
 
-        public const int AdsOnPageCount = 3;
+        public const int AdsOnPageCount = 9;
     }
 }

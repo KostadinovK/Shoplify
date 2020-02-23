@@ -1,4 +1,8 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using Microsoft.EntityFrameworkCore;
+using Shoplify.Web.ViewModels.Category;
+using Shoplify.Web.ViewModels.SubCategory;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -90,6 +94,24 @@
 
             var result = new ListingPageViewModel();
 
+            var categories = categoryService.GetAll();
+
+            foreach (var category in categories)
+            {
+                var subCategories = await subCategoryService
+                    .GetAllByCategoryId(category.Id)
+                    .OrderBy(s => s.Name)
+                    .Select(s => new SubCategoryViewModel
+                    {
+                        Name = s.Name,
+                        Id = s.Id
+                    })
+                    .ToListAsync();
+
+                result.CategoiesAndSubCategories.CategoriesWithSubCategories
+                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
+            }
+
             foreach (var ad in ads)
             {
                 var category = await categoryService.GetByIdAsync(ad.CategoryId);
@@ -148,6 +170,24 @@
             var ads = await advertisementService.GetBySearchAsync(search, page, GlobalConstants.AdsOnPageCount);
 
             var result = new ListingPageViewModel();
+
+            var categories = categoryService.GetAll();
+
+            foreach (var category in categories)
+            {
+                var subCategories = await subCategoryService
+                    .GetAllByCategoryId(category.Id)
+                    .OrderBy(s => s.Name)
+                    .Select(s => new SubCategoryViewModel
+                    {
+                        Name = s.Name,
+                        Id = s.Id
+                    })
+                    .ToListAsync();
+
+                result.CategoiesAndSubCategories.CategoriesWithSubCategories
+                    .Add(new CategoryViewModel { Name = category.Name, Id = category.Id, CssIconClass = category.CssIconClass }, subCategories);
+            }
 
             foreach (var ad in ads)
             {
