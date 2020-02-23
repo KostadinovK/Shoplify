@@ -78,6 +78,14 @@
                 return Redirect("/Home/Index");
             }
 
+            var adsCount = await advertisementService.GetCountByCategoryIdAsync(categoryId);
+            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (page > lastPage)
+            {
+                return Redirect("/Home/Index");
+            }
+
             var ads = await advertisementService.GetByCategoryIdAsync(categoryId, page, GlobalConstants.AdsOnPageCount);
 
             var result = new ListingPageViewModel();
@@ -112,7 +120,9 @@
                 result.Advertisements.Add(adViewModel);
             }
 
-            result.TotalAdsCount = await advertisementService.GetCountByCategoryIdAsync(categoryId);
+            result.CurrentPage = page;
+            result.LastPage = lastPage;
+            result.TotalAdsCount = adsCount;
             result.GetByParam = "GetByCategory";
             result.PageParam = "categoryId=" + categoryId;
 
@@ -123,6 +133,14 @@
         public async Task<IActionResult> GetBySearch(string search, int page = 1)
         {
             if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var adsCount = await advertisementService.GetCountBySearchAsync(search);
+            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (page > lastPage)
             {
                 return Redirect("/Home/Index");
             }
@@ -161,7 +179,9 @@
                 result.Advertisements.Add(adViewModel);
             }
 
-            result.TotalAdsCount = await advertisementService.GetCountBySearchAsync(search);
+            result.CurrentPage = page;
+            result.LastPage = lastPage;
+            result.TotalAdsCount = adsCount;
             result.GetByParam = "GetBySearch";
             result.PageParam = "search=" + search;
 

@@ -11,5 +11,9 @@
         public string GetByParam { get; set; }
 
         public int TotalAdsCount { get; set; }
+
+        public int CurrentPage { get; set; }
+
+        public int LastPage { get; set; }
     }
 }
