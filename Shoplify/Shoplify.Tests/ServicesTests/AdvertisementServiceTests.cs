@@ -367,5 +367,119 @@
 
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [Test]
+        public async Task GetCountByCategoryIdAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var expectedResult = 0;
+
+            var actualResult = await service.GetCountByCategoryIdAsync("Electronics");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetCountByCategoryIdAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 6T",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var expectedResult = 2;
+
+            var actualResult = await service.GetCountByCategoryIdAsync("Electronics");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetCountBySearchAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var expectedResult = 0;
+
+            var actualResult = await service.GetCountBySearchAsync("Electronics");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetCountBySearchAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 6T",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var expectedResult = 2;
+
+            var actualResult = await service.GetCountBySearchAsync("OnePlus");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }
