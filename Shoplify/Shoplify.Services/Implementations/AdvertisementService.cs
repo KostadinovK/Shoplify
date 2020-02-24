@@ -227,14 +227,14 @@ namespace Shoplify.Services.Implementations
                 .CountAsync(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false);
         }
 
-        public async Task<bool> ContainsAsync(string adId)
+        public bool Contains(string adId)
         {
-            return await context.Advertisements.AnyAsync(a => a.Id == adId);
+            return context.Advertisements.Any(a => a.Id == adId);
         }
 
         public async Task<AdvertisementViewServiceModel> GetByIdAsync(string id)
         {
-            if (!await ContainsAsync(id))
+            if (!Contains(id))
             {
                 throw new ArgumentException(InvalidAdId);
             }

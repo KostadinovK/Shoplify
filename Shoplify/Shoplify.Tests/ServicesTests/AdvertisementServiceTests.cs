@@ -1,5 +1,6 @@
 ﻿namespace Shoplify.Tests.ServicesTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -481,5 +482,79 @@
 
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [Test]
+        public async Task Contains_WithInvalidId_ShouldReturnFalse()
+        {
+            var result = service.Contains("invalid");
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public async Task Contains_WithValidId_ShouldReturnTrue()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Id = "test",
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            var result = service.Contains(ad.Id);
+
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithInvalidId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync("invalid"));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            var result = await service.GetByIdAsync(ad.Id);
+
+            Assert.IsNotNull(result);
+        }
+
     }
 }
