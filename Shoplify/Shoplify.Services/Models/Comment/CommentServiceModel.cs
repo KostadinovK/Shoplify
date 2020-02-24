@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shoplify.Services.Models.Comment
+﻿namespace Shoplify.Services.Models.Comment
 {
     public class CommentServiceModel
     {
@@ -10,10 +6,10 @@ namespace Shoplify.Services.Models.Comment
 
         public string UserId { get; set; }
 
+        public string Username { get; set; }
+
         public string Text { get; set; }
 
-        public DateTime WrittenOn { get; set; }
-
-        public DateTime? EditedOn { get; set; }
+        public string WrittenOn { get; set; }
     }
 }

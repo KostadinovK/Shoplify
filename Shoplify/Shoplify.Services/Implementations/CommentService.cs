@@ -1,4 +1,8 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using Microsoft.AspNetCore.Identity;
+using Shoplify.Common;
+using Shoplify.Domain;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -13,10 +17,12 @@
     public class CommentService : ICommentService
     {
         private readonly ShoplifyDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public CommentService(ShoplifyDbContext context)
+        public CommentService(ShoplifyDbContext context, UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
         public async Task<IEnumerable<CommentServiceModel>> GetAllByAdIdAsync(string id)
@@ -27,9 +33,9 @@
             {
                 Id = c.Id,
                 UserId = c.UserId,
-                WrittenOn = c.WrittenOn.ToLocalTime(),
-                EditedOn = c.EditedOn,
-                Text = c.Text
+                WrittenOn = c.WrittenOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                Text = c.Text,
+                Username = userManager.FindByIdAsync(c.UserId).GetAwaiter().GetResult().UserName
             }).ToListAsync();
         }
     }

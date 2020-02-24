@@ -181,7 +181,7 @@ namespace Shoplify.Web.Controllers
                 {
                     Address = ad.Address,
                     CategoryName = category.Name,
-                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
@@ -234,7 +234,7 @@ namespace Shoplify.Web.Controllers
                 CategoryId = category.Id,
                 SubCategoryId = ad.SubCategoryId,
                 SubCategoryName = subCategoryName,
-                CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
+                CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                 Description = ad.Description,
                 UserId = ad.UserId,
                 Username = user.UserName,

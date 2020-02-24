@@ -18,7 +18,7 @@
     <div class="product-quick-view">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                
+
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                         @for (var i = 0; i < Model.Images.Count; i++)
@@ -102,7 +102,8 @@
                 <a class="nav-link" id="seller-info-tab" data-toggle="tab" href="#sellerInfo" role="tab" aria-controls="sellerInfo" aria-expanded="true">Seller Info</a>
             </li>
             <li>
-                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments">Comments</a>
+                <input id="adId" type="text" value="@Model.Id" style="display: none"/>
+                <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" onclick="fetchComments(comments, adId)">Comments</a>
             </li>
         </ul>
     </div>
@@ -139,32 +140,6 @@
                                     Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer hears tales of diamonds and begins dreaming of vast riches. He sells his farm and hikes off over the horizon, never to be heard from again.
                                 </p>
                             </div>
-                            <div class="single-comment reply-comment">
-                                <div class="user-details d-flex align-items-center flex-wrap">
-                                    <img src="img/organic-food/u2.png" class="img-fluid order-1 order-sm-1" alt="">
-                                    <div class="user-name order-3 order-sm-2">
-                                        <h5>Logan May</h5>
-                                        <span>12th Feb, 2017 at 05:56 pm</span>
-                                    </div>
-                                    <a href="#" class="view-btn color-2 reply order-2 order-sm-3"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a>
-                                </div>
-                                <p class="user-comment">
-                                    Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer hears tales of diamonds and begins dreaming of vast riches. He sells his farm and hikes off over the horizon, never to be heard from again.
-                                </p>
-                            </div>
-                            <div class="single-comment">
-                                <div class="user-details d-flex align-items-center flex-wrap">
-                                    <img src="img/organic-food/u3.png" class="img-fluid order-1 order-sm-1" alt="">
-                                    <div class="user-name order-3 order-sm-2">
-                                        <h5>Aaron Anderson</h5>
-                                        <span>12th Feb, 2017 at 05:56 pm</span>
-                                    </div>
-                                    <a href="#" class="view-btn color-2 reply order-2 order-sm-3"><i class="fa fa-reply" aria-hidden="true"></i><span>Reply</span></a>
-                                </div>
-                                <p class="user-comment">
-                                    Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer hears tales of diamonds and begins dreaming of vast riches. He sells his farm and hikes off over the horizon, never to be heard from again.
-                                </p>
-                            </div>
                         </div>
                     </div>
                     <div class="col-xl-6">
@@ -182,3 +157,6 @@
     </div>
 </div>
 <!-- End Product Details -->
+@section Scripts {
+    <script src="~/js/comments.js" asp-append-version="true"></script>
+}
