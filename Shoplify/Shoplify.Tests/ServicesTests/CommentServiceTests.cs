@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 using Shoplify.Domain;
 
 namespace Shoplify.Tests.ServicesTests
@@ -29,7 +32,18 @@ namespace Shoplify.Tests.ServicesTests
             await context.Database.EnsureDeletedAsync();
             await context.Database.EnsureCreatedAsync();
 
-            this.service = new CommentService(context);
+            var store = new Mock<IUserStore<User>>();
+            var mgr = new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
+            mgr.Object.UserValidators.Add(new UserValidator<User>());
+            mgr.Object.PasswordValidators.Add(new PasswordValidator<User>());
+
+            List<User> ls = new List<User>();
+
+            mgr.Setup(x => x.DeleteAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+            mgr.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success).Callback<User, string>((x, y) => ls.Add(x));
+            mgr.Setup(x => x.UpdateAsync(It.IsAny<User>())).ReturnsAsync(IdentityResult.Success);
+
+            this.service = new CommentService(context, mgr.Object);
         }
 
         [TearDown]

@@ -25,7 +25,5 @@
 
         [Required]
         public DateTime WrittenOn { get; set; }
-
-        public DateTime? EditedOn { get; set; }
     }
 }
