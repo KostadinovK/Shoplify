@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -14,6 +16,8 @@
 
     public class AdvertisementService : IAdvertisementService
     {
+        private const string InvalidAdId = "Advertisement Id is invalid.";
+
         private ShoplifyDbContext context;
         private ICloudinaryService cloudinaryService;
 
@@ -221,6 +225,38 @@
         {
             return await context.Advertisements
                 .CountAsync(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false);
+        }
+
+        public async Task<bool> ContainsAsync(string adId)
+        {
+            return await context.Advertisements.AnyAsync(a => a.Id == adId);
+        }
+
+        public async Task<AdvertisementViewServiceModel> GetByIdAsync(string id)
+        {
+            if (!await ContainsAsync(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync(a => a.Id == id);
+
+            return new AdvertisementViewServiceModel()
+            {
+                Address = ad.Address,
+                CategoryId = ad.CategoryId,
+                Condition = ad.Condition,
+                CreatedOn = ad.CreatedOn.ToLocalTime(),
+                Description = ad.Description,
+                Id = ad.Id,
+                Images = ad.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
+                SubCategoryId = ad.SubCategoryId,
+                Name = ad.Name,
+                Number = ad.Number,
+                TownId = ad.TownId,
+                UserId = ad.UserId,
+                Price = ad.Price
+            };
         }
     }
 }

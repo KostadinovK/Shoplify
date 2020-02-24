@@ -203,6 +203,14 @@ namespace Shoplify.Web.Controllers
             return View("Listing", result);
         }
 
+        [Authorize]
+        public Task<IActionResult> Details(string id)
+        {
+
+            
+            return View();
+        }
+
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
         {
             if (orderBy == "priceAsc")

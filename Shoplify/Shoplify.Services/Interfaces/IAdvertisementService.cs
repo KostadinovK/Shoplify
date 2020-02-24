@@ -18,5 +18,9 @@
         Task<int> GetCountByCategoryIdAsync(string categoryId);
 
         Task<int> GetCountBySearchAsync(string search);
+
+        Task<bool> ContainsAsync(string adId);
+
+        Task<AdvertisementViewServiceModel> GetByIdAsync(string id);
     }
 }
