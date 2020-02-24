@@ -65,7 +65,7 @@ div.category a {
     text-decoration: none;
 }
 
-div.category > a {
+div.category-list > a {
     font-size: 1.2rem;
     color: white;
     border: 2px solid white;
@@ -108,14 +108,18 @@ div.category > a {
 }
 
 
-    @media(min-width: 1080px) {
-        div .category:hover > a {
+.quick-view-content .middle p{
+    margin-bottom: 0.3rem;
+}
+
+@media(min-width: 1080px) {
+    div.category-list:hover > a {
         background: white;
         color: rgb(244, 16, 104);
         border: 2px solid rgb(244, 16, 104);
-        }
+    }
 
-    div.category:hover .subCategories {
+    div.category-list:hover .subCategories {
         display: block;
         border-left: 2px solid white;
     }

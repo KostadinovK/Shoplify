@@ -14,7 +14,7 @@
             {
                 @Html.Raw("</div><div class='row col-md-8 mx-auto category-row'>")
             }
-            <div class="col-md mx-2 category my-2">
+            <div class="col-md mx-2 category category-list my-2">
                 <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id&page=1"><i class="@kvp.Key.CssIconClass"></i> @kvp.Key.Name</a>
                 <ul class="subCategories">
                     @foreach (var subCategory in kvp.Value)

@@ -204,11 +204,51 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
-        public Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
+            if (!advertisementService.Contains(id))
+            {
+                return Redirect("/Home/Index");
+            }
 
+            var ad = await advertisementService.GetByIdAsync(id);
             
-            return View();
+            var user = await userManager.FindByIdAsync(ad.UserId);
+            var town = await townService.GetByIdAsync(ad.TownId);
+
+            var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+            string subCategoryName = null;
+
+            if (await subCategoryService.ContainsByIdAsync(ad.SubCategoryId))
+            {
+                var subCategory = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+                subCategoryName = subCategory.Name;
+            }
+
+            var viewModel = new DetailsViewModel()
+            {
+                Id = ad.Id,
+                Address = ad.Address,
+                CategoryName = category.Name,
+                CategoryId = category.Id,
+                SubCategoryId = ad.SubCategoryId,
+                SubCategoryName = subCategoryName,
+                CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
+                Description = ad.Description,
+                UserId = ad.UserId,
+                Username = user.UserName,
+                Name = ad.Name,
+                Phone = ad.Number,
+                TownName = town.Name,
+                Price = ad.Price,
+                Images = ad.Images,
+                Condition = ad.Condition.ToString()
+            };
+
+            ViewData["loggedUserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return View(viewModel);
         }
 
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
