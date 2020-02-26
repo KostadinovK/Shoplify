@@ -1,6 +1,6 @@
 ﻿namespace Shoplify.Services.Models.Comment
 {
-    public class CommentServiceModel
+    public class ViewServiceModel
     {
         public string Id { get; set; }
 

@@ -25,11 +25,11 @@ namespace Shoplify.Services.Implementations
             this.userManager = userManager;
         }
 
-        public async Task<IEnumerable<CommentServiceModel>> GetAllByAdIdAsync(string id)
+        public async Task<IEnumerable<ViewServiceModel>> GetAllByAdIdAsync(string id)
         {
             var comments = context.Comments.Where(c => c.AdvertisementId == id).OrderBy(c => c.WrittenOn);
 
-            return await comments.Select(c => new CommentServiceModel()
+            return await comments.Select(c => new ViewServiceModel()
             {
                 Id = c.Id,
                 UserId = c.UserId,
@@ -37,6 +37,31 @@ namespace Shoplify.Services.Implementations
                 Text = c.Text,
                 Username = userManager.FindByIdAsync(c.UserId).GetAwaiter().GetResult().UserName
             }).ToListAsync();
+        }
+
+        public async Task<ViewServiceModel> PostAsync(CreateServiceModel comment)
+        {
+            var commentForDb = new Comment
+            {
+                Text = comment.Text,
+                AdvertisementId = comment.AdvertisementId,
+                UserId = comment.UserId,
+                WrittenOn = comment.WrittenOn
+            };
+
+            await context.Comments.AddAsync(commentForDb);
+            await context.SaveChangesAsync();
+
+            var viewModel = new ViewServiceModel
+            {
+                Text = commentForDb.Text,
+                Id = commentForDb.Id,
+                UserId = commentForDb.UserId,
+                WrittenOn = commentForDb.WrittenOn.ToString(GlobalConstants.DateTimeFormat),
+                Username = userManager.FindByIdAsync(commentForDb.UserId).GetAwaiter().GetResult().UserName
+            };
+
+            return viewModel;
         }
     }
 }

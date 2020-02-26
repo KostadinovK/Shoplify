@@ -7,6 +7,8 @@
 
     public interface ICommentService
     {
-        Task<IEnumerable<CommentServiceModel>> GetAllByAdIdAsync(string id);
+        Task<IEnumerable<ViewServiceModel>> GetAllByAdIdAsync(string id);
+
+        Task<ViewServiceModel> PostAsync(CreateServiceModel comment);
     }
 }

@@ -40,5 +40,10 @@ function displayComments(comments, commentsSection) {
             </div>`;
         }
     }
+}
 
+function postComment(commentTextarea, adId) {
+
+    console.log(commentTextarea.value);
+    console.log(adId.value);
 }
