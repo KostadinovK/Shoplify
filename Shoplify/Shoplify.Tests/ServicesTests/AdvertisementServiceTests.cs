@@ -608,5 +608,37 @@ namespace Shoplify.Tests.ServicesTests
             Assert.IsNotNull(result);
         }
 
+        [Test]
+        public async Task ArchiveByIdAsync_ShouldWorkCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.ArchiveByIdAsync(ad.Id);
+
+            var expectedArchivedDate = DateTime.UtcNow.Date;
+            var actualArchivedDate = ad.ArchivedOn.GetValueOrDefault().Date;
+
+            Assert.IsTrue(ad.IsArchived);
+            Assert.AreEqual(expectedArchivedDate, actualArchivedDate);
+        }
     }
 }
