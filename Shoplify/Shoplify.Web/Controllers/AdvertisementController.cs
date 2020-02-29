@@ -75,6 +75,66 @@ namespace Shoplify.Web.Controllers
         }
 
         [Authorize]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var ad = await advertisementService.GetByIdAsync(id);
+
+            if (ad.UserId != userId)
+            {
+                return Redirect($"/Advertisement/Details?id={id}");
+            }
+
+            var modelForView = new EditBindingModel()
+            {
+                Id = ad.Id,
+                Name = ad.Name,
+                Address = ad.Address,
+                CategoryId = ad.CategoryId,
+                Condition = ad.Condition,
+                Description = ad.Description,
+                Number = ad.Number,
+                Price = ad.Price,
+                SubCategoryId = ad.SubCategoryId,
+                TownId = ad.TownId
+            };
+
+            return View(modelForView);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditBindingModel advertisement)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Redirect($"/Advertisement/Edit?id={advertisement.Id}");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var advertisementServiceModel = new AdvertisementCreateServiceModel
+            {
+                Name = advertisement.Name,
+                Price = advertisement.Price,
+                Description = advertisement.Description,
+                Condition = advertisement.Condition,
+                CategoryId = advertisement.CategoryId,
+                SubCategoryId = advertisement.SubCategoryId,
+                TownId = advertisement.TownId,
+                Address = advertisement.Address,
+                Number = advertisement.Number,
+                UserId = userId,
+                Images = advertisement.Images
+            };
+
+            await advertisementService.CreateAsync(advertisementServiceModel);
+
+            return Redirect($"/Advertisement/Details?id={advertisement.Id}");
+        }
+
+        [Authorize]
         public async Task<IActionResult> GetByCategory(string categoryId, string orderBy = "dateDesc", int page = 1)
         {
             if (page <= 0)
@@ -212,7 +272,6 @@ namespace Shoplify.Web.Controllers
             }
 
             var ad = await advertisementService.GetByIdAsync(id);
-            
             var user = await userManager.FindByIdAsync(ad.UserId);
             var town = await townService.GetByIdAsync(ad.TownId);
 

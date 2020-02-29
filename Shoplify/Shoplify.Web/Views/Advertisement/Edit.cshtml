@@ -1,0 +1,119 @@
+﻿@model Shoplify.Web.BindingModels.Advertisement.EditBindingModel
+@{
+    ViewData["Title"] = "Edit Advertisement";
+}
+<div class="container-fluid margin-top-8rem">
+
+    <div class="row">
+        <div class="col-md-6 mx-auto mb-100">
+            <div class="login-form margin-top-2rem">
+                <h3 class="billing-title text-center">Edit Advertisement</h3>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form method="post" asp-controller="Advertisement" asp-action="Edit" enctype="multipart/form-data">
+                    <div class="form-group" style="display: none">
+                        <input asp-for="Id" class="form-control common-input mt-20" value="@Model.Id"/>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Name" class="form-control common-input mt-20" placeholder="Title*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title*'" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <div class="form-group input-group-icon mt-10 col-md-6">
+                            <div class="form-select" id="default-select">
+                                <select onchange="getSubCategories(this)" asp-for="CategoryId" class="border">
+                                    <option value="@Model.CategoryId" selected>Same Category</option>
+                                    @await Component.InvokeAsync("CategoriesDropdown")
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group input-group-icon mt-10 col-md-6">
+                            <div id="subCategoryDiv" class="form-select">
+                                <select id="subCategorySelectMenu" asp-for="SubCategoryId" class="border">
+                                    <option value="0" disabled selected>Select SubCategory</option>
+                                    <option value="@Model.SubCategoryId">Same SubCategory</option>
+                                </select>
+                                <span asp-validation-for="SubCategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-20 align-items-center">
+                        <div class="col-md-6">
+                            <input asp-for="Price" type="number" class="form-control common-input mt-20" placeholder="Price*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Price*'" required />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-select col-md-6">
+                            <select asp-for="Condition" class="border">
+                                <option value="0" disabled selected>Select Condition</option>
+                                <option value="1">New</option>
+                                <option value="2">Used</option>
+                                <option value="3">Damaged</option>
+                            </select>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class=" form-group mt-10">
+                        <textarea asp-for="Description" class="common-textarea" rows="50" cols="50" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Description'"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group row mt-20 align-items-center">
+                        <div class="col-md-6">
+                            <input asp-for="Number" class="form-control common-input mt-20" placeholder="Phone Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
+                        </div>
+                        <div class="form-select col-md-6">
+                            <select asp-for="TownId" class="border">
+                                <option value="@Model.TownId" selected>Same Town</option>
+                                @await Component.InvokeAsync("TownsDropdown")
+                            </select>
+                            <span asp-validation-for="TownId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input asp-for="Address" class="form-control common-input mt-20" placeholder="Address*" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Address*'" required />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row justify-content-sm-between margin-top-2rem">
+                            @for (int i = 0; i < 3; i++)
+                            {
+                                <div class="image mb-2" id="@("preview-picture" + i)">
+                                    <label for="@("image" + i)" class="image-upload"></label>
+                                    <input type="file" asp-for="Images" id="@("image" + i)" class="image-upload" />
+                                </div>
+                            }
+                        </div>
+                        <div class="row justify-content-sm-between margin-top-4rem">
+                            @for (int i = 3; i < 6; i++)
+                            {
+                                <div class="image mb-2" id="@("preview-picture" + i)">
+                                    <label for="@("image" + i)" class="image-upload"></label>
+                                    <input type="file" asp-for="Images" id="@("image" + i)" class="image-upload" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Create</span></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/uploadImage.js" asp-append-version="true"></script>
+    <script src="~/js/fetchSubCategories.js" asp-append-version="true"></script>
+}
+
+
