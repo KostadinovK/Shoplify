@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shoplify.Services.Models.Advertisement;
 
 namespace Shoplify.Services.Implementations
 {
@@ -62,6 +63,47 @@ namespace Shoplify.Services.Implementations
             };
 
             await context.Advertisements.AddAsync(ad);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(AdvertisementEditServiceModel advertisement)
+        {
+            List<string> imageUrls = new List<string>();
+
+            if (advertisement.Images != null && advertisement.Images.Count != 0)
+            {
+                imageUrls = advertisement.Images
+                    .Select(async x =>
+                        await cloudinaryService.UploadPictureAsync(x, x.FileName))
+                    .Select(x => x.Result)
+                    .ToList();
+            }
+
+            var advertisementFromDb = context.Advertisements.SingleOrDefault(a => a.Id == advertisement.Id);
+
+            if (advertisementFromDb == null)
+            {
+                return;
+            }
+
+            advertisementFromDb.Name = advertisement.Name;
+            advertisementFromDb.Address = advertisement.Address;
+            advertisementFromDb.CategoryId = advertisement.CategoryId;
+            advertisementFromDb.SubCategoryId = advertisement.SubCategoryId;
+            advertisementFromDb.Condition = advertisement.Condition;
+            advertisementFromDb.Price = advertisement.Price;
+            advertisementFromDb.Description = advertisement.Description;
+
+            if (imageUrls.Count != 0)
+            {
+                advertisementFromDb.Images = string.Join(GlobalConstants.ImageUrlInDatabaseSeparator, imageUrls);
+            }
+
+            advertisementFromDb.EditedOn = DateTime.UtcNow;
+            advertisementFromDb.TownId = advertisement.TownId;
+            advertisementFromDb.Number = advertisement.Number;
+
+            context.Advertisements.Update(advertisementFromDb);
             await context.SaveChangesAsync();
         }
 

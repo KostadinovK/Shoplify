@@ -496,7 +496,6 @@
         {
             var advertisement = new AdvertisementCreateServiceModel()
             {
-                Id = "test",
                 Name = "OnePlus 7 Pro",
                 Description = "cool phone for everyday use, excellent performance",
                 Price = 800,

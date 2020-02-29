@@ -4,10 +4,13 @@
     using System.Threading.Tasks;
 
     using Shoplify.Services.Models;
+    using Shoplify.Services.Models.Advertisement;
 
     public interface IAdvertisementService
     {
         Task CreateAsync(AdvertisementCreateServiceModel advertisement);
+
+        Task EditAsync(AdvertisementEditServiceModel advertisement);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage, string orderBy);
 

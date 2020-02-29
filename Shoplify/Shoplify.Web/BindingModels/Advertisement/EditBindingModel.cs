@@ -11,6 +11,8 @@
     {
         public string Id { get; set; }
 
+        public string UserId { get; set; }
+
         [Required]
         [StringLength(AttributesConstraints.AdvertisementNameMaxLength, MinimumLength = AttributesConstraints.AdvertisementNameMinLength, ErrorMessage = AttributesErrorMessages.AdvertisementTitleInvalidLength)]
         public string Name { get; set; }

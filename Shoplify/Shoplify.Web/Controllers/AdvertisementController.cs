@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Shoplify.Services.Models.Advertisement;
 using Shoplify.Web.ViewModels.Category;
 using Shoplify.Web.ViewModels.SubCategory;
 
@@ -97,7 +98,8 @@ namespace Shoplify.Web.Controllers
                 Number = ad.Number,
                 Price = ad.Price,
                 SubCategoryId = ad.SubCategoryId,
-                TownId = ad.TownId
+                TownId = ad.TownId,
+                UserId = ad.UserId
             };
 
             return View(modelForView);
@@ -112,10 +114,9 @@ namespace Shoplify.Web.Controllers
                 return Redirect($"/Advertisement/Edit?id={advertisement.Id}");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var advertisementServiceModel = new AdvertisementCreateServiceModel
+            var advertisementServiceModel = new AdvertisementEditServiceModel()
             {
+                Id = advertisement.Id,
                 Name = advertisement.Name,
                 Price = advertisement.Price,
                 Description = advertisement.Description,
@@ -125,11 +126,11 @@ namespace Shoplify.Web.Controllers
                 TownId = advertisement.TownId,
                 Address = advertisement.Address,
                 Number = advertisement.Number,
-                UserId = userId,
+                UserId = advertisement.UserId,
                 Images = advertisement.Images
             };
 
-            await advertisementService.CreateAsync(advertisementServiceModel);
+            await advertisementService.EditAsync(advertisementServiceModel);
 
             return Redirect($"/Advertisement/Details?id={advertisement.Id}");
         }

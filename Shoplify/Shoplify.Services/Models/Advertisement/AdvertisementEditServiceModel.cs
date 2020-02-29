@@ -1,14 +1,17 @@
-﻿namespace Shoplify.Services.Models
+﻿namespace Shoplify.Services.Models.Advertisement
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Text;
 
     using Microsoft.AspNetCore.Http;
     using Shoplify.Domain.Enums;
 
-    public class AdvertisementCreateServiceModel
+    public class AdvertisementEditServiceModel
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public decimal Price { get; set; }
