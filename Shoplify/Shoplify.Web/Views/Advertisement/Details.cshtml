@@ -136,9 +136,12 @@
                     </div>
                     <div class="col-xl-6">
                         <div class="add-review">
-                            <h3>Post a comment</h3>
-                            <textarea placeholder="Message" id="commentText" onfocus="this.placeholder=''" onblur="this.placeholder = 'Message'" required class="common-textarea"></textarea>
-                            <a class="view-btn color-2 mt-2" onclick="postComment(commentText, adId)"><span>Comment Now</span></a>
+                            <form asp-controller="Comment" asp-action="Post" method="post">
+                                <h3>Post a comment</h3>
+                                <input type="text" name="AdvertisementId" value="@Model.Id" style="display: none" />
+                                <textarea placeholder="Message" id="commentText" name="Text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required class="common-textarea"></textarea>
+                                <button class="view-btn color-2 mt-2" type="submit"><span>Comment Now</span></button>
+                            </form>
                         </div>
                     </div>
                 </div>

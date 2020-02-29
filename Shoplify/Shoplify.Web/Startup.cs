@@ -102,6 +102,7 @@ namespace Shoplify.Web
                 app.UseHsts();
             }
 
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();

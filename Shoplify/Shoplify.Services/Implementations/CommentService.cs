@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Shoplify.Common;
-using Shoplify.Domain;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+    using Shoplify.Common;
+    using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models.Comment;
     using Shoplify.Web.Data;
@@ -39,7 +38,7 @@ namespace Shoplify.Services.Implementations
             }).ToListAsync();
         }
 
-        public async Task<ViewServiceModel> PostAsync(CreateServiceModel comment)
+        public async Task PostAsync(CreateServiceModel comment)
         {
             var commentForDb = new Comment
             {
@@ -60,8 +59,6 @@ namespace Shoplify.Services.Implementations
                 WrittenOn = commentForDb.WrittenOn.ToString(GlobalConstants.DateTimeFormat),
                 Username = userManager.FindByIdAsync(commentForDb.UserId).GetAwaiter().GetResult().UserName
             };
-
-            return viewModel;
         }
     }
 }

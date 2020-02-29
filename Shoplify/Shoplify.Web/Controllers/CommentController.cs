@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Shoplify.Domain;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Shoplify.Common;
+    using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models.Comment;
     using Shoplify.Web.BindingModels.Comment;
@@ -38,7 +36,7 @@ namespace Shoplify.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Json("invalid comment");
+                return Redirect($"/Advertisement/Details?id={input.AdvertisementId}");
             }
 
             var serviceModel = new CreateServiceModel
@@ -49,9 +47,9 @@ namespace Shoplify.Web.Controllers
                 UserId = userManager.GetUserAsync(HttpContext.User).GetAwaiter().GetResult().Id
             };
 
-            var comment = await commentService.PostAsync(serviceModel);
+            await commentService.PostAsync(serviceModel);
 
-            return Json(comment);
+            return Redirect($"/Advertisement/Details?id={input.AdvertisementId}");
         }
     }
 }

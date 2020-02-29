@@ -9,6 +9,6 @@
     {
         Task<IEnumerable<ViewServiceModel>> GetAllByAdIdAsync(string id);
 
-        Task<ViewServiceModel> PostAsync(CreateServiceModel comment);
+        Task PostAsync(CreateServiceModel comment);
     }
 }

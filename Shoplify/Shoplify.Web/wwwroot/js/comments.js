@@ -21,7 +21,6 @@ function displayComments(comments, commentsSection) {
 
         commentsSection.appendChild(div);
     } else {
-        console.log(comments);
         for (var comment of comments) {
             commentsSection.innerHTML += 
                 `<div class="single-comment">
@@ -40,10 +39,4 @@ function displayComments(comments, commentsSection) {
             </div>`;
         }
     }
-}
-
-function postComment(commentTextarea, adId) {
-
-    console.log(commentTextarea.value);
-    console.log(adId.value);
 }
