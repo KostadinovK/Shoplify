@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Shoplify.Services.Models.Advertisement;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -13,6 +10,7 @@ namespace Shoplify.Services.Implementations
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
+    using Shoplify.Services.Models.Advertisement;
     using Shoplify.Web.Data;
 
     public class AdvertisementService : IAdvertisementService
@@ -299,6 +297,18 @@ namespace Shoplify.Services.Implementations
                 UserId = ad.UserId,
                 Price = ad.Price
             };
+        }
+
+        public async Task ArchiveByIdAsync(string id)
+        {
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsArchived = true;
+            ad.ArchivedOn = DateTime.UtcNow;
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
         }
     }
 }

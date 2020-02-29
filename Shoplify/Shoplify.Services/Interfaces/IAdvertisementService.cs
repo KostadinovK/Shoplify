@@ -25,5 +25,7 @@
         bool Contains(string adId);
 
         Task<AdvertisementViewServiceModel> GetByIdAsync(string id);
+
+        Task ArchiveByIdAsync(string id);
     }
 }

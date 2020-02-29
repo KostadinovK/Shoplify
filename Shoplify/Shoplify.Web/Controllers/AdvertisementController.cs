@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shoplify.Services.Models.Advertisement;
-using Shoplify.Web.ViewModels.Category;
-using Shoplify.Web.ViewModels.SubCategory;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -13,12 +8,16 @@ namespace Shoplify.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
+    using Shoplify.Services.Models.Advertisement;
     using Shoplify.Web.BindingModels.Advertisement;
     using Shoplify.Web.ViewModels.Advertisement;
+    using Shoplify.Web.ViewModels.Category;
+    using Shoplify.Web.ViewModels.SubCategory;
 
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
@@ -309,6 +308,19 @@ namespace Shoplify.Web.Controllers
             ViewData["loggedUserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             return View(viewModel);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Archive(string id)
+        {
+            if (!advertisementService.Contains(id))
+            {
+                return Redirect("/Home/Index");
+            }
+
+            await advertisementService.ArchiveByIdAsync(id);
+
+            return Redirect("/Home/Index");
         }
 
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
