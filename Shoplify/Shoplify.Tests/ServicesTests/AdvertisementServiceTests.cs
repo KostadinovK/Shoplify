@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using Shoplify.Services.Models.Advertisement;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System;
     using System.Collections.Generic;
@@ -76,6 +78,57 @@
             var expectedCategoryCount = 1;
 
             Assert.AreEqual(expectedCategoryCount, actualCategoryCount);
+        }
+
+        [Test]
+        public async Task EditAsync_WithValidData_ShouldEditSuccessfully()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "testCategoryId",
+                SubCategoryId = "testCategoryId",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var adFromDb = context.Advertisements.SingleOrDefault(a => a.Name == "OnePlus 7 Pro");
+
+            var editedAd = new AdvertisementEditServiceModel()
+            {
+                Id = adFromDb.Id,
+                UserId = adFromDb.UserId,
+                Name = "OnePlus 5",
+                Description = adFromDb.Description,
+                Price = 500,
+                Condition = ProductCondition.New,
+                CategoryId = "testCategoryId",
+                SubCategoryId = "testCategoryId",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.EditAsync(editedAd);
+
+            var actualAdName = adFromDb.Name;
+            var expectedAdName = "OnePlus 5";
+
+            Assert.AreEqual(expectedAdName, actualAdName);
         }
 
         [Test]
