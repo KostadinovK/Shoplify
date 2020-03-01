@@ -269,7 +269,7 @@
 
         public bool Contains(string adId)
         {
-            return context.Advertisements.Any(a => a.Id == adId);
+            return context.Advertisements.Any(a => a.Id == adId && a.IsArchived == false);
         }
 
         public async Task<AdvertisementViewServiceModel> GetByIdAsync(string id)

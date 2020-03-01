@@ -198,8 +198,6 @@
             return View("Listing", result);
         }
 
-        
-
         [Authorize]
         public async Task<IActionResult> GetBySearch(string search, string orderBy = "dateDesc", int page = 1)
         {

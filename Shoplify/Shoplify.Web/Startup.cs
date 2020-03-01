@@ -73,6 +73,7 @@ namespace Shoplify.Web
             services.AddTransient<IAdvertisementService, AdvertisementService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IUserAdWishlistService, UserAdWishlistService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
