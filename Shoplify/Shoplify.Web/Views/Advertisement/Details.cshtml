@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-@model Shoplify.Web.ViewModels.Advertisement.DetailsViewModel
+﻿@model Shoplify.Web.ViewModels.Advertisement.DetailsViewModel
 @{
     ViewData["Title"] = "Single Ad Page";
 }
@@ -70,7 +69,16 @@
                         <div>
                             <div class="d-flex mt-20">
                                 <a href="#" class="view-btn color-2"><span>Message Seller</span></a>
-                                <a href="/User/AddToWishlist?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&adId=@Model.Id" class="like-btn"><span class="lnr lnr-heart"></span></a>
+
+                                @if (Model.IsAdInLoggedUserWishlist)
+                                {
+                                    <a href="/User/RemoveFromWishlist?adId=@Model.Id" class="like-btn"><i class="fas fa-heart" style="color: red"></i></a>
+                                }
+                                else
+                                {
+                                    <a href="/User/AddToWishlist?adId=@Model.Id" class="like-btn"><i class="far fa-heart" style="color: red"></i></a>
+                                }
+
                             </div>
 
                             <div class="d-flex mt-20">

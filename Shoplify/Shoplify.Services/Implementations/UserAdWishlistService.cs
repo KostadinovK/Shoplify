@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Web.Data;
@@ -19,7 +20,7 @@
 
         public async Task AddToWishlistAsync(string userId, string adId)
         {
-            if (!context.UsersAdvertisementsWishlist.Any(ua => ua.AdvertisementId == adId && ua.UserId == userId))
+            if (!await IsAdInWishlistAsync(userId, adId))
             {
                 await context.UsersAdvertisementsWishlist.AddAsync(new UserAdvertisementWishlist
                 {
@@ -29,6 +30,25 @@
 
                 await context.SaveChangesAsync();
             }
+        }
+
+        public async Task RemoveFromWishlistAsync(string userId, string adId)
+        {
+            if (await IsAdInWishlistAsync(userId, adId))
+            {
+                var model = context.UsersAdvertisementsWishlist.SingleOrDefault(ua =>
+                    ua.AdvertisementId == adId && ua.UserId == userId);
+
+                context.UsersAdvertisementsWishlist.Remove(model);
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> IsAdInWishlistAsync(string userId, string adId)
+        {
+            return await context.UsersAdvertisementsWishlist.AnyAsync(ua =>
+                ua.AdvertisementId == adId && ua.UserId == userId);
         }
     }
 }

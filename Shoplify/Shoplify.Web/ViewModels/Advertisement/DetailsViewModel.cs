@@ -35,5 +35,7 @@
         public string Phone { get; set; }
 
         public string Condition { get; set; }
+
+        public bool IsAdInLoggedUserWishlist { get; set; }
     }
 }

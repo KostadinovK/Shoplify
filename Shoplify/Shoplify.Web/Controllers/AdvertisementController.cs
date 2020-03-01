@@ -26,15 +26,17 @@
         private ICategoryService categoryService;
         private ISubCategoryService subCategoryService;
         private ITownService townService;
+        private IUserAdWishlistService userAdWishlistService;
         private readonly UserManager<User> userManager;
 
-        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, UserManager<User> userManager)
+        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager)
         {
             this.advertisementService = advertisementService;
             this.categoryService = categoryService;
             this.subCategoryService = subCategoryService;
             this.townService = townService;
             this.userManager = userManager;
+            this.userAdWishlistService = userAdWishlistService;
         }
 
         [Authorize]
@@ -300,7 +302,8 @@
                 TownName = town.Name,
                 Price = ad.Price,
                 Images = ad.Images,
-                Condition = ad.Condition.ToString()
+                Condition = ad.Condition.ToString(),
+                IsAdInLoggedUserWishlist = await userAdWishlistService.IsAdInWishlistAsync(User.FindFirstValue(ClaimTypes.NameIdentifier), ad.Id)
             };
 
             ViewData["loggedUserId"] = User.FindFirstValue(ClaimTypes.NameIdentifier);

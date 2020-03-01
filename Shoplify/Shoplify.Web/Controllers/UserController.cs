@@ -42,5 +42,25 @@ namespace Shoplify.Web.Controllers
             return Redirect($"/Advertisement/Details?id={adId}");
         }
 
+        public async Task<IActionResult> RemoveFromWishlist(string adId)
+        {
+            if (!advertisementService.Contains(adId))
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (userId == ad.UserId)
+            {
+                return Redirect($"/Advertisement/Details?id={adId}");
+            }
+
+            await userAdWishlistService.RemoveFromWishlistAsync(userId, adId);
+
+            return Redirect($"/Advertisement/Details?id={adId}");
+        }
     }
 }
