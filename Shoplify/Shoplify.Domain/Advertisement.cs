@@ -70,5 +70,7 @@
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
+
+        public ICollection<UserAdvertisementWishlist> Users { get; set; } = new HashSet<UserAdvertisementWishlist>();
     }
 }

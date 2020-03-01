@@ -34,6 +34,8 @@ namespace Shoplify.Web.Data
 
         public DbSet<FollowerFollowing> FollowersFollowings { get; set; }
 
+        public DbSet<UserAdvertisementWishlist> UsersAdvertisementsWishlist { get; set; }
+
         public DbSet<Town> Towns { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

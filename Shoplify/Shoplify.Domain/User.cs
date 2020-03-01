@@ -31,5 +31,7 @@
         public ICollection<FollowerFollowing> Followers { get; set; } = new HashSet<FollowerFollowing>();
 
         public ICollection<FollowerFollowing> Followings { get; set; } = new HashSet<FollowerFollowing>();
+
+        public ICollection<UserAdvertisementWishlist> WishList { get; set; } = new HashSet<UserAdvertisementWishlist>();
     }
 }
