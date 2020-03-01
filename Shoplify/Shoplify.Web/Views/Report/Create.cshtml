@@ -1,0 +1,38 @@
+﻿@model Shoplify.Web.BindingModels.Report.CreateBindingModel
+@{
+    ViewData["Title"] = "Report";
+}
+<div class="container-fluid margin-top-8rem">
+
+    <div class="row">
+        <div class="col-md-6 mx-auto mb-100">
+            <div class="login-form margin-top-2rem">
+                <h3 class="billing-title text-center">Report Ad</h3>
+                <p class="text-center mt-80 mb-40">Your report will be viewed and approved by an admin</p>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <form method="post" asp-controller="Report" asp-action="Create">
+                    <div class="form-group" style="display: none">
+                        <input asp-for="ReportedUserId" class="form-control common-input mt-20" value="@Model.ReportedUserId" />
+                        <input asp-for="ReportingUserId" class="form-control common-input mt-20" value="@Model.ReportingUserId" />
+                        <input asp-for="ReportedAdvertisementId" class="form-control common-input mt-20" value="@Model.ReportedAdvertisementId" />
+                    </div>
+
+                    <div class=" form-group mt-10">
+                        <textarea asp-for="Description" class="common-textarea" rows="50" cols="50" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Description'"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn view-btn color-2 mt-20 w-100"><span>Report</span></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/uploadImage.js" asp-append-version="true"></script>
+    <script src="~/js/fetchSubCategories.js" asp-append-version="true"></script>
+}
