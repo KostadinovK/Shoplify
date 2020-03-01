@@ -1,14 +1,13 @@
-﻿using System.Security.Claims;
-using Shoplify.Services.Models.Report;
-using Shoplify.Web.BindingModels.Report;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models.Report;
+    using Shoplify.Web.BindingModels.Report;
 
     [Authorize]
     [AutoValidateAntiforgeryToken]
