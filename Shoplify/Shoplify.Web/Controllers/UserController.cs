@@ -1,11 +1,12 @@
-﻿using System.Security.Claims;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
 
     [Authorize]
@@ -14,11 +15,13 @@ namespace Shoplify.Web.Controllers
     {
         private readonly IAdvertisementService advertisementService;
         private readonly IUserAdWishlistService userAdWishlistService;
+        private readonly UserManager<User> userManager;
 
-        public UserController(IAdvertisementService advertisementService, IUserAdWishlistService userAdWishlistService)
+        public UserController(IAdvertisementService advertisementService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager)
         {
             this.advertisementService = advertisementService;
             this.userAdWishlistService = userAdWishlistService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> AddToWishlist(string adId)
@@ -61,6 +64,25 @@ namespace Shoplify.Web.Controllers
             await userAdWishlistService.RemoveFromWishlistAsync(userId, adId);
 
             return Redirect($"/Advertisement/Details?id={adId}");
+        }
+
+        public async Task<IActionResult> Profile(string id)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            if (user.Id == loggedInUserId)
+            {
+                return View("LoggedInUserProfile");
+            }
+
+            return View();
         }
     }
 }

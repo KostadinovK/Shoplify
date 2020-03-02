@@ -30,7 +30,7 @@ function displayComments(comments, commentsSection) {
                         <h5>${comment.username}</h5>
                         <span>${comment.writtenOn}</span>
                     </div>
-                    <a href="/Profile/View?userId=${comment.userId}" class="view-btn color-2 reply order-2 order-sm-3"><i class="fa fa-reply" aria-hidden="true"></i><span>View Profile</span></a>
+                    <a href="/User/Profile?id=${comment.userId}" class="view-btn color-2 reply order-2 order-sm-3"><i class="fa fa-reply" aria-hidden="true"></i><span>View Profile</span></a>
                 </div>
 
                 <p class="user-comment">
