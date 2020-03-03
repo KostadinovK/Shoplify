@@ -243,6 +243,124 @@ namespace Shoplify.Tests.ServicesTests
             Assert.AreEqual(expectedResult, actualResult);
         }
 
+
+        [Test]
+        public async Task GetByUserIdAsync_WithInvalidUserId_ShouldReturnEmptyCollection()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "invalid"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetByUserIdAsync("valid", 1, 1, "test");
+
+            var actualResult = ads.Count();
+            var expectedResult = 0;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetByUserIdAsync_WithValidUserId_ShouldReturnCorrectly()
+        {
+            var userId = "valid";
+
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = userId
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ads = await service.GetByUserIdAsync(userId, 1, 1, "test");
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [TestCase("valid", 1)]
+        [TestCase("valid", 2)]
+        public async Task GetByUserIdAsync_WithValidUserId_ShouldReturnCorrectlyPages(string userId, int page)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "valid"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "Phone",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = userId
+            };
+
+            var adsPerPage = 1;
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var ads = await service.GetByUserIdAsync(userId, page, adsPerPage, "test");
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
         [TestCase("OneTwo")]
         [TestCase("PlusMinus")]
         [TestCase("7dssffsfPro")]
@@ -475,6 +593,87 @@ namespace Shoplify.Tests.ServicesTests
             var expectedResult = 2;
 
             var actualResult = await service.GetCountByCategoryIdAsync("Electronics");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetCountByUserIdAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "valid"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var expectedResult = 0;
+
+            var actualResult = await service.GetCountByUserIdAsync("test");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetCountByUserIdAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var userId = "valid";
+
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = userId
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 6T",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 100,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Chair",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = userId
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var expectedResult = 2;
+
+            var actualResult = await service.GetCountByUserIdAsync(userId);
 
             Assert.AreEqual(expectedResult, actualResult);
         }
