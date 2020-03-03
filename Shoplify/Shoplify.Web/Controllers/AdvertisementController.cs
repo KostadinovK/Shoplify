@@ -68,7 +68,7 @@
                 Address = advertisement.Address,
                 Number = advertisement.Number,
                 UserId = userId,
-                Images = advertisement.Images
+                Images = advertisement.Images,
             };
 
             await advertisementService.CreateAsync(advertisementServiceModel);

@@ -57,7 +57,12 @@
                 TownId = advertisement.TownId,
                 Number = advertisement.Number,
                 IsReported = false,
-                ReportedOn = null
+                ReportedOn = null,
+                IsBanned = false,
+                BannedOn = null,
+                IsPromoted = false,
+                PromotedOn = null,
+                PromotedUntil = null
             };
 
             await context.Advertisements.AddAsync(ad);

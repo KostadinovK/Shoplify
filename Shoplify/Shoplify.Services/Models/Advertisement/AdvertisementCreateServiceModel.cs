@@ -39,9 +39,5 @@
         public string Address { get; set; }
 
         public string Number { get; set; }
-
-        public bool IsReported { get; set; }
-
-        public DateTime? ReportedOn { get; set; }
     }
 }

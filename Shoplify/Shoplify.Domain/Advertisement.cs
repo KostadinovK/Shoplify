@@ -67,6 +67,16 @@
 
         public DateTime? ReportedOn { get; set; }
 
+        public bool IsBanned { get; set; }
+
+        public DateTime? BannedOn { get; set; }
+
+        public bool IsPromoted { get; set; }
+
+        public DateTime? PromotedOn { get; set; }
+
+        public DateTime? PromotedUntil { get; set; }
+
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
