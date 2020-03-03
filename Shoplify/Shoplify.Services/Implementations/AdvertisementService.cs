@@ -167,6 +167,68 @@
             return result;
         }
 
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByUserIdAsync(string userId, int page, int adsPerPage, string orderBy)
+        {
+            var ads = context.Advertisements
+                .Where(a => (a.UserId == userId) && a.IsArchived == false);
+
+            var orderedAds = new List<Advertisement>();
+
+            if (orderBy == "priceDesc")
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+
+            }
+            else if (orderBy == "priceAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.Price)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "dateAsc")
+            {
+                orderedAds = await ads
+                    .OrderBy(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+            else
+            {
+                orderedAds = await ads
+                    .OrderByDescending(a => a.CreatedOn)
+                    .Take(page * adsPerPage)
+                    .Skip((page - 1) * adsPerPage)
+                    .ToListAsync();
+            }
+
+            var result = orderedAds.Select(a => new AdvertisementViewServiceModel
+            {
+                Address = a.Address,
+                CategoryId = a.CategoryId,
+                Condition = a.Condition,
+                CreatedOn = a.CreatedOn.ToLocalTime(),
+                Description = a.Description,
+                Id = a.Id,
+                Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
+                SubCategoryId = a.SubCategoryId,
+                Name = a.Name,
+                Number = a.Number,
+                TownId = a.TownId,
+                UserId = a.UserId,
+                Price = a.Price
+            })
+                .ToList();
+
+            return result;
+        }
+
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage, string orderBy)
         {
             var ads = context.Advertisements
@@ -259,6 +321,12 @@
         {
             return await context.Advertisements
                 .CountAsync(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false);
+        }
+
+        public async Task<int> GetCountByUserIdAsync(string userId)
+        {
+            return await context.Advertisements
+                .CountAsync(a => (a.UserId == userId) && a.IsArchived == false);
         }
 
         public async Task<int> GetCountBySearchAsync(string search)

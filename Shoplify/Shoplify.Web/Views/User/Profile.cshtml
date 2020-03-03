@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Shoplify.Common
+@model Shoplify.Web.ViewModels.User.ProfileViewModel
+@{
     ViewData["Title"] = "User Profile";
 }
     <div class="container-fluid margin-top-4rem">
@@ -7,56 +9,110 @@
                 <div style="max-width: 128px; max-height: 128px" class="margin-bottom-2rem mx-auto">
                     <img src="data:image/png;base64,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" class="img-fluid order-1 order-sm-1" alt="">
                 </div>
-                <h3 class="margin-bottom-2rem">Username</h3>
+                <h3 class="margin-bottom-2rem">@Model.Username</h3>
 
-                <a href="#" class="btn btn-danger" style="background: rgb(244, 16, 104); border: 1px solid rgb(244, 16, 104)">Follow</a>
+                @if (Model.IsFollowedByLoggedInUser)
+                {
+                    <a href="#" class="btn btn-danger" style="background: rgb(244, 16, 104); border: 1px solid rgb(244, 16, 104)">Unfollow</a>
+                }
+                else
+                {
+                    <a href="#" class="btn btn-danger" style="background: rgb(244, 16, 104); border: 1px solid rgb(244, 16, 104)">Follow</a>
+                }
+
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6 mx-auto mb-100">
-                <h2 class="text-center margin-bottom-2rem">Username Ads</h2>
+            <div class="col-md-8 mx-auto mb-100">
+                <h2 class="text-center margin-bottom-2rem">@Model.Username Ads</h2>
                 <div class="filter-bar d-flex flex-wrap align-items-center">
                     <div class="sorting">
                         <h2 class="mb-10">Sort By: </h2>
-                        <a class="mx-2" href="#">Price Asc</a>
-                        <a class="mx-2" href="#">Price Desc</a>
-                        <a class="mx-2" href="#">Date Asc</a>
-                        <a class="mx-2" href="#">Date Desc</a>
+                        <a class="mx-2" href="/User/Profile?@Model.PageParam&orderBy=priceAsc&page=1">Price Asc</a>
+                        <a class="mx-2" href="/User/Profile?@Model.PageParam&orderBy=priceDesc&page=1">Price Desc</a>
+                        <a class="mx-2" href="/User/Profile?@Model.PageParam&orderBy=dateAsc&page=1">Date Asc</a>
+                        <a class="mx-2" href="/User/Profile?@Model.PageParam&orderBy=dateDesc&page=1">Date Desc</a>
                     </div>
                 </div>
                 <section class="lattest-product-area pb-40 category-list">
 
+                    @if (Model.Advertisements.Count == 0)
+                    {
+                        <h1 class="text-center margin-bottom-4rem margin-top-4rem">Sorry, no ads found...</h1>
+                    }
 
-                    <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 single-product">
-                        <a href="#">
-                            <div class="content">
-                                <div class="content-overlay"></div>
-                                <img class="content-image img-fluid d-block mx-auto ad-image" src="" alt="">
-                            </div>
-                            <div class="product-info">
-                                <h5>Name</h5>
-                                <p>CategoryName -> SubCategoryName</p>
-                                <p><i class="fas fa-map-marker-alt"></i> TownName</p>
+                    @{ var i = 0;}
+                    @foreach (var ad in Model.Advertisements)
+                    {
+                        @if (i == 0)
+                        {
+                            @Html.Raw("<div class='row'>")
+                        }
 
-                                <p>Address</p>
+                        @if (i % 3 == 0 && i != 0)
+                        {
+                            @Html.Raw("</div><div class='row'>")
+                        }
 
-                                <p><i class="fas fa-clock"></i> CreatedOn</p>
-                                <h3>$Price</h3>
-                            </div>
-                        </a>
+                        <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 single-product">
+                            <a href="/Advertisement/Details?id=@ad.Id">
+                                <div class="content">
+                                    <div class="content-overlay"></div>
+                                    <img class="content-image img-fluid d-block mx-auto ad-image" src="@ad.Image" alt="">
+                                </div>
+                                <div class="product-info">
+                                    <h5>@ad.Name</h5>
+                                    <p>@ad.CategoryName -> @ad.SubCategoryName</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> @ad.TownName</p>
+
+                                    @if (ad.Address.Length > 20)
+                                    {
+                                        <p>@ad.Address.Substring(0, 20)</p>
+                                    }
+                                    else
+                                    {
+                                        <p>@ad.Address</p>
+                                    }
+
+                                    <p><i class="fas fa-clock"></i> @ad.CreatedOn</p>
+                                    <h3>$@ad.Price</h3>
+                                </div>
+                            </a>
+
+                        </div>
+                        i++;
+                    }
+                    <div class="row">
 
                     </div>
                 </section>
                 <div class="filter-bar d-flex flex-wrap align-items-center">
                     <div class="pagination mx-auto">
+                        @{
+                            var prevPage = Model.CurrentPage - 1;
+                            var nextPage = Model.CurrentPage + 1;
+                        }
+                        @if (Model.CurrentPage != 1)
+                        {
+                            <a href="/User/Profile?@Model.PageParam&@Model.OrderParam&page=@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
+                        }
 
-                        <a href="#" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
+                        @for (var j = 1; j <= (Model.TotalAdsCount / GlobalConstants.AdsOnPageCount) + 1; j++)
+                        {
+                            @if (j == Model.CurrentPage)
+                            {
+                                <a class="active" href="/User/Profile?@Model.PageParam&@Model.OrderParam&page=@j">@j</a>
+                            }
+                            else if (j >= Model.CurrentPage - 4 && (j <= Model.CurrentPage + 4 && j <= Model.LastPage))
+                            {
+                                <a href="/User/Profile?@Model.PageParam&@Model.OrderParam&page=@j">@j</a>
+                            }
+                        }
 
-                        <a class="active" href="#">1</a>
-
-                        <a href="#">2</a>
-
-                        <a href="#" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
+                        @if (Model.CurrentPage != Model.LastPage)
+                        {
+                            <a href="/User/Profile?@Model.PageParam&@Model.OrderParam&page=@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
+                        }
 
                     </div>
                 </div>
