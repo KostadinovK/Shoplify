@@ -125,13 +125,61 @@
                 {
                     Address = ad.Address,
                     CategoryName = category.Name,
-                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
                     SubCategoryName = subCategoryName,
                     TownName = town.Name,
                     Image = ad.Images.FirstOrDefault()
+                };
+
+                viewModel.Advertisements.Add(adViewModel);
+            }
+
+            return viewModel;
+        }
+
+        private async Task<LoggedInProfileViewModel> GetLoggedInUserProfileViewModelAsync(User user, int lastPage, int adsCount, string orderBy = "dateDesc", int page = 1)
+        {
+
+            var ads = await advertisementService.GetByUserIdAsync(user.Id, page, GlobalConstants.AdsOnPageCount, orderBy);
+
+            ads = OrderAds(ads, orderBy);
+
+            var viewModel = new LoggedInProfileViewModel()
+            {
+                Username = user.UserName,
+                CurrentPage = page,
+                LastPage = lastPage,
+                TotalAdsCount = adsCount,
+                PageParam = "id=" + user.Id,
+            };
+
+            foreach (var ad in ads)
+            {
+                var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+                string subCategoryName = null;
+
+                if (await subCategoryService.ContainsByIdAsync(ad.SubCategoryId))
+                {
+                    var subCategory = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+                    subCategoryName = subCategory.Name;
+                }
+
+                var adViewModel = new UserAdListingViewModel()
+                {
+                    CategoryName = category.Name,
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    Price = ad.Price,
+                    SubCategoryName = subCategoryName,
+                    Views = ad.Views,
+                    ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToString(GlobalConstants.DateTimeFormat),
+                    IsPromoted = ad.IsPromoted,
+                    PromotedUntil = ad.PromotedUntil.GetValueOrDefault().ToString(GlobalConstants.DateTimeFormat)
                 };
 
                 viewModel.Advertisements.Add(adViewModel);
@@ -151,11 +199,6 @@
                 return Redirect("/Home/Index");
             }
 
-            if (user.Id == loggedInUserId)
-            {
-                return View("LoggedInUserProfile", new LoggedInProfileViewModel());
-            }
-
             if (page <= 0)
             {
                 return Redirect("/Home/Index");
@@ -167,6 +210,13 @@
             if (page > lastPage)
             {
                 return Redirect("/Home/Index");
+            }
+
+            if (user.Id == loggedInUserId)
+            {
+                var loggedInUserViewModel = await GetLoggedInUserProfileViewModelAsync(user, lastPage, adsCount, orderBy, page);
+
+                return View("LoggedInUserProfile", loggedInUserViewModel);
             }
 
             var viewModel = await GetProfileViewModelAsync(user, lastPage, adsCount, orderBy, page);

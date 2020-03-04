@@ -139,3 +139,21 @@ div.category-list > a {
         margin-bottom: 1rem;
     }
 }
+
+.btn-follow {
+    border: 2px solid rgb(244, 16, 104);
+    background: rgb(244, 16, 104);
+    color: white;
+}
+
+.btn-details {
+    border: 2px solid rgb(244, 16, 104);
+    background: rgb(244, 16, 104);
+    color: white;
+}
+
+.btn-pink {
+    border: 2px solid rgb(244, 16, 104);
+    background: rgb(244, 16, 104);
+    color: white;
+}

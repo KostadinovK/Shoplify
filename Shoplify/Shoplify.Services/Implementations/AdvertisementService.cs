@@ -172,7 +172,8 @@
                     BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
                     IsPromoted = a.IsPromoted,
                     PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime()
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    Views = a.Views
             })
                 .ToList();
 
@@ -234,7 +235,15 @@
                 Number = a.Number,
                 TownId = a.TownId,
                 UserId = a.UserId,
-                Price = a.Price
+                Price = a.Price,
+                IsArchived = a.IsArchived,
+                ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                IsBanned = a.IsBanned,
+                BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                IsPromoted = a.IsPromoted,
+                PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
+                PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                Views = a.Views
             })
                 .ToList();
 
@@ -293,7 +302,15 @@
                     Number = a.Number,
                     TownId = a.TownId,
                     UserId = a.UserId,
-                    Price = a.Price
+                    Price = a.Price,
+                    IsArchived = a.IsArchived,
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    IsBanned = a.IsBanned,
+                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    IsPromoted = a.IsPromoted,
+                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    Views = a.Views
             })
                 .ToList();
 
@@ -322,8 +339,16 @@
                     Number = a.Number,
                     TownId = a.TownId,
                     UserId = a.UserId,
-                    Price = a.Price
-                })
+                    Price = a.Price,
+                    IsArchived = a.IsArchived,
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    IsBanned = a.IsBanned,
+                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    IsPromoted = a.IsPromoted,
+                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    Views = a.Views
+            })
                 .ToList();
 
             return result;
@@ -375,7 +400,15 @@
                 Number = ad.Number,
                 TownId = ad.TownId,
                 UserId = ad.UserId,
-                Price = ad.Price
+                Price = ad.Price,
+                IsArchived = ad.IsArchived,
+                ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                IsBanned = ad.IsBanned,
+                BannedOn = ad.BannedOn.GetValueOrDefault().ToLocalTime(),
+                IsPromoted = ad.IsPromoted,
+                PromotedOn = ad.PromotedOn.GetValueOrDefault().ToLocalTime(),
+                PromotedUntil = ad.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                Views = ad.Views
             };
         }
 

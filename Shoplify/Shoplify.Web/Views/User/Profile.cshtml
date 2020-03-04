@@ -13,11 +13,11 @@
 
                 @if (Model.IsFollowedByLoggedInUser)
                 {
-                    <a href="/User/Unfollow?userId=@Model.UserId" class="btn btn-danger" style="background: rgb(244, 16, 104); border: 1px solid rgb(244, 16, 104)">Unfollow</a>
+                    <a href="/User/Unfollow?userId=@Model.UserId" class="btn btn-danger btn-follow">Unfollow</a>
                 }
                 else
                 {
-                    <a href="/User/Follow?userId=@Model.UserId" class="btn btn-danger" style="background: rgb(244, 16, 104); border: 1px solid rgb(244, 16, 104)">Follow</a>
+                    <a href="/User/Follow?userId=@Model.UserId" class="btn btn-danger btn-follow">Follow</a>
                 }
 
             </div>

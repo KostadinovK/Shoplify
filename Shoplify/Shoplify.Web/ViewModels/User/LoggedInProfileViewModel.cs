@@ -16,6 +16,6 @@
 
         public int LastPage { get; set; }
 
-        public ICollection<UserAdListingViewModel> Advertisements { get; set; } = new List<UserAdListingViewModel>();
+        public List<UserAdListingViewModel> Advertisements { get; set; } = new List<UserAdListingViewModel>();
     }
 }
