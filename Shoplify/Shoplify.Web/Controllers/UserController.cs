@@ -79,34 +79,8 @@ namespace Shoplify.Web.Controllers
             return Redirect($"/Advertisement/Details?id={adId}");
         }
 
-        public async Task<IActionResult> Profile(string id, string orderBy = "dateDesc", int page = 1)
+        private async Task<ProfileViewModel> GetProfileViewModelAsync(User user, int lastPage, int adsCount, string orderBy = "dateDesc", int page = 1)
         {
-            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var user = await userManager.FindByIdAsync(id);
-
-            if (user == null)
-            {
-                return Redirect("/Home/Index");
-            }
-
-            if (user.Id == loggedInUserId)
-            {
-                return View("LoggedInUserProfile");
-            }
-
-            if (page <= 0)
-            {
-                return Redirect("/Home/Index");
-            }
-
-            var adsCount = await advertisementService.GetCountByUserIdAsync(user.Id);
-            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
-
-            if (page > lastPage)
-            {
-                return Redirect("/Home/Index");
-            }
 
             var ads = await advertisementService.GetByUserIdAsync(user.Id, page, GlobalConstants.AdsOnPageCount, orderBy);
 
@@ -154,6 +128,40 @@ namespace Shoplify.Web.Controllers
 
                 viewModel.Advertisements.Add(adViewModel);
             }
+
+            return viewModel;
+        }
+
+        public async Task<IActionResult> Profile(string id, string orderBy = "dateDesc", int page = 1)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            if (user.Id == loggedInUserId)
+            {
+                return View("LoggedInUserProfile");
+            }
+
+            if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var adsCount = await advertisementService.GetCountByUserIdAsync(user.Id);
+            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (page > lastPage)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var viewModel = await GetProfileViewModelAsync(user, lastPage, adsCount, orderBy, page);
 
             return View(viewModel);
         }

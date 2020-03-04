@@ -38,7 +38,7 @@
                     .Select(x => x.Result)
                     .ToList();
             }
-            
+
             var ad = new Advertisement
             {
                 Name = advertisement.Name,
