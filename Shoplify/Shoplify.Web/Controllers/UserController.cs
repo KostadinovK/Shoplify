@@ -26,8 +26,16 @@ namespace Shoplify.Web.Controllers
         private readonly ISubCategoryService subCategoryService;
         private readonly ITownService townService;
         private readonly UserManager<User> userManager;
+        private readonly IUserService userService;
 
-        public UserController(IAdvertisementService advertisementService, IUserAdWishlistService userAdWishlistService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, UserManager<User> userManager)
+        public UserController(
+            IAdvertisementService advertisementService,
+            IUserAdWishlistService userAdWishlistService,
+            ICategoryService categoryService,
+            ISubCategoryService subCategoryService,
+            ITownService townService,
+            UserManager<User> userManager,
+            IUserService userService)
         {
             this.advertisementService = advertisementService;
             this.userAdWishlistService = userAdWishlistService;
@@ -35,6 +43,7 @@ namespace Shoplify.Web.Controllers
             this.subCategoryService = subCategoryService;
             this.townService = townService;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> AddToWishlist(string adId)
@@ -96,7 +105,7 @@ namespace Shoplify.Web.Controllers
                 OrderParam = "orderBy=" + orderBy,
                 PageParam = "id=" + user.Id,
                 Advertisements = new List<ListingViewModel>(),
-                IsFollowedByLoggedInUser = false
+                IsFollowedByLoggedInUser = await userService.IsFollowedByUser(User.FindFirstValue(ClaimTypes.NameIdentifier), user.Id)
             };
 
             foreach (var ad in ads)
@@ -164,6 +173,44 @@ namespace Shoplify.Web.Controllers
             var viewModel = await GetProfileViewModelAsync(user, lastPage, adsCount, orderBy, page);
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Follow(string userId)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            if (!await userService.IsFollowedByUser(loggedInUserId, userId))
+            {
+                await userService.FollowUserAsync(loggedInUserId, userId);
+            }
+
+            return Redirect($"/User/Profile?id={userId}");
+        }
+
+        public async Task<IActionResult> Unfollow(string userId)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            if (await userService.IsFollowedByUser(loggedInUserId, userId))
+            {
+                await userService.UnfollowUserAsync(loggedInUserId, userId);
+            }
+
+            return Redirect($"/User/Profile?id={userId}");
         }
 
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
