@@ -30,6 +30,8 @@
 
         public string Images { get; set; }
 
+        public int Views { get; set; }
+
         public ProductCondition Condition { get; set; }
 
         [Required]
