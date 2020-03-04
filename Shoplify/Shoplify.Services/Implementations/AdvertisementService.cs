@@ -423,5 +423,21 @@
 
             await context.SaveChangesAsync();
         }
+
+        public async Task IncrementViewsAsync(string id)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.Views++;
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
     }
 }

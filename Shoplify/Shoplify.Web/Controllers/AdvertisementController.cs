@@ -271,9 +271,16 @@
                 return Redirect("/Home/Index");
             }
 
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var ad = await advertisementService.GetByIdAsync(id);
             var user = await userManager.FindByIdAsync(ad.UserId);
             var town = await townService.GetByIdAsync(ad.TownId);
+
+            if (user.Id != loggedInUserId)
+            {
+                await advertisementService.IncrementViewsAsync(id);
+            }
 
             var category = await categoryService.GetByIdAsync(ad.CategoryId);
 

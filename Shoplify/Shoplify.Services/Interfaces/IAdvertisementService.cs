@@ -31,5 +31,7 @@
         Task<AdvertisementViewServiceModel> GetByIdAsync(string id);
 
         Task ArchiveByIdAsync(string id);
+
+        Task IncrementViewsAsync(string id);
     }
 }
