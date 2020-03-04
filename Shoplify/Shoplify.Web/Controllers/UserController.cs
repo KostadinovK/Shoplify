@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Shoplify.Common;
-using Shoplify.Services.Models;
-using Shoplify.Web.ViewModels.Advertisement;
-using Shoplify.Web.ViewModels.User;
-
-namespace Shoplify.Web.Controllers
+﻿namespace Shoplify.Web.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models;
+    using Shoplify.Web.ViewModels.Advertisement;
+    using Shoplify.Web.ViewModels.User;
 
     [Authorize]
     [AutoValidateAntiforgeryToken]

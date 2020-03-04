@@ -1,13 +1,12 @@
-﻿using System.Linq;
-using Shoplify.Domain;
-
-namespace Shoplify.Tests.ServicesTests
+﻿namespace Shoplify.Tests.ServicesTests
 {
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
     using Moq;
     using NUnit.Framework;
+    using Shoplify.Domain;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
     using Shoplify.Web.Data;
