@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shoplify.Domain.Enums;
-
-namespace Shoplify.Services.Models
+﻿namespace Shoplify.Services.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using Shoplify.Domain.Enums;
+
     public class AdvertisementViewServiceModel
     {
         public string Id { get; set; }
@@ -32,5 +33,21 @@ namespace Shoplify.Services.Models
         public string Address { get; set; }
 
         public string Number { get; set; }
+
+        public bool IsPromoted { get; set; }
+
+        public DateTime? PromotedOn { get; set; }
+
+        public DateTime? PromotedUntil { get; set; }
+
+        public DateTime? ArchivedOn { get; set; }
+
+        public bool IsArchived { get; set; }
+
+        public DateTime? BannedOn { get; set; }
+
+        public bool IsBanned { get; set; }
+
+        public int Views { get; set; }
     }
 }

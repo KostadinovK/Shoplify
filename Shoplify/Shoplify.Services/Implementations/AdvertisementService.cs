@@ -165,8 +165,15 @@
                     Number = a.Number,
                     TownId = a.TownId,
                     UserId = a.UserId,
-                    Price = a.Price
-                })
+                    Price = a.Price,
+                    IsArchived = a.IsArchived,
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    IsBanned = a.IsBanned,
+                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    IsPromoted = a.IsPromoted,
+                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime()
+            })
                 .ToList();
 
             return result;

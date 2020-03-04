@@ -153,7 +153,7 @@
 
             if (user.Id == loggedInUserId)
             {
-                return View("LoggedInUserProfile");
+                return View("LoggedInUserProfile", new LoggedInProfileViewModel());
             }
 
             if (page <= 0)
