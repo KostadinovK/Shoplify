@@ -839,5 +839,43 @@ namespace Shoplify.Tests.ServicesTests
             Assert.IsTrue(ad.IsArchived);
             Assert.AreEqual(expectedArchivedDate, actualArchivedDate);
         }
+
+        [Test]
+        public void IncrementViewsAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.IncrementViewsAsync("invalid"));
+        }
+
+        [Test]
+        public async Task IncrementViewsAsync_WithValidAdId_ShouldIncrementCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.IncrementViewsAsync(ad.Id);
+
+            var expectedViewsCount = 1;
+            var actualViewCount = ad.Views;
+
+            Assert.AreEqual(expectedViewsCount, actualViewCount);
+        }
     }
 }
