@@ -157,3 +157,7 @@ div.category-list > a {
     background: rgb(244, 16, 104);
     color: white;
 }
+
+.table-zebra tr:nth-child(even) {
+    background: rgb(180, 180, 180);
+}
