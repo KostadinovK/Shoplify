@@ -45,6 +45,55 @@
             this.userService = userService;
         }
 
+        public async Task<IActionResult> Wishlist(int page = 1)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (page <= 0)
+            {
+                return Redirect("/User/Wishlist");
+            }
+
+            var adsCount = await userAdWishlistService.GetWishlistCountAsync(userId);
+            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (page > lastPage)
+            {
+                return Redirect("/User/Wishlist");
+            }
+
+            var ads = await userAdWishlistService.GetUserWishlistAsync(userId, page, GlobalConstants.AdsOnPageCount);
+
+            var viewModel = new WishlistViewModel
+            {
+                CurrentPage = page,
+                TotalAdsCount = adsCount,
+                LastPage = lastPage,
+            };
+
+            foreach (var ad in ads)
+            {
+                var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+                var subCategoryName = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+
+                var town = await townService.GetByIdAsync(ad.TownId);
+
+                viewModel.Advertisements.Add(new WishlistAdViewModel
+                {
+                    Category = $"{category.Name} -> {subCategoryName.Name}",
+                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    Price = ad.Price,
+                    UserId = ad.UserId,
+                    UserName = userManager.FindByIdAsync(ad.UserId).GetAwaiter().GetResult().UserName
+                });
+            }
+
+            return View(viewModel);
+        }
+
         public async Task<IActionResult> AddToWishlist(string adId)
         {
             if (!advertisementService.Contains(adId))
