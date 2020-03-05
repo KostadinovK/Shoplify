@@ -63,6 +63,7 @@ namespace Shoplify.Services.Implementations
 
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetUserWishlistAsync(string userId, int page, int adsPerPage)
         {
+            var ads22 = context.UsersAdvertisementsWishlist.ToList();
             var ads = await context.UsersAdvertisementsWishlist
                 .Where(ua =>
                 ua.UserId == userId && ua.Advertisement.IsArchived == false && ua.Advertisement.IsBanned == false)

@@ -1,4 +1,7 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using Shoplify.Domain.Enums;
+using Shoplify.Services.Models;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -16,6 +19,8 @@
     {
         private ShoplifyDbContext context;
         private IUserAdWishlistService service;
+        private IAdvertisementService adService;
+        private IFormFile mockedFile;
 
         [SetUp]
         public async Task SetUp()
@@ -30,6 +35,16 @@
             await context.Database.EnsureCreatedAsync();
 
             this.service = new UserAdWishlistService(context);
+
+            var moqCloudinaryService = new Mock<ICloudinaryService>();
+            var moqIFormFile = new Mock<IFormFile>();
+
+            this.mockedFile = moqIFormFile.Object;
+
+            moqCloudinaryService.Setup(x => x.UploadPictureAsync(moqIFormFile.Object, "FileName"))
+                .ReturnsAsync("http://test.com");
+
+            this.adService = new AdvertisementService(context, moqCloudinaryService.Object);
         }
 
         [TearDown]
@@ -90,6 +105,112 @@
             var expectedCount = 0;
 
             Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetUserWishlistAsync_WithInvalidUserId_ShouldReturnEmptyCollection()
+        {
+            var advertisement = new UserAdvertisementWishlist
+            {
+               UserId = "test",
+               AdvertisementId = "test"
+            };
+
+            await context.UsersAdvertisementsWishlist.AddAsync(advertisement);
+
+            var ads = await service.GetUserWishlistAsync("empty", 1, 1);
+
+            var actualResult = ads.Count();
+            var expectedResult = 0;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetUserWishlistAsync_WithValidUserId_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test1"
+            };
+
+            await adService.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync(a => a.Name == "OnePlus 7 Pro");
+
+            var advertisementWishlist = new UserAdvertisementWishlist
+            {
+                UserId = "test",
+                AdvertisementId = ad.Id,
+                Advertisement = ad,
+            };
+
+            await context.UsersAdvertisementsWishlist.AddAsync(advertisementWishlist);
+            await context.SaveChangesAsync();
+
+            var ads = await service.GetUserWishlistAsync("test", 1, 1);
+
+            var actualResult = ads.Count();
+            var expectedResult = 1;
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetWishlistCountAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var expectedResult = 0;
+
+            var actualResult = await service.GetWishlistCountAsync("test");
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task GetWishlistCountAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await adService.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync(a => a.Name == "OnePlus 7 Pro");
+
+            var advertisementWishlist = new UserAdvertisementWishlist
+            {
+                UserId = "test",
+                AdvertisementId = ad.Id,
+                Advertisement = ad,
+            };
+
+            await context.UsersAdvertisementsWishlist.AddAsync(advertisementWishlist);
+            await context.SaveChangesAsync();
+
+            var expectedResult = 1;
+
+            var actualResult = await service.GetWishlistCountAsync("test");
+
+            Assert.AreEqual(expectedResult, actualResult);
         }
     }
 }
