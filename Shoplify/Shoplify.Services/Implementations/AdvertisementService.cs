@@ -444,7 +444,7 @@
         {
             var ads = await context.Advertisements
                 .Where(a => a.UserId == userId && a.IsBanned)
-                .OrderBy(a => a.CreatedOn)
+                .OrderBy(a => a.BannedOn)
                 .Select(ad =>
                 new AdvertisementViewServiceModel
                 {
@@ -468,6 +468,36 @@
         public async Task<int> GetBannedAdsCountByUserIdAsync(string userId)
         {
             return await context.Advertisements.CountAsync(a => a.UserId == userId && a.IsBanned);
+        }
+
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetArchivedAdsByUserIdAsync(string userId, int page)
+        {
+            var ads = await context.Advertisements
+                .Where(a => a.UserId == userId && a.IsArchived)
+                .OrderBy(a => a.ArchivedOn)
+                .Select(ad =>
+                    new AdvertisementViewServiceModel
+                    {
+                        CategoryId = ad.CategoryId,
+                        CreatedOn = ad.CreatedOn.ToLocalTime(),
+                        Id = ad.Id,
+                        SubCategoryId = ad.SubCategoryId,
+                        Name = ad.Name,
+                        UserId = ad.UserId,
+                        Price = ad.Price,
+                        IsArchived = ad.IsArchived,
+                        ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    })
+                .Take(page * GlobalConstants.AdsOnPageCount)
+                .Skip((page - 1) * GlobalConstants.AdsOnPageCount)
+                .ToListAsync();
+
+            return ads;
+        }
+
+        public async Task<int> GetArchivedAdsCountByUserIdAsync(string userId)
+        {
+            return await context.Advertisements.CountAsync(a => a.UserId == userId && a.IsArchived);
         }
     }
 }

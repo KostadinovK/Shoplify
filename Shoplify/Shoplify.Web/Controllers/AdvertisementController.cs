@@ -147,6 +147,11 @@
             var adsCount = await advertisementService.GetCountByCategoryIdAsync(categoryId);
             var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
 
+            if (adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
+
             if (page > lastPage)
             {
                 return Redirect("/Home/Index");
@@ -210,6 +215,11 @@
 
             var adsCount = await advertisementService.GetCountBySearchAsync(search);
             var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
 
             if (page > lastPage)
             {

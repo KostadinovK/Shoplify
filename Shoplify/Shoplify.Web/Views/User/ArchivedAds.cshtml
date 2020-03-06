@@ -1,18 +1,18 @@
 ﻿@using Shoplify.Common
-@model Shoplify.Web.ViewModels.User.BannedAdsViewModel
+@model Shoplify.Web.ViewModels.User.ArchivedAdsViewModel
 @{
-    ViewData["Title"] = "Banned Ads";
+    ViewData["Title"] = "Archived Ads";
 }
 <div class="container-fluid margin-top-4rem">
     <div class="row">
         <div class="col-md-8 mx-auto mb-100">
             @if (Model.TotalAdsCount == 0)
             {
-                <h1 class="text-center margin-bottom-4rem margin-top-4rem">You have no banned ads...</h1>
+                <h1 class="text-center margin-bottom-4rem margin-top-4rem">You have no archived ads...</h1>
             }
             else
             {
-                <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Banned Ads</h2>
+                <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Archived Ads</h2>
                 <table class="table table-zebra">
                     <thead class="thead-dark">
                         <tr>
@@ -20,15 +20,15 @@
                             <th scope="col">Price</th>
                             <th scope="col">Category</th>
                             <th scope="col">Created On</th>
-                            <th scope="col">Banned On</th>
+                            <th scope="col">Archived On</th>
                             <th scope="col">Details</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @if (Model.Advertisements.Count == 0)
-                    {
-                        <h1 class="text-center margin-bottom-4rem margin-top-4rem">No banned ads...</h1>
-                    }
+                        @if (Model.Advertisements.Count == 0)
+                        {
+                            <h1 class="text-center margin-bottom-4rem margin-top-4rem">No archived ads...</h1>
+                        }
                         @for (var i = 0; i < Model.Advertisements.Count; i++)
                         {
                             <tr>
@@ -36,7 +36,7 @@
                                 <td>@Model.Advertisements[i].Price</td>
                                 <td>@Model.Advertisements[i].Category</td>
                                 <td>@Model.Advertisements[i].CreatedOn</td>
-                                <td>@Model.Advertisements[i].BannedOn</td>
+                                <td>@Model.Advertisements[i].ArchivedOn</td>
 
                                 <td>
                                     <div class="button-holder">
@@ -57,29 +57,29 @@
                         }
                         @if (Model.CurrentPage != 1)
                         {
-                            <a href="/User/BannedAds?page=@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
+                            <a href="/User/ArchivedAds?page=@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
                         }
 
                         @for (var j = 1; j <= (Model.TotalAdsCount / GlobalConstants.AdsOnPageCount) + 1; j++)
                         {
                             @if (j == Model.CurrentPage)
                             {
-                                <a class="active" href="/User/BannedAds?page=@j">@j</a>
+                                <a class="active" href="/User/ArchivedAds?page=@j">@j</a>
                             }
                             else if (j >= Model.CurrentPage - 4 && (j <= Model.CurrentPage + 4 && j <= Model.LastPage))
                             {
-                                <a href="/User/BannedAds?page=@j">@j</a>
+                                <a href="/User/ArchivedAds?page=@j">@j</a>
                             }
                         }
 
                         @if (Model.CurrentPage != Model.LastPage)
                         {
-                            <a href="/User/BannedAds?page=@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
+                            <a href="/User/ArchivedAds?page=@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
                         }
 
                     </div>
-                    </div>
-                    }
+                </div>
+            }
         </div>
     </div>
 </div>

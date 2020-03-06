@@ -57,6 +57,11 @@
             var adsCount = await userAdWishlistService.GetWishlistCountAsync(userId);
             var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
 
+            if (adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
+
             if (page > lastPage)
             {
                 return Redirect("/User/Wishlist");
@@ -256,6 +261,11 @@
             var adsCount = await advertisementService.GetCountByUserIdAsync(user.Id);
             var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
 
+            if (adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
+
             if (page > lastPage)
             {
                 return Redirect("/Home/Index");
@@ -331,7 +341,7 @@
             }
         }
 
-        public async Task<IActionResult> BannedAds(int page)
+        public async Task<IActionResult> BannedAds(int page = 1)
         {
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -342,6 +352,11 @@
 
             var adsCount = await advertisementService.GetBannedAdsCountByUserIdAsync(loggedInUserId);
             var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if (adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
 
             if (page > lastPage)
             {
@@ -355,7 +370,7 @@
                     TotalAdsCount = adsCount,
                 };
 
-            var ads = await advertisementService.GetBannedAdsByUserId(loggedInUserId, page);
+            var ads = await advertisementService.GetBannedAdsByUserIdAsync(loggedInUserId, page);
 
             foreach (var ad in ads)
             {
@@ -371,6 +386,57 @@
                     Name = ad.Name,
                     Price = ad.Price,
                     BannedOn = ad.BannedOn.GetValueOrDefault().ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+                });
+            }
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ArchivedAds(int page = 1)
+        {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (page <= 0)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var adsCount = await advertisementService.GetArchivedAdsCountByUserIdAsync(loggedInUserId);
+            var lastPage = adsCount / GlobalConstants.AdsOnPageCount + 1;
+
+            if(adsCount % GlobalConstants.AdsOnPageCount == 0 && adsCount > 0)
+            {
+                lastPage -= 1;
+            }
+
+            if (page > lastPage)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var viewModel = new ArchivedAdsViewModel()
+            {
+                CurrentPage = page,
+                LastPage = lastPage,
+                TotalAdsCount = adsCount,
+            };
+
+            var ads = await advertisementService.GetArchivedAdsByUserIdAsync(loggedInUserId, page);
+
+            foreach (var ad in ads)
+            {
+                var category = await categoryService.GetByIdAsync(ad.CategoryId);
+
+                var subCategoryName = await subCategoryService.GetByIdAsync(ad.SubCategoryId);
+
+                viewModel.Advertisements.Add(new ArchivedAdViewModel
+                {
+                    Category = $"{category.Name} -> {subCategoryName.Name}",
+                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    Id = ad.Id,
+                    Name = ad.Name,
+                    Price = ad.Price,
+                    ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
                 });
             }
 

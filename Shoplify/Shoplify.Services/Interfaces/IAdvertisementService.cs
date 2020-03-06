@@ -37,5 +37,9 @@
         Task<IEnumerable<AdvertisementViewServiceModel>> GetBannedAdsByUserIdAsync(string userId, int page);
 
         Task<int> GetBannedAdsCountByUserIdAsync(string userId);
+
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetArchivedAdsByUserIdAsync(string userId, int page);
+
+        Task<int> GetArchivedAdsCountByUserIdAsync(string userId);
     }
 }
