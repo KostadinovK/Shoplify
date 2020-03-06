@@ -1,7 +1,4 @@
-﻿using Shoplify.Domain.Enums;
-using Shoplify.Services.Models;
-
-namespace Shoplify.Tests.ServicesTests
+﻿namespace Shoplify.Tests.ServicesTests
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -10,8 +7,10 @@ namespace Shoplify.Tests.ServicesTests
     using Moq;
     using NUnit.Framework;
     using Shoplify.Domain;
+    using Shoplify.Domain.Enums;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models;
     using Shoplify.Web.Data;
 
     [TestFixture]

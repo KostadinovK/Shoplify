@@ -5,7 +5,7 @@
         public const int AdvertisementDurationDays = 30;
         public const char ImageUrlInDatabaseSeparator = '$';
 
-        public const int AdsOnPageCount = 6;
+        public const int AdsOnPageCount = 1;
 
         public const string DateTimeFormat = "dd/MM/yyyy hh:mm tt";
     }

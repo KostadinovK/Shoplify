@@ -33,5 +33,9 @@
         Task ArchiveByIdAsync(string id);
 
         Task IncrementViewsAsync(string id);
+
+        Task<IEnumerable<AdvertisementViewServiceModel>> GetBannedAdsByUserId(string userId, int page);
+
+        Task<int> GetBannedAdsCountByUserIdAsync(string userId);
     }
 }
