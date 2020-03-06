@@ -499,5 +499,18 @@
         {
             return await context.Advertisements.CountAsync(a => a.UserId == userId && a.IsArchived);
         }
+
+        public async Task<int> ArchiveAllExpiredAdsAsync(DateTime expirationDate)
+        {
+            var adsToArchive = await context.Advertisements
+                .Where(a => a.IsArchived == false && a.ArchivedOn <= expirationDate).ToListAsync();
+
+            foreach (var ad in adsToArchive)
+            {
+                await ArchiveByIdAsync(ad.Id);
+            }
+
+            return adsToArchive.Count;
+        }
     }
 }

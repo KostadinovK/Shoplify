@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using System;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Diagnostics;
     using System.Linq;
@@ -21,8 +23,9 @@
 
         private ICategoryService categoryService;
         private ISubCategoryService subCategoryService;
+        private IAdvertisementService advertisementService;
 
-        public HomeController(ILogger<HomeController> logger, ShoplifyDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ICategoryService categoryService, ISubCategoryService subCategoryService)
+        public HomeController(ILogger<HomeController> logger, ShoplifyDbContext context, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ICategoryService categoryService, ISubCategoryService subCategoryService, IAdvertisementService advertisementService)
         {
             this.logger = logger;
             this.context = context;
@@ -30,26 +33,15 @@
             this.roleManager = roleManager;
             this.categoryService = categoryService;
             this.subCategoryService = subCategoryService;
+            this.advertisementService = advertisementService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            var date = DateTime.UtcNow;
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            await advertisementService.ArchiveAllExpiredAdsAsync(date);
 
-        public async Task<IActionResult> Test()
-        {
-            var categories = context.Categories.Select(c => new 
-            {
-                c.Name,
-                c.CssIconClass,
-                c.SubCategories,
-            }).ToList();
             return View();
         }
 

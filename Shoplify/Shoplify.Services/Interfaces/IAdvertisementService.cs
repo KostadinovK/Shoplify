@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Interfaces
+﻿using System;
+
+namespace Shoplify.Services.Interfaces
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -41,5 +43,7 @@
         Task<IEnumerable<AdvertisementViewServiceModel>> GetArchivedAdsByUserIdAsync(string userId, int page);
 
         Task<int> GetArchivedAdsCountByUserIdAsync(string userId);
+
+        Task<int> ArchiveAllExpiredAdsAsync(DateTime expirationDate);
     }
 }
