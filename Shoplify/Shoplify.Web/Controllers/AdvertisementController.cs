@@ -189,7 +189,8 @@
                     Price = ad.Price,
                     SubCategoryName = subCategoryName,
                     TownName = town.Name,
-                    Image = ad.Images.FirstOrDefault()
+                    Image = ad.Images.FirstOrDefault(),
+                    IsPromoted = ad.IsPromoted,
                 };
 
                 result.Advertisements.Add(adViewModel);
@@ -257,7 +258,8 @@
                     Price = ad.Price,
                     SubCategoryName = subCategoryName,
                     TownName = town.Name,
-                    Image = ad.Images.FirstOrDefault()
+                    Image = ad.Images.FirstOrDefault(),
+                    IsPromoted = ad.IsPromoted,
                 };
 
                 result.Advertisements.Add(adViewModel);
@@ -345,19 +347,19 @@
         {
             if (orderBy == "priceAsc")
             {
-                return ads.OrderBy(a => a.Price);
+                return ads.OrderByDescending(a => a.IsPromoted).ThenBy(a => a.Price);
             }
             else if (orderBy == "priceDesc")
             {
-                return ads.OrderByDescending(a => a.Price);
+                return ads.OrderByDescending(a => a.IsPromoted).ThenByDescending(a => a.Price);
             }
             else if (orderBy == "dateAsc")
             {
-                return ads.OrderBy(a => a.CreatedOn);
+                return ads.OrderByDescending(a => a.IsPromoted).ThenBy(a => a.CreatedOn);
             }
             else
             {
-                return ads.OrderByDescending(a => a.CreatedOn);
+                return ads.OrderByDescending(a => a.IsPromoted).ThenByDescending(a => a.CreatedOn);
             }
         }
 

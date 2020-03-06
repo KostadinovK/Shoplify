@@ -72,6 +72,12 @@
 
                                 <p><i class="fas fa-clock"></i> @ad.CreatedOn</p>
                                 <h3>$@ad.Price</h3>
+
+                                @if (ad.IsPromoted)
+                                {
+                                    <h3 class="margin-top-2rem text-center color-pink">Promoted Ad</h3>
+                                }
+
                             </div>
                         </a>
 

@@ -120,7 +120,8 @@
             if (orderBy == "priceDesc")
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -129,7 +130,8 @@
             else if (orderBy == "priceAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -137,7 +139,8 @@
             else if (orderBy == "dateAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -145,7 +148,8 @@
             else
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -190,7 +194,8 @@
             if (orderBy == "priceDesc")
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -199,7 +204,8 @@
             else if (orderBy == "priceAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -207,7 +213,8 @@
             else if (orderBy == "dateAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -215,7 +222,8 @@
             else
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
@@ -260,29 +268,36 @@
             if (orderBy == "priceDesc")
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
 
-            }else if (orderBy == "priceAsc")
+            }
+            else if (orderBy == "priceAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.Price)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.Price)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
-            }else if (orderBy == "dateAsc")
+            }
+            else if (orderBy == "dateAsc")
             {
                 orderedAds = await ads
-                    .OrderBy(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenBy(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();
-            }else
+            }
+            else
             {
                 orderedAds = await ads
-                    .OrderByDescending(a => a.CreatedOn)
+                    .OrderByDescending(a => a.IsPromoted)
+                    .ThenByDescending(a => a.CreatedOn)
                     .Take(page * adsPerPage)
                     .Skip((page - 1) * adsPerPage)
                     .ToListAsync();

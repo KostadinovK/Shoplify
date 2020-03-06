@@ -161,3 +161,7 @@ div.category-list > a {
 .table-zebra tr:nth-child(even) {
     background: rgb(180, 180, 180);
 }
+
+.color-pink {
+    color: rgb(244, 16, 104);
+}

@@ -19,5 +19,7 @@
         public string Address { get; set; }
 
         public string Image { get; set; }
+
+        public bool IsPromoted { get; set; }
     }
 }
