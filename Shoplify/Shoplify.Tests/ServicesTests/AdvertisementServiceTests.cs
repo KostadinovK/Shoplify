@@ -877,5 +877,79 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.AreEqual(expectedViewsCount, actualViewCount);
         }
+
+        [Test]
+        public async Task GetBannedAdsByUserIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.UserId == "test");
+
+            ad.IsBanned = true;
+
+            await context.SaveChangesAsync();
+
+            var ads = await service.GetBannedAdsByUserIdAsync("test", 1);
+
+            var expectedCount = 1;
+            var actualCount = ads.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetBannedAdsCountByUserIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.UserId == "test");
+
+            ad.IsBanned = true;
+
+            await context.SaveChangesAsync();
+
+            var ads = await service.GetBannedAdsByUserIdAsync("test", 1);
+
+            var expectedCount = 1;
+            var actualCount = ads.Count();
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
     }
 }

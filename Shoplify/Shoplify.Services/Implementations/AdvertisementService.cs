@@ -374,7 +374,7 @@
 
         public bool Contains(string adId)
         {
-            return context.Advertisements.Any(a => a.Id == adId && a.IsArchived == false);
+            return context.Advertisements.Any(a => a.Id == adId);
         }
 
         public async Task<AdvertisementViewServiceModel> GetByIdAsync(string id)
@@ -440,7 +440,7 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBannedAdsByUserId(string userId, int page)
+        public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBannedAdsByUserIdAsync(string userId, int page)
         {
             var ads = await context.Advertisements
                 .Where(a => a.UserId == userId && a.IsBanned)
