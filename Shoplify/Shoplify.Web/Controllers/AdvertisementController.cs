@@ -343,6 +343,29 @@
             return Redirect("/Home/Index");
         }
 
+        [Authorize]
+        public IActionResult Promote(string id)
+        {
+            if (!advertisementService.Contains(id))
+            {
+                return Redirect("/Home/Index");
+            }
+
+            return View(new PromoteViewModel{ Id = id });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Promote(PromoteBindingModel input)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Redirect($"/Advertisement/Promote?id={input.Id}");
+            }
+
+            return Json("d");
+        }
+
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)
         {
             if (orderBy == "priceAsc")
