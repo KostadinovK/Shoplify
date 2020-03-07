@@ -41,6 +41,7 @@ namespace Shoplify.Web.Controllers
             var date = DateTime.UtcNow;
 
             await advertisementService.ArchiveAllExpiredAdsAsync(date);
+            await advertisementService.UnPromoteAllExpiredAdsAsync(date);
 
             return View();
         }
