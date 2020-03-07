@@ -363,7 +363,9 @@
                 return Redirect($"/Advertisement/Promote?id={input.Id}");
             }
 
-            return Json("d");
+            await advertisementService.PromoteByIdAsync(input.Id, int.Parse(input.PromotedDays));
+
+            return Redirect($"/User/Profile?page=1");
         }
 
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)

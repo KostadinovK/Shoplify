@@ -34,6 +34,8 @@ namespace Shoplify.Services.Interfaces
 
         Task ArchiveByIdAsync(string id);
 
+        Task PromoteByIdAsync(string id, int days);
+
         Task IncrementViewsAsync(string id);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetBannedAdsByUserIdAsync(string userId, int page);

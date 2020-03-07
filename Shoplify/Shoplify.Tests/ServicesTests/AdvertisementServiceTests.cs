@@ -808,6 +808,12 @@ namespace Shoplify.Tests.ServicesTests
         }
 
         [Test]
+        public void ArchiveByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.ArchiveByIdAsync("invalid"));
+        }
+
+        [Test]
         public async Task ArchiveByIdAsync_ShouldWorkCorrectly()
         {
             var advertisement = new AdvertisementCreateServiceModel()
@@ -838,6 +844,44 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.IsTrue(ad.IsArchived);
             Assert.AreEqual(expectedArchivedDate, actualArchivedDate);
+        }
+
+        [Test]
+        public void PromoteByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.PromoteByIdAsync("invalid", 7));
+        }
+
+        [TestCase(1)]
+        [TestCase(7)]
+        [TestCase(14)]
+        [TestCase(30)]
+        public async Task PromoteByIdAsync_ShouldWorkCorrectly(int days)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.PromoteByIdAsync(ad.Id, days);
+
+            var expectedPromoteUntilDate = DateTime.UtcNow.Date.AddDays(days);
+            var actualPromotedUntilDate = ad.PromotedUntil.GetValueOrDefault().Date;
+
+            Assert.IsTrue(ad.IsPromoted);
+            Assert.AreEqual(expectedPromoteUntilDate, actualPromotedUntilDate);
         }
 
         [Test]

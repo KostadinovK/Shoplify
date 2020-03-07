@@ -429,10 +429,33 @@
 
         public async Task ArchiveByIdAsync(string id)
         {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
             var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             ad.IsArchived = true;
             ad.ArchivedOn = DateTime.UtcNow;
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task PromoteByIdAsync(string id, int days)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsPromoted = true;
+            ad.PromotedOn = DateTime.UtcNow;
+            ad.PromotedUntil = ad.PromotedOn.GetValueOrDefault().AddDays(days);
 
             context.Advertisements.Update(ad);
 
