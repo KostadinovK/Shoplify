@@ -47,5 +47,7 @@ namespace Shoplify.Services.Interfaces
         Task<int> GetArchivedAdsCountByUserIdAsync(string userId);
 
         Task<int> ArchiveAllExpiredAdsAsync(DateTime expirationDate);
+
+        Task<int> UnPromoteAllExpiredAdsAsync(DateTime expirationDate);
     }
 }

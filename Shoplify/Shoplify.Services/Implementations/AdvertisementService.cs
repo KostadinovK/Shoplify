@@ -437,6 +437,9 @@
             var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
 
             ad.IsArchived = true;
+            ad.IsPromoted = false;
+            ad.PromotedOn = null;
+            ad.PromotedUntil = null;
             ad.ArchivedOn = DateTime.UtcNow;
 
             context.Advertisements.Update(ad);
@@ -549,6 +552,25 @@
             }
 
             return adsToArchive.Count;
+        }
+
+        public async Task<int> UnPromoteAllExpiredAdsAsync(DateTime expirationDate)
+        {
+            var adsToUnPromote = await context.Advertisements
+                .Where(a => a.IsPromoted && a.PromotedUntil <= expirationDate).ToListAsync();
+
+            foreach (var ad in adsToUnPromote)
+            {
+                ad.IsPromoted = false;
+                ad.PromotedOn = null;
+                ad.PromotedUntil = null;
+
+                context.Update(ad);
+            }
+
+            await context.SaveChangesAsync();
+
+            return adsToUnPromote.Count;
         }
     }
 }

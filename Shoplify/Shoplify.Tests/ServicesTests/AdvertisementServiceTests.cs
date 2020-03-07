@@ -1086,7 +1086,7 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.SaveChangesAsync();
 
-            var actualCount = await service.GetArchivedAdsCountByUserIdAsync("test");
+            var actualCount = await service.ArchiveAllExpiredAdsAsync(date);
 
             var expectedCount = 0;
 
@@ -1155,6 +1155,113 @@ namespace Shoplify.Tests.ServicesTests
             await context.SaveChangesAsync();
 
             var actualCount = await service.ArchiveAllExpiredAdsAsync(date);
+
+            var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task UnPromoteAllExpiredAdsAsync_WithNoExpiredAd_ShouldNotUnPromote()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var date = DateTime.UtcNow;
+
+            await service.CreateAsync(advertisement);
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.UserId == "test");
+
+            ad.PromotedUntil = date.AddDays(7);
+
+            await context.SaveChangesAsync();
+
+            var actualCount = await service.UnPromoteAllExpiredAdsAsync(date);
+
+            var expectedCount = 0;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task UnPromoteAllExpiredAdsAsync_WithExpiredAd_ShouldUnPromote()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad1",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test",
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad2",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test",
+            };
+
+            var advertisement3 = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad3",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test",
+            };
+
+            var date = DateTime.UtcNow;
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+            await service.CreateAsync(advertisement3);
+
+            var ad1 = context.Advertisements.SingleOrDefault(a => a.Name == "ad1");
+            var ad2 = context.Advertisements.SingleOrDefault(a => a.Name == "ad2");
+            var ad3 = context.Advertisements.SingleOrDefault(a => a.Name == "ad3");
+
+            ad1.IsPromoted = true;
+            ad1.PromotedUntil = date.AddDays(7);
+
+            ad2.IsPromoted = true;
+            ad2.PromotedUntil = date;
+
+            ad3.IsPromoted = true;
+            ad3.PromotedUntil = date.AddDays(-1);
+
+            await context.SaveChangesAsync();
+
+            var actualCount = await service.UnPromoteAllExpiredAdsAsync(date);
 
             var expectedCount = 2;
 
