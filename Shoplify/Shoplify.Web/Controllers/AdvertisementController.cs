@@ -1,5 +1,6 @@
 ﻿namespace Shoplify.Web.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
@@ -9,6 +10,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
     using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
@@ -18,6 +20,7 @@
     using Shoplify.Web.ViewModels.Advertisement;
     using Shoplify.Web.ViewModels.Category;
     using Shoplify.Web.ViewModels.SubCategory;
+    using Stripe;
 
     [AutoValidateAntiforgeryToken]
     public class AdvertisementController : Controller
@@ -28,8 +31,9 @@
         private ITownService townService;
         private IUserAdWishlistService userAdWishlistService;
         private readonly UserManager<User> userManager;
+        private readonly IConfiguration configuration;
 
-        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager)
+        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager, IConfiguration configuration)
         {
             this.advertisementService = advertisementService;
             this.categoryService = categoryService;
@@ -37,6 +41,7 @@
             this.townService = townService;
             this.userManager = userManager;
             this.userAdWishlistService = userAdWishlistService;
+            this.configuration = configuration;
         }
 
         [Authorize]
@@ -351,6 +356,8 @@
                 return Redirect("/Home/Index");
             }
 
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return View(new PromoteViewModel{ Id = id });
         }
 
@@ -362,6 +369,22 @@
             {
                 return Redirect($"/Advertisement/Promote?id={input.Id}");
             }
+
+            StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
+
+            var service = new PaymentIntentService();
+            var options = new PaymentIntentCreateOptions
+            {
+                //amount is in cents
+                Amount = 100,
+                Currency = "usd",
+                // Verify your integration in this guide by including this parameter
+                Metadata = new Dictionary<String, String>()
+                {
+                    {"integration_check", "accept_a_payment"}
+                }
+            };
+            service.Create(options);
 
             await advertisementService.PromoteByIdAsync(input.Id, int.Parse(input.PromotedDays));
 
