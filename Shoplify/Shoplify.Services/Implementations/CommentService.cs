@@ -38,7 +38,7 @@
             }).ToListAsync();
         }
 
-        public async Task PostAsync(CreateServiceModel comment)
+        public async Task<ViewServiceModel> PostAsync(CreateServiceModel comment)
         {
             var commentForDb = new Comment
             {
@@ -59,6 +59,8 @@
                 WrittenOn = commentForDb.WrittenOn.ToString(GlobalConstants.DateTimeFormat),
                 Username = userManager.FindByIdAsync(commentForDb.UserId).GetAwaiter().GetResult().UserName
             };
+
+            return viewModel;
         }
     }
 }
