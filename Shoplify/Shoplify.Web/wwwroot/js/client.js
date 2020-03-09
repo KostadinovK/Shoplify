@@ -1,13 +1,16 @@
-﻿var stripe = Stripe('pk_test_14LJKTkDZ7x8eO3o5suRCWTo00KvkJghrD');
-var elements = stripe.elements();
+﻿let stripe = Stripe('pk_test_14LJKTkDZ7x8eO3o5suRCWTo00KvkJghrD');
+let elements = stripe.elements();
+let promoteBtn = document.getElementById("promoteBtn");
+let cardDetails = document.querySelector("div.CardField-input-wrapper");
+console.log(cardDetails);
 
-var style = {
+let style = {
     base: {
         color: "#32325d",
     }
 };
 
-var card = elements.create("card", { style: style });
+let card = elements.create("card", { style: style });
 card.mount("#card-element");
 
 card.addEventListener('change', ({ error }) => {
@@ -19,7 +22,7 @@ card.addEventListener('change', ({ error }) => {
     }
 });
 
-var form = document.getElementById('payment-form');
+let form = document.getElementById('payment-form');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
@@ -37,7 +40,6 @@ form.addEventListener('submit', function (ev) {
         } else {
             // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
-                console.log(result);
             }
         }
     });

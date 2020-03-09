@@ -371,12 +371,19 @@
             }
 
             StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
+            
+            var prices = new Dictionary<string, int>(){
+                {"1", 200},
+                {"7", 600},
+                {"14", 1000},
+                {"30", 2000}
+            };
 
             var service = new PaymentIntentService();
             var options = new PaymentIntentCreateOptions
             {
                 //amount is in cents
-                Amount = 100,
+                Amount = prices[input.PromotedDays],
                 Currency = "usd",
                 // Verify your integration in this guide by including this parameter
                 Metadata = new Dictionary<String, String>()
@@ -384,7 +391,7 @@
                     {"integration_check", "accept_a_payment"}
                 }
             };
-            service.Create(options);
+            var payment = service.Create(options);
 
             await advertisementService.PromoteByIdAsync(input.Id, int.Parse(input.PromotedDays));
 

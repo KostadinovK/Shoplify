@@ -17,6 +17,8 @@
         [Required]
         public DateTime CreatedOn { get; set; }
 
+        public string ActionLink { get; set; }
+
         public ICollection<UserNotification> Users { get; set; } = new HashSet<UserNotification>();
     }
 }
