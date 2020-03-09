@@ -4,3 +4,6 @@ A web platform for selling and buying all kind of stuff like electrical applianc
 ## Built with:
   * ASP.NET Core MVC
   * EF Core
+  * Cloudinary
+  * Stripe API for payments
+  
