@@ -61,7 +61,7 @@
 
             if (adOwner.Id != commentOwner.Id)
             {
-                var notificationText = $"{commentUserName} just commented on your ad: {comment.Text}";
+                var notificationText = $"{commentUserName} just commented on your ad: '{comment.Text}'";
                 var notificationActionLink = $"/Advertisement/Details?id={input.AdvertisementId}";
 
                 var notification = await notificationService.CreateNotificationAsync(notificationText, notificationActionLink);
