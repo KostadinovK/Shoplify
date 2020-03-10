@@ -1,4 +1,8 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using System.Collections.Generic;
+using System.Linq;
+using Shoplify.Web.ViewModels.Notification;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Threading.Tasks;
 
@@ -21,6 +25,25 @@
             var notificationsCount = await notificationService.GetAllUnReadByUserIdCountAsync(userId);
 
             return Json(notificationsCount);
+        }
+
+        public async Task<IActionResult> All(string userId)
+        {
+            var notifications = await notificationService.GetAllUnReadByUserIdAsync(userId);
+
+            var viewModel = new List<NotificationViewModel>();
+
+            foreach (var notification in notifications)
+            {
+                viewModel.Add(new NotificationViewModel
+                {
+                    ActionLink = notification.ActionLink,
+                    Id = notification.Id,
+                    Text = notification.Text
+                });
+            }
+
+            return View(viewModel);
         }
     }
 }

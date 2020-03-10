@@ -1,0 +1,48 @@
+﻿@using System.Security.Claims
+@model List<Shoplify.Web.ViewModels.Notification.NotificationViewModel>
+@{
+    ViewData["Title"] = "Notifications";
+}
+<div class="container-fluid margin-top-4rem">
+    <div class="row">
+        <div class="col-md-8 mx-auto mb-100">
+            @if (!Model.Any())
+            {
+                <h1 class="text-center margin-bottom-4rem margin-top-4rem">You have no new notifications.</h1>
+            }
+            else
+            {
+                <div class="text-center margin-top-4rem">
+                    <a href="/Notification/MarkAll?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-details">Mark All As Read</a>
+                </div>
+
+                <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Notifications</h2>
+                <table class="table">
+                    <tbody>
+                        @for (var i = 0; i < Model.Count(); i++)
+                        {
+                            <tr>
+                                <th scope="row">@Model[i].Text</th>
+
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="@Model[i].ActionLink" class="btn btn-details">View</a>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="button-holder">
+                                        <a href="/Notification/Mark?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&nId=@Model[i].Id" class="btn btn-details">Mark As Read</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            }
+        </div>
+    </div>
+</div>
