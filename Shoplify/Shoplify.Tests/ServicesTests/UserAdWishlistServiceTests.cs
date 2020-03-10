@@ -211,5 +211,45 @@
 
             Assert.AreEqual(expectedResult, actualResult);
         }
+
+        [Test]
+        public async Task GetAllUserIdsThatHaveAdInWishlistAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await adService.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync(a => a.Name == "OnePlus 7 Pro");
+
+            var advertisementWishlist = new UserAdvertisementWishlist
+            {
+                UserId = "test",
+                AdvertisementId = ad.Id,
+                Advertisement = ad,
+            };
+
+            await context.UsersAdvertisementsWishlist.AddAsync(advertisementWishlist);
+            await context.SaveChangesAsync();
+
+            var expectedResult = 1;
+
+            var userIds = await service.GetAllUserIdsThatHaveAdInWishlistAsync(ad.Id);
+
+            var actualResult = userIds.Count();
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }

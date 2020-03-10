@@ -16,5 +16,7 @@
         Task<int> GetWishlistCountAsync(string userId);
 
         Task<IEnumerable<AdvertisementViewServiceModel>> GetUserWishlistAsync(string userId, int page, int adsPerPage);
+
+        Task<IEnumerable<string>> GetAllUserIdsThatHaveAdInWishlistAsync(string adId);
     }
 }

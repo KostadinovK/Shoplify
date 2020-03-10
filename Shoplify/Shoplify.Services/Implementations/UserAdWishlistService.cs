@@ -86,5 +86,13 @@ namespace Shoplify.Services.Implementations
 
             return result;
         }
+
+        public async Task<IEnumerable<string>> GetAllUserIdsThatHaveAdInWishlistAsync(string adId)
+        {
+            return await context.UsersAdvertisementsWishlist
+                .Where(ua => ua.AdvertisementId == adId)
+                .Select(ua => ua.UserId)
+                .ToListAsync();
+        }
     }
 }

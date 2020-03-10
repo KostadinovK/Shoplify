@@ -69,6 +69,8 @@
                 await notificationService.AssignNotificationToUserAsync(notification.Id, adOwner.Id);
             }
 
+
+
             return Redirect($"/Advertisement/Details?id={input.AdvertisementId}");
         }
     }
