@@ -82,7 +82,7 @@
 
             await advertisementService.CreateAsync(advertisementServiceModel);
 
-            await NotifyAsync(advertisementServiceModel);
+            await NotifyOnAdCreateAsync(advertisementServiceModel);
 
             return Redirect("/Home/Index");
         }
@@ -143,6 +143,8 @@
             };
 
             await advertisementService.EditAsync(advertisementServiceModel);
+
+            await NotifyOnAdEditAsync(advertisement.Id);
 
             return Redirect($"/Advertisement/Details?id={advertisement.Id}");
         }
@@ -404,12 +406,31 @@
             return Redirect($"/User/Profile?page=1");
         }
 
-        private async Task NotifyAsync(AdvertisementCreateServiceModel ad)
+        private async Task NotifyOnAdCreateAsync(AdvertisementCreateServiceModel ad)
         {
             var adOwner = await userManager.FindByIdAsync(ad.UserId);
 
             var notificationText = $"{adOwner.UserName} added a new Ad: {ad.Name}";
             var notificationActionLink = $"/User/Profile?id={ad.UserId}&orderBy='dateDesc'&page=1";
+
+            var userIds = await userService.GetAllUserIdsThatAreFollowingUserAsync(ad.UserId);
+
+            if (userIds.Count() != 0)
+            {
+                var notification = await notificationService.CreateNotificationAsync(notificationText, notificationActionLink);
+
+                await notificationService.AssignNotificationToUsersAsync(notification.Id, userIds.ToList());
+            }
+        }
+
+        private async Task NotifyOnAdEditAsync(string adId)
+        {
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            var adOwner = await userManager.FindByIdAsync(ad.UserId);
+
+            var notificationText = $"{adOwner.UserName} edited one of his adds: {ad.Name}";
+            var notificationActionLink = $"/Advertisement/Details?id={ad.Id}";
 
             var userIds = await userService.GetAllUserIdsThatAreFollowingUserAsync(ad.UserId);
 
