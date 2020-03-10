@@ -353,6 +353,8 @@
 
             await advertisementService.ArchiveByIdAsync(id);
 
+            await NotifyOnAdArchiveAsync(id);
+
             return Redirect("/Home/Index");
         }
 
@@ -433,6 +435,25 @@
             var notificationActionLink = $"/Advertisement/Details?id={ad.Id}";
 
             var userIds = await userService.GetAllUserIdsThatAreFollowingUserAsync(ad.UserId);
+
+            if (userIds.Count() != 0)
+            {
+                var notification = await notificationService.CreateNotificationAsync(notificationText, notificationActionLink);
+
+                await notificationService.AssignNotificationToUsersAsync(notification.Id, userIds.ToList());
+            }
+        }
+
+        private async Task NotifyOnAdArchiveAsync(string adId)
+        {
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            var adOwner = await userManager.FindByIdAsync(ad.UserId);
+
+            var notificationText = $"One of your adds in Wishlist has been archived: {ad.Name}";
+            var notificationActionLink = "/User/Wishlist?page=1";
+
+            var userIds = await userAdWishlistService.GetAllUserIdsThatHaveAdInWishlistAsync(ad.Id);
 
             if (userIds.Count() != 0)
             {
