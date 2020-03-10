@@ -45,5 +45,19 @@ namespace Shoplify.Web.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Mark(string userId, string nId)
+        {
+            await notificationService.MarkNotificationAsReadAsync(nId, userId);
+
+            return Redirect($"/Notification/All?userId={userId}");
+        }
+
+        public async Task<IActionResult> MarkAll(string userId)
+        {
+            await notificationService.MarkAllNotificationsAsReadAsync(userId);
+
+            return Redirect($"/Notification/All?userId={userId}");
+        }
     }
 }
