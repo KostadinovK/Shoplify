@@ -81,7 +81,7 @@ namespace Shoplify.Common
 
         #region Notification
 
-        public const int NotificationTextMaxLength = 50;
+        public const int NotificationTextMaxLength = 255;
 
         #endregion
     }
