@@ -32,8 +32,10 @@
         private IUserAdWishlistService userAdWishlistService;
         private readonly UserManager<User> userManager;
         private readonly IConfiguration configuration;
+        private readonly INotificationService notificationService;
+        private readonly IUserService userService;
 
-        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager, IConfiguration configuration)
+        public AdvertisementController(IAdvertisementService advertisementService, ICategoryService categoryService, ISubCategoryService subCategoryService, ITownService townService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager, IConfiguration configuration, INotificationService notificationService, IUserService userService)
         {
             this.advertisementService = advertisementService;
             this.categoryService = categoryService;
@@ -42,6 +44,8 @@
             this.userManager = userManager;
             this.userAdWishlistService = userAdWishlistService;
             this.configuration = configuration;
+            this.notificationService = notificationService;
+            this.userService = userService;
         }
 
         [Authorize]
@@ -77,6 +81,8 @@
             };
 
             await advertisementService.CreateAsync(advertisementServiceModel);
+
+            await NotifyAsync(advertisementServiceModel);
 
             return Redirect("/Home/Index");
         }
@@ -396,6 +402,23 @@
             await advertisementService.PromoteByIdAsync(input.Id, int.Parse(input.PromotedDays));
 
             return Redirect($"/User/Profile?page=1");
+        }
+
+        private async Task NotifyAsync(AdvertisementCreateServiceModel ad)
+        {
+            var adOwner = await userManager.FindByIdAsync(ad.UserId);
+
+            var notificationText = $"{adOwner.UserName} added a new Ad: {ad.Name}";
+            var notificationActionLink = $"/User/Profile?id={ad.UserId}&orderBy='dateDesc'&page=1";
+
+            var userIds = await userService.GetAllUserIdsThatAreFollowingUserAsync(ad.UserId);
+
+            if (userIds.Count() != 0)
+            {
+                var notification = await notificationService.CreateNotificationAsync(notificationText, notificationActionLink);
+
+                await notificationService.AssignNotificationToUsersAsync(notification.Id, userIds.ToList());
+            }
         }
 
         private IEnumerable<AdvertisementViewServiceModel> OrderAds(IEnumerable<AdvertisementViewServiceModel> ads, string orderBy)

@@ -92,5 +92,21 @@
 
             Assert.AreEqual(expectedCount, actualCount);
         }
+
+        [Test]
+        public async Task GetAllUserIdsThatAreFollowingUserAsync_ShouldReturnCorrectly()
+        {
+            var followerId = "follower";
+            var followingId = "following";
+
+            await service.FollowUserAsync(followerId, followingId);
+
+            var userIds = await service.GetAllUserIdsThatAreFollowingUserAsync(followingId);
+
+            var expectedResult = 1;
+            var actualResult = userIds.Count();
+
+            Assert.AreEqual(expectedResult, actualResult);
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -51,6 +51,14 @@ namespace Shoplify.Services.Implementations
         {
             return await context.FollowersFollowings.AnyAsync(ff =>
                 ff.FollowerId == firstUserId && ff.FollowingId == secondUserId);
+        }
+
+        public async Task<IEnumerable<string>> GetAllUserIdsThatAreFollowingUserAsync(string userId)
+        {
+            return await context.FollowersFollowings
+                .Where(ff => ff.FollowingId == userId)
+                .Select(ff => ff.FollowerId)
+                .ToListAsync();
         }
     }
 }
