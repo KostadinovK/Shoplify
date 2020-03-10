@@ -1,4 +1,7 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using Shoplify.Domain;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -15,11 +18,15 @@
     {
         private readonly IAdvertisementService advertisementService;
         private readonly IReportService reportService;
+        private readonly INotificationService notificationService;
+        private readonly UserManager<User> userManager;
 
-        public ReportController(IAdvertisementService advertisementService, IReportService reportService)
+        public ReportController(IAdvertisementService advertisementService, IReportService reportService, INotificationService notificationService, UserManager<User> userManager)
         {
             this.advertisementService = advertisementService;
             this.reportService = reportService;
+            this.notificationService = notificationService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Create(string adId)
@@ -53,6 +60,16 @@
             };
 
             await reportService.CreateAsync(serviceModel);
+
+            var reportingUser = await userManager.FindByIdAsync(input.ReportingUserId);
+            var reportedAd = await advertisementService.GetByIdAsync(input.ReportedAdvertisementId);
+
+            var notificationText = $"{reportingUser.UserName} reported one of your ads - {reportedAd.Name}. '{input.Description}'";
+            var actionLink = $"Advertisement/Details?id={reportedAd.Id}";
+
+            var notification = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+
+            await notificationService.AssignNotificationToUserAsync(notification.Id, input.ReportedUserId);
 
             return Redirect($"/Advertisement/Details?id={input.ReportedAdvertisementId}");
         }
