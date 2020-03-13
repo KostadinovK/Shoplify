@@ -25,5 +25,7 @@ namespace Shoplify.Domain
         [Required]
         [StringLength(AttributesConstraints.MessageTextMaxLength)]
         public string Text { get; set; }
+
+        public bool IsRead { get; set; }
     }
 }
