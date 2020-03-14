@@ -6,4 +6,4 @@ A web platform for selling and buying all kind of stuff like electrical applianc
   * EF Core
   * Cloudinary
   * Stripe API for payments
-  
+  * SignalR
