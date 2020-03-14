@@ -25,6 +25,10 @@
 
         public bool IsReadBySecondUser { get; set; }
 
+        public bool IsArchivedByFirstUser { get; set; }
+
+        public bool IsArchivedBySecondUser { get; set; }
+
         [Required]
         public string AdvertisementId { get; set; }
 
