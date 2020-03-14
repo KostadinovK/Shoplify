@@ -13,6 +13,6 @@
 
         Task<IEnumerable<MessageServiceModel>> GetAllByReceiverIdAsync(string conversationId, string receiverId);
 
-        Task<IEnumerable<MessageServiceModel>> GetAllInChatAsync(string conversationId);
+        Task<IEnumerable<MessageServiceModel>> GetAllInChatAsync(string conversationId, string receiverId, string senderId);
     }
 }
