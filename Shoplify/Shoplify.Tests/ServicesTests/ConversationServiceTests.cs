@@ -188,12 +188,68 @@
             var secondConversation = await service.CreateConversationAsync(firstUserId, secondUserId, secondAdId);
             var thirdConversation = await service.CreateConversationAsync(firstUserId, secondUserId, thirdAdId);
 
+            await service.ArchiveAsync(thirdConversation.Id, firstUserId);
+
             var result = await service.GetAllByUserIdAsync(firstUserId);
 
             var actualCount = result.Count();
-            var expectedCount = 3;
+            var expectedCount = 2;
 
             Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task ArchiveAsync_WithInvalidConversationId_ShouldReturnFalse()
+        {
+            Assert.IsFalse(await service.ArchiveAsync("invalid", "user"));
+        }
+
+        [Test]
+        public async Task ArchiveAsync_WithInvalidUserId_ShouldReturnFalse()
+        {
+            var firstUserId = "firstUser";
+            var secondUserId = "secondUser";
+            var adId = "ad";
+
+            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+
+            Assert.IsFalse(await service.ArchiveAsync(conversation.Id, "invalid"));
+        }
+
+        [Test]
+        public async Task ArchiveAsync_WhenFirstUserArchiveIt_ShouldWorkCorrectly()
+        {
+            var firstUserId = "firstUser";
+            var secondUserId = "secondUser";
+            var adId = "ad";
+
+            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+
+            var result = await service.ArchiveAsync(conversation.Id, firstUserId);
+
+            var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
+
+            Assert.IsTrue(result);
+            Assert.IsTrue(conversationFromDb.IsArchivedByFirstUser);
+            Assert.IsFalse(conversationFromDb.IsArchivedBySecondUser);
+        }
+
+        [Test]
+        public async Task ArchiveAsync_WhenSecondUserArciveIt_ShouldWorkCorrectly()
+        {
+            var firstUserId = "firstUser";
+            var secondUserId = "secondUser";
+            var adId = "ad";
+
+            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+
+            var result = await service.ArchiveAsync(conversation.Id, secondUserId);
+
+            var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
+
+            Assert.IsTrue(result);
+            Assert.IsTrue(conversationFromDb.IsArchivedBySecondUser);
+            Assert.IsFalse(conversationFromDb.IsArchivedByFirstUser);
         }
     }
 }

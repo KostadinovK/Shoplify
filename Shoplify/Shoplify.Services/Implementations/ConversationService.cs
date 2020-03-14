@@ -29,6 +29,8 @@
                 AdvertisementId = adId,
                 IsReadByFirstUser = false,
                 IsReadBySecondUser = false,
+                IsArchivedByFirstUser = false,
+                IsArchivedBySecondUser = false,
                 StartedOn = DateTime.UtcNow
             };
 
@@ -43,6 +45,8 @@
                 AdvertisementId = conversation.AdvertisementId,
                 IsReadByFirstUser = conversation.IsReadByFirstUser,
                 IsReadBySecondUser = conversation.IsReadBySecondUser,
+                IsArchivedByFirstUser = conversation.IsArchivedByFirstUser,
+                IsArchivedBySecondUser = conversation.IsArchivedBySecondUser,
                 StartedOn = conversation.StartedOn
             };
         }
@@ -57,12 +61,12 @@
 
         public async Task<bool> MarkConversationAsReadAsync(string conversationId, string userId)
         {
-            if (!context.Conversation.Any(c => c.Id == conversationId))
+            if (!await context.Conversation.AnyAsync(c => c.Id == conversationId))
             {
                 return false;
             }
 
-            var conversation = context.Conversation.SingleOrDefault(c => c.Id == conversationId);
+            var conversation = await context.Conversation.SingleOrDefaultAsync(c => c.Id == conversationId);
 
             if (conversation.FirstUserId == userId)
             {
@@ -95,8 +99,8 @@
         public async Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId)
         {
            return await context.Conversation.Where(c =>
-                c.FirstUserId == userId ||
-                c.SecondUserId == userId)
+                (c.FirstUserId == userId && !c.IsArchivedByFirstUser) ||
+                (c.SecondUserId == userId && !c.IsArchivedBySecondUser))
                 .Select(c => new ConversationServiceModel
                 {
                     Id = c.Id,
@@ -105,9 +109,40 @@
                     AdvertisementId = c.AdvertisementId,
                     IsReadByFirstUser = c.IsReadByFirstUser,
                     IsReadBySecondUser = c.IsReadBySecondUser,
+                    IsArchivedByFirstUser = c.IsArchivedByFirstUser,
+                    IsArchivedBySecondUser = c.IsArchivedBySecondUser,
                     StartedOn = c.StartedOn
                 })
                 .ToListAsync();
+        }
+
+        public async Task<bool> ArchiveAsync(string conversationId, string userId)
+        {
+            if (!await context.Conversation.AnyAsync(c => c.Id == conversationId))
+            {
+                return false;
+            }
+
+            var conversation = await context.Conversation.SingleOrDefaultAsync(c => c.Id == conversationId);
+
+            if (conversation.FirstUserId == userId)
+            {
+                conversation.IsArchivedByFirstUser = true;
+            }
+            else if (conversation.SecondUserId == userId)
+            {
+                conversation.IsArchivedBySecondUser = true;
+            }
+            else
+            {
+                return false;
+            }
+
+            context.Conversation.Update(conversation);
+
+            await context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

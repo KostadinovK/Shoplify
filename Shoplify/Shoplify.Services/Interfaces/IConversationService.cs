@@ -16,5 +16,7 @@
         Task<int> GetAllUnReadByUserIdCountAsync(string userId);
 
         Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId);
+
+        Task<bool> ArchiveAsync(string conversationId, string userId);
     }
 }
