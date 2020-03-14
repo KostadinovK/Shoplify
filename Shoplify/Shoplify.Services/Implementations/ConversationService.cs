@@ -47,6 +47,14 @@
             };
         }
 
+        public async Task<bool> ConversationExistsAsync(string firstUserId, string secondUserId, string adId)
+        {
+            return await context.Conversation
+                .AnyAsync(c => c.AdvertisementId == adId && 
+                               (c.FirstUserId == firstUserId || c.SecondUserId == firstUserId) &&
+                               (c.FirstUserId == secondUserId || c.SecondUserId == secondUserId));
+        }
+
         public async Task<bool> MarkConversationAsReadAsync(string conversationId, string userId)
         {
             if (!context.Conversation.Any(c => c.Id == conversationId))
@@ -78,7 +86,7 @@
         public async Task<int> GetAllUnReadByUserIdCountAsync(string userId)
         {
             var conversations = await context.Conversation.Where(c =>
-                (c.FirstUserId == userId && !c.IsReadByFirstUser) &&
+                (c.FirstUserId == userId && !c.IsReadByFirstUser) ||
                 (c.SecondUserId == userId && !c.IsReadBySecondUser)).ToListAsync();
 
             return conversations.Count;
@@ -87,7 +95,7 @@
         public async Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId)
         {
            return await context.Conversation.Where(c =>
-                c.FirstUserId == userId &&
+                c.FirstUserId == userId ||
                 c.SecondUserId == userId)
                 .Select(c => new ConversationServiceModel
                 {

@@ -80,8 +80,8 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task CreateAllAsync_WithInvalidIconsCount_ShouldThrowArgumentNullException()
         {
-            var names = new List<string>{ "Test", "Test2"};
-            var icons = new List<string>{"test"};
+            var names = new List<string> { "Test", "Test2" };
+            var icons = new List<string> { "test" };
 
             Assert.ThrowsAsync<ArgumentNullException>(async () => await service.CreateAllAsync(names, icons));
         }
