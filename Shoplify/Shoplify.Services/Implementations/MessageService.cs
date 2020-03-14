@@ -1,15 +1,13 @@
-﻿using System.Linq;
-using Shoplify.Domain;
-using Shoplify.Web.Data;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models.Message;
+    using Shoplify.Web.Data;
 
     public class MessageService : IMessageService
     {
@@ -20,32 +18,22 @@ namespace Shoplify.Services.Implementations
             this.context = context;
         }
 
-        public async Task<MessageServiceModel> CreateMessageAsync(string senderId, string receiverId, string adId, string text)
+        public Task<MessageServiceModel> CreateMessageAsync(string conversationId, string senderId, string receiverId, string text)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> MarkMessagesAsReadAsync(string adId, string receiverId, string senderId)
+        public Task<IEnumerable<MessageServiceModel>> GetAllByReceiverIdAsync(string conversationId, string receiverId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<int> GetAllUnReadByUserIdCountAsync(string userId)
+        public Task<IEnumerable<MessageServiceModel>> GetAllBySenderIdAsync(string conversationId, string senderId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<MessageServiceModel>> GetAllBySenderIdAsync(string senderId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<MessageServiceModel>> GetAllByReceiverIdAsync(string receiverId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<MessageServiceModel>> GetAllInChatAsync(string senderId, string receiverId, string adId)
+        public Task<IEnumerable<MessageServiceModel>> GetAllInChatAsync(string conversationId)
         {
             throw new NotImplementedException();
         }

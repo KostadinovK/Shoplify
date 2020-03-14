@@ -21,7 +21,9 @@
         [Required]
         public DateTime StartedOn { get; set; }
 
-        public bool IsRead { get; set; }
+        public bool IsReadByFirstUser { get; set; }
+
+        public bool IsReadBySecondUser { get; set; }
 
         [Required]
         public string AdvertisementId { get; set; }

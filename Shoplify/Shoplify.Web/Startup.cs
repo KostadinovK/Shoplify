@@ -76,6 +76,7 @@ namespace Shoplify.Web
             services.AddTransient<IUserAdWishlistService, UserAdWishlistService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IConversationService, ConversationService>();
             services.AddTransient<IMessageService, MessageService>();
         }
 

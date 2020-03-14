@@ -11,13 +11,7 @@
 
         public string ReceiverId { get; set; }
 
-        public User Sender { get; set; }
-
-        public User Receiver { get; set; }
-
         public string ConversationId { get; set; }
-
-        public Domain.Conversation Conversation { get; set; }
 
         public string Text { get; set; }
 

@@ -1,0 +1,18 @@
+﻿namespace Shoplify.Services.Interfaces
+{
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Shoplify.Services.Models.Conversation;
+
+    public interface IConversationService
+    {
+        Task<ConversationServiceModel> CreateConversationAsync(string firstUserId, string secondUserId, string adId);
+
+        Task<bool> MarkConversationAsReadAsync(string conversationId, string userId);
+
+        Task<int> GetAllUnReadByUserIdCountAsync(string userId);
+
+        Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId);
+    }
+}

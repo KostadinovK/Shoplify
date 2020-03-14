@@ -12,14 +12,12 @@
 
         public string SecondUserId { get; set; }
 
-        public User FirstUser { get; set; }
-
-        public User SecondUser { get; set; }
-
         public string AdvertisementId { get; set; }
 
-        public Domain.Advertisement Advertisement { get; set; }
-
         public DateTime StartedOn { get; set; }
+
+        public bool IsReadByFirstUser { get; set; }
+
+        public bool IsReadBySecondUser { get; set; }
     }
 }
