@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "provider": "unpkg",
+      "library": "bootstrap@4.4.1",
+      "destination": "wwwroot/lib/bootstrap/",
+      "files": [
+        "dist/js/bootstrap.js",
+        "dist/js/bootstrap.min.js",
+        "dist/css/bootstrap-reboot.css",
+        "dist/css/bootstrap-reboot.min.css",
+        "dist/css/bootstrap-grid.css",
+        "dist/css/bootstrap-grid.min.css",
+        "dist/css/bootstrap.css",
+        "dist/css/bootstrap.min.css"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.js",
+        "dist/jquery.min.js"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "jquery-validation@1.19.1",
+      "destination": "wwwroot/lib/jquery-validation/",
+      "files": [
+        "dist/additional-methods.js",
+        "dist/jquery.validate.js",
+        "dist/jquery.validate.min.js",
+        "dist/additional-methods.min.js"
+      ]
+    },
+    {
+      "library": "jquery-validation-unobtrusive@3.2.11",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "dist/jquery.validate.unobtrusive.js",
+        "dist/jquery.validate.unobtrusive.min.js"
+      ]
+    }
+  ,
+{
+  "library": "@aspnet/signalr@1.1.4",
+  "destination": "wwwroot/lib/signalr/",
+  "files": [
+    "dist/browser/signalr.min.js"
+  ]
+}
+]
+}

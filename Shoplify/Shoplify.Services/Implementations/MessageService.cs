@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models.Message;
