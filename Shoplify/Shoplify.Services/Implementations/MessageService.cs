@@ -57,11 +57,13 @@
             if (conversation.FirstUserId == receiverId && conversation.IsReadByFirstUser)
             {
                 conversation.IsReadByFirstUser = false;
+                conversation.IsArchivedByFirstUser = false;
                 context.Conversation.Update(conversation);
             }
             else if (conversation.SecondUserId == receiverId && conversation.IsReadBySecondUser)
             {
                 conversation.IsReadBySecondUser = false;
+                conversation.IsArchivedBySecondUser = false;
                 context.Conversation.Update(conversation);
             }
 
