@@ -53,6 +53,18 @@
             };
 
             await context.AddAsync(message);
+
+            if (conversation.FirstUserId == receiverId && conversation.IsReadByFirstUser)
+            {
+                conversation.IsReadByFirstUser = false;
+                context.Conversation.Update(conversation);
+            }
+            else if (conversation.SecondUserId == receiverId && conversation.IsReadBySecondUser)
+            {
+                conversation.IsReadBySecondUser = false;
+                context.Conversation.Update(conversation);
+            }
+
             await context.SaveChangesAsync();
 
             return new MessageServiceModel
