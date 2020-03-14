@@ -86,27 +86,20 @@
 
         public async Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId)
         {
-            var conversations = await context.Conversation.Where(c =>
+           return await context.Conversation.Where(c =>
                 c.FirstUserId == userId &&
-                c.SecondUserId == userId).ToListAsync();
-
-            var result = new List<ConversationServiceModel>();
-
-            foreach (var conversation in conversations)
-            {
-                result.Add(new ConversationServiceModel
+                c.SecondUserId == userId)
+                .Select(c => new ConversationServiceModel
                 {
-                    Id = conversation.Id,
-                    FirstUserId = conversation.FirstUserId,
-                    SecondUserId = conversation.SecondUserId,
-                    AdvertisementId = conversation.AdvertisementId,
-                    IsReadByFirstUser = conversation.IsReadByFirstUser,
-                    IsReadBySecondUser = conversation.IsReadBySecondUser,
-                    StartedOn = conversation.StartedOn
-                });
-            }
-
-            return result;
+                    Id = c.Id,
+                    FirstUserId = c.FirstUserId,
+                    SecondUserId = c.SecondUserId,
+                    AdvertisementId = c.AdvertisementId,
+                    IsReadByFirstUser = c.IsReadByFirstUser,
+                    IsReadBySecondUser = c.IsReadBySecondUser,
+                    StartedOn = c.StartedOn
+                })
+                .ToListAsync();
         }
     }
 }
