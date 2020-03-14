@@ -1,9 +1,9 @@
-﻿using Shoplify.Common;
-
-namespace Shoplify.Domain
+﻿namespace Shoplify.Domain
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+
+    using Shoplify.Common;
 
     public class Message
     {
@@ -27,5 +27,8 @@ namespace Shoplify.Domain
         public string Text { get; set; }
 
         public bool IsRead { get; set; }
+
+        [Required]
+        public string AdvertisementId { get; set; }
     }
 }
