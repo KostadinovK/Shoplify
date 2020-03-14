@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-
-namespace Shoplify.Web.Data
+﻿namespace Shoplify.Web.Data
 {
     using System.Linq;
 
@@ -17,6 +14,8 @@ namespace Shoplify.Web.Data
         }
 
         public DbSet<Advertisement> Advertisements { get; set; }
+
+        public DbSet<Conversation> Conversation { get; set; }
 
         public DbSet<Message> Messages { get; set; }
 

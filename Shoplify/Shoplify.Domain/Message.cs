@@ -26,9 +26,9 @@
         [StringLength(AttributesConstraints.MessageTextMaxLength)]
         public string Text { get; set; }
 
-        public bool IsRead { get; set; }
-
         [Required]
-        public string AdvertisementId { get; set; }
+        public string ConversationId { get; set; }
+
+        public Conversation Conversation { get; set; }
     }
 }

@@ -84,5 +84,7 @@
         public ICollection<Report> Reports { get; set; } = new HashSet<Report>();
 
         public ICollection<UserAdvertisementWishlist> Users { get; set; } = new HashSet<UserAdvertisementWishlist>();
+
+        public ICollection<Conversation> Conversations { get; set; } = new HashSet<Conversation>();
     }
 }

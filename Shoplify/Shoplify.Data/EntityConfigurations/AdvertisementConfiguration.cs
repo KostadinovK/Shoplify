@@ -41,6 +41,12 @@
             advertisement
                 .Property(a => a.Price)
                 .HasColumnType("decimal");
+
+            advertisement
+                .HasMany(a => a.Conversations)
+                .WithOne(c => c.Advertisement)
+                .HasForeignKey(c => c.AdvertisementId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
