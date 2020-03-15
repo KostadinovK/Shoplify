@@ -7,3 +7,4 @@ A web platform for selling and buying all kind of stuff like electrical applianc
   * Cloudinary
   * Stripe API for payments
   * SignalR
+  * NUnit
