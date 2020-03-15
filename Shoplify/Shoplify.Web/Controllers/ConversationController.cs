@@ -72,12 +72,12 @@
                     StartedOn = conversation.StartedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
                 };
 
-                if (ad.UserId == conversation.FirstUserId)
-                {
-                    conversationViewModel.IsRead = conversation.IsReadByFirstUser;
-                }else
+                if (ad.UserId == userId && userId == conversation.SecondUserId)
                 {
                     conversationViewModel.IsRead = conversation.IsReadBySecondUser;
+                }else
+                {
+                    conversationViewModel.IsRead = conversation.IsReadByFirstUser;
                 }
 
                 viewModel.Add(conversationViewModel);
