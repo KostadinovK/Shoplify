@@ -33,12 +33,12 @@
                 throw new ArgumentException(InvalidConversationId);
             }
 
-            if (conversation.FirstUserId != senderId && conversation.SecondUserId != senderId)
+            if (conversation.BuyerId != senderId && conversation.SellerId != senderId)
             {
                 throw new ArgumentException(InvalidSenderId);
             }
 
-            if (conversation.FirstUserId != receiverId && conversation.SecondUserId != receiverId)
+            if (conversation.BuyerId != receiverId && conversation.SellerId != receiverId)
             {
                 throw new ArgumentException(InvalidReceiverId);
             }
@@ -54,16 +54,16 @@
 
             await context.AddAsync(message);
 
-            if (conversation.FirstUserId == receiverId && conversation.IsReadByFirstUser)
+            if (conversation.BuyerId == receiverId && conversation.IsReadByBuyer)
             {
-                conversation.IsReadByFirstUser = false;
-                conversation.IsArchivedByFirstUser = false;
+                conversation.IsReadByBuyer = false;
+                conversation.IsArchivedByBuyer = false;
                 context.Conversation.Update(conversation);
             }
-            else if (conversation.SecondUserId == receiverId && conversation.IsReadBySecondUser)
+            else if (conversation.SellerId == receiverId && conversation.IsReadBySeller)
             {
-                conversation.IsReadBySecondUser = false;
-                conversation.IsArchivedBySecondUser = false;
+                conversation.IsReadBySeller = false;
+                conversation.IsArchivedBySeller = false;
                 context.Conversation.Update(conversation);
             }
 
@@ -89,7 +89,7 @@
                 throw new ArgumentException(InvalidConversationId);
             }
 
-            if (conversation.FirstUserId != receiverId && conversation.SecondUserId != receiverId)
+            if (conversation.BuyerId != receiverId && conversation.SellerId != receiverId)
             {
                 throw new ArgumentException(InvalidReceiverId);
             }
@@ -117,7 +117,7 @@
                 throw new ArgumentException(InvalidConversationId);
             }
 
-            if (conversation.FirstUserId != senderId && conversation.SecondUserId != senderId)
+            if (conversation.BuyerId != senderId && conversation.SellerId != senderId)
             {
                 throw new ArgumentException(InvalidSenderId);
             }

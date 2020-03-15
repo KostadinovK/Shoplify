@@ -1,11 +1,6 @@
-﻿using NUnit.Framework.Internal;
-
-namespace Shoplify.Tests.ServicesTests
+﻿namespace Shoplify.Tests.ServicesTests
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using NUnit.Framework;
@@ -43,11 +38,11 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task CreateConversationAsync_WithValidData_ShouldCreateSuccessfully()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
             var actualCount = context.Conversation.Count();
             var expectedCount = 1;
@@ -59,32 +54,32 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task ConversationExistsAsync_WithNotExistingConversation_ShouldReturnFalse()
         {
-            Assert.IsFalse(await service.ConversationExistsAsync("firstUserId", "secondUserId", "adId"));
+            Assert.IsFalse(await service.ConversationExistsAsync("buyerId", "sellerId", "adId"));
         }
 
         [Test]
         public async Task ConversationExistsAsync_WithExistingConversation_ShouldReturnTrue()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            Assert.IsTrue(await service.ConversationExistsAsync(firstUserId, secondUserId, adId));
+            Assert.IsTrue(await service.ConversationExistsAsync(buyerId, sellerId, adId));
         }
 
 
         [Test]
         public async Task GetIdAsync_WithExistingConversation_ShouldReturnId()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            var id = await service.GetIdAsync(firstUserId, secondUserId, adId);
+            var id = await service.GetIdAsync(buyerId, sellerId, adId);
 
             Assert.AreEqual(conversation.Id, id);
         }
@@ -98,49 +93,49 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task MarkConversationAsReadAsync_WithInvalidUserId_ShouldReturnFalse()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
             Assert.IsFalse(await service.MarkConversationAsReadAsync(conversation.Id, "invalid"));
         }
 
         [Test]
-        public async Task MarkConversationAsReadAsync_WhenFirstUserReadIt_ShouldWorkCorrectly()
+        public async Task MarkConversationAsReadAsync_WhenBuyerReadIt_ShouldWorkCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            var result = await service.MarkConversationAsReadAsync(conversation.Id, firstUserId);
+            var result = await service.MarkConversationAsReadAsync(conversation.Id, buyerId);
 
             var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
 
             Assert.IsTrue(result);
-            Assert.IsTrue(conversationFromDb.IsReadByFirstUser);
-            Assert.IsFalse(conversationFromDb.IsReadBySecondUser);
+            Assert.IsTrue(conversationFromDb.IsReadByBuyer);
+            Assert.IsFalse(conversationFromDb.IsReadBySeller);
         }
 
         [Test]
-        public async Task MarkConversationAsReadAsync_WhenSecondUserReadIt_ShouldWorkCorrectly()
+        public async Task MarkConversationAsReadAsync_WhenSellerReadIt_ShouldWorkCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            var result = await service.MarkConversationAsReadAsync(conversation.Id, secondUserId);
+            var result = await service.MarkConversationAsReadAsync(conversation.Id, sellerId);
 
             var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
 
             Assert.IsTrue(result);
-            Assert.IsTrue(conversationFromDb.IsReadBySecondUser);
-            Assert.IsFalse(conversationFromDb.IsReadByFirstUser);
+            Assert.IsTrue(conversationFromDb.IsReadBySeller);
+            Assert.IsFalse(conversationFromDb.IsReadByBuyer);
         }
 
         [Test]
@@ -158,20 +153,20 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task GetAllUnReadByUserIdCountAsync_WithConversations_ShouldReturnCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var firstAdId = "ad1";
             var secondAdId = "ad2";
             var thirdAdId = "ad3";
 
-            var firstConversation = await service.CreateConversationAsync(firstUserId, secondUserId, firstAdId);
-            var secondConversation = await service.CreateConversationAsync(firstUserId, secondUserId, secondAdId);
-            var thirdConversation = await service.CreateConversationAsync(firstUserId, secondUserId, thirdAdId);
+            var firstConversation = await service.CreateConversationAsync(buyerId, sellerId, firstAdId);
+            var secondConversation = await service.CreateConversationAsync(buyerId, sellerId, secondAdId);
+            var thirdConversation = await service.CreateConversationAsync(buyerId, sellerId, thirdAdId);
 
-            await service.MarkConversationAsReadAsync(secondConversation.Id, firstUserId);
-            await service.MarkConversationAsReadAsync(thirdConversation.Id, secondUserId);
+            await service.MarkConversationAsReadAsync(secondConversation.Id, buyerId);
+            await service.MarkConversationAsReadAsync(thirdConversation.Id, sellerId);
 
-            var actualCount = await service.GetAllUnReadByUserIdCountAsync(firstUserId);
+            var actualCount = await service.GetAllUnReadByUserIdCountAsync(buyerId);
 
             var expectedCount = 2;
 
@@ -195,19 +190,19 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task GetAllByUserIdAsync_WithConversations_ShouldReturnCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var firstAdId = "ad1";
             var secondAdId = "ad2";
             var thirdAdId = "ad3";
 
-            var firstConversation = await service.CreateConversationAsync(firstUserId, secondUserId, firstAdId);
-            var secondConversation = await service.CreateConversationAsync(firstUserId, secondUserId, secondAdId);
-            var thirdConversation = await service.CreateConversationAsync(firstUserId, secondUserId, thirdAdId);
+            var firstConversation = await service.CreateConversationAsync(buyerId, sellerId, firstAdId);
+            var secondConversation = await service.CreateConversationAsync(buyerId, sellerId, secondAdId);
+            var thirdConversation = await service.CreateConversationAsync(buyerId, sellerId, thirdAdId);
 
-            await service.ArchiveAsync(thirdConversation.Id, firstUserId);
+            await service.ArchiveAsync(thirdConversation.Id, buyerId);
 
-            var result = await service.GetAllByUserIdAsync(firstUserId);
+            var result = await service.GetAllByUserIdAsync(buyerId);
 
             var actualCount = result.Count();
             var expectedCount = 2;
@@ -224,49 +219,49 @@ namespace Shoplify.Tests.ServicesTests
         [Test]
         public async Task ArchiveAsync_WithInvalidUserId_ShouldReturnFalse()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
             Assert.IsFalse(await service.ArchiveAsync(conversation.Id, "invalid"));
         }
 
         [Test]
-        public async Task ArchiveAsync_WhenFirstUserArchiveIt_ShouldWorkCorrectly()
+        public async Task ArchiveAsync_WhenBuyerArchiveIt_ShouldWorkCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            var result = await service.ArchiveAsync(conversation.Id, firstUserId);
+            var result = await service.ArchiveAsync(conversation.Id, buyerId);
 
             var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
 
             Assert.IsTrue(result);
-            Assert.IsTrue(conversationFromDb.IsArchivedByFirstUser);
-            Assert.IsFalse(conversationFromDb.IsArchivedBySecondUser);
+            Assert.IsTrue(conversationFromDb.IsArchivedByBuyer);
+            Assert.IsFalse(conversationFromDb.IsArchivedBySeller);
         }
 
         [Test]
-        public async Task ArchiveAsync_WhenSecondUserArciveIt_ShouldWorkCorrectly()
+        public async Task ArchiveAsync_WhenSellerArchiveIt_ShouldWorkCorrectly()
         {
-            var firstUserId = "firstUser";
-            var secondUserId = "secondUser";
+            var buyerId = "firstUser";
+            var sellerId = "secondUser";
             var adId = "ad";
 
-            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
 
-            var result = await service.ArchiveAsync(conversation.Id, secondUserId);
+            var result = await service.ArchiveAsync(conversation.Id, sellerId);
 
             var conversationFromDb = context.Conversation.SingleOrDefault(c => c.Id == conversation.Id);
 
             Assert.IsTrue(result);
-            Assert.IsTrue(conversationFromDb.IsArchivedBySecondUser);
-            Assert.IsFalse(conversationFromDb.IsArchivedByFirstUser);
+            Assert.IsTrue(conversationFromDb.IsArchivedBySeller);
+            Assert.IsFalse(conversationFromDb.IsArchivedByBuyer);
         }
 
         [Test]

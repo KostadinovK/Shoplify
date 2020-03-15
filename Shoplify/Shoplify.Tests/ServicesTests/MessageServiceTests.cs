@@ -60,8 +60,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = receiverId,
-                FirstUserId = "firstUser",
+                SellerId = receiverId,
+                BuyerId = "firstUser",
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -82,8 +82,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = "second",
-                FirstUserId = senderId,
+                SellerId = "second",
+                BuyerId = senderId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -104,8 +104,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = receiverId,
-                FirstUserId = senderId,
+                SellerId = receiverId,
+                BuyerId = senderId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -132,14 +132,14 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = senderId,
-                FirstUserId = receiverId,
+                SellerId = senderId,
+                BuyerId = receiverId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow,
-                IsReadByFirstUser = true,
-                IsArchivedByFirstUser = true,
-                IsReadBySecondUser = true,
-                IsArchivedBySecondUser = true,
+                IsReadByBuyer = true,
+                IsArchivedByBuyer = true,
+                IsReadBySeller = true,
+                IsArchivedBySeller = true,
             });
 
             await context.SaveChangesAsync();
@@ -148,10 +148,10 @@ namespace Shoplify.Tests.ServicesTests
 
             await service.CreateMessageAsync(conversation.Id, senderId, receiverId, text);
 
-            Assert.IsFalse(conversation.IsReadByFirstUser);
-            Assert.IsFalse(conversation.IsArchivedByFirstUser);
-            Assert.IsTrue(conversation.IsReadBySecondUser);
-            Assert.IsTrue(conversation.IsArchivedBySecondUser);
+            Assert.IsFalse(conversation.IsReadByBuyer);
+            Assert.IsFalse(conversation.IsArchivedByBuyer);
+            Assert.IsTrue(conversation.IsReadBySeller);
+            Assert.IsTrue(conversation.IsArchivedBySeller);
         }
 
         [Test]
@@ -170,8 +170,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = "second",
-                FirstUserId = "first",
+                SellerId = "second",
+                BuyerId = "first",
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -192,8 +192,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = firstUserId,
-                FirstUserId = secondUserId,
+                SellerId = firstUserId,
+                BuyerId = secondUserId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -229,8 +229,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = "second",
-                FirstUserId = "first",
+                SellerId = "second",
+                BuyerId = "first",
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -251,8 +251,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = firstUserId,
-                FirstUserId = secondUserId,
+                SellerId = firstUserId,
+                BuyerId = secondUserId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });
@@ -294,8 +294,8 @@ namespace Shoplify.Tests.ServicesTests
 
             await context.Conversation.AddAsync(new Conversation
             {
-                SecondUserId = firstUserId,
-                FirstUserId = secondUserId,
+                SellerId = firstUserId,
+                BuyerId = secondUserId,
                 AdvertisementId = "test",
                 StartedOn = DateTime.UtcNow
             });

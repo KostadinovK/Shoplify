@@ -24,16 +24,16 @@
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Create(string firstUserId, string secondUserId, string adId)
+        public async Task<IActionResult> Create(string buyerId, string sellerId, string adId)
         {
-            if (await conversationService.ConversationExistsAsync(firstUserId, secondUserId, adId))
+            if (await conversationService.ConversationExistsAsync(buyerId, sellerId, adId))
             {
-                var id = await conversationService.GetIdAsync(firstUserId, secondUserId, adId);
+                var id = await conversationService.GetIdAsync(buyerId, sellerId, adId);
 
                 return Redirect($"/Messages/Chat?conversationId={id}");
             }
 
-            var conversation = await conversationService.CreateConversationAsync(firstUserId, secondUserId, adId);
+            var conversation = await conversationService.CreateConversationAsync(buyerId, sellerId, adId);
 
             return Redirect($"/Messages/Chat?conversationId={conversation.Id}");
         }
@@ -57,27 +57,27 @@
             {
                 var ad = await advertisementService.GetByIdAsync(conversation.AdvertisementId);
 
-                var firstUser = await userManager.FindByIdAsync(conversation.FirstUserId);
-                var secondUser = await userManager.FindByIdAsync(conversation.SecondUserId);
+                var buyer = await userManager.FindByIdAsync(conversation.BuyerId);
+                var seller = await userManager.FindByIdAsync(conversation.SellerId);
 
                 var conversationViewModel = new ConversationViewModel
                 {
                     Id = conversation.Id,
-                    FirstUserId = conversation.FirstUserId,
-                    SecondUserId = conversation.SecondUserId,
-                    FirstUserName = firstUser.UserName,
-                    SecondUserName = secondUser.UserName,
+                    BuyerId = conversation.BuyerId,
+                    SellerId = conversation.SellerId,
+                    BuyerName = buyer.UserName,
+                    SellerName = seller.UserName,
                     AdvertisementId = ad.Id,
                     AdvertisementName = ad.Name,
                     StartedOn = conversation.StartedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
                 };
 
-                if (ad.UserId == userId && userId == conversation.SecondUserId)
+                if (ad.UserId == userId && userId == conversation.SellerId)
                 {
-                    conversationViewModel.IsRead = conversation.IsReadBySecondUser;
+                    conversationViewModel.IsRead = conversation.IsReadBySeller;
                 }else
                 {
-                    conversationViewModel.IsRead = conversation.IsReadByFirstUser;
+                    conversationViewModel.IsRead = conversation.IsReadByBuyer;
                 }
 
                 viewModel.Add(conversationViewModel);

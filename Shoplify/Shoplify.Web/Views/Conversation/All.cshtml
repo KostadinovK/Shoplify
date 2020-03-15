@@ -1,5 +1,4 @@
-﻿@using System.Security.Claims
-@model List<Shoplify.Web.ViewModels.Conversation.ConversationViewModel>
+﻿@model List<Shoplify.Web.ViewModels.Conversation.ConversationViewModel>
 @{
     ViewData["Title"] = "Conversations";
 }
@@ -34,8 +33,8 @@
                         <tr>
                             <td><a href="/Messages/Chat?" class="conversation-page-element color-pink" style="font-size: 1.1rem;">@Model[i].AdvertisementName</a></td>
 
-                            <td><a href="/User/Profile?id=@Model[i].FirstUserId" class="conversation-page-element color-pink">@Model[i].FirstUserName</a></td>
-                            <td><a href="/User/Profile?id=@Model[i].SecondUserId" class="conversation-page-element color-pink">@Model[i].SecondUserName</a></td>
+                            <td><a href="/User/Profile?id=@Model[i].BuyerId" class="conversation-page-element color-pink">@Model[i].BuyerName</a></td>
+                            <td><a href="/User/Profile?id=@Model[i].SellerId" class="conversation-page-element color-pink">@Model[i].SellerName</a></td>
                             <td>@Model[i].StartedOn</td>
 
                             <td>

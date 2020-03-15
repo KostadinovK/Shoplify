@@ -69,7 +69,7 @@
                     {
                         <div>
                             <div class="d-flex mt-20">
-                                <a href="/Conversation/Create?firstUserId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&secondUserId=@Model.UserId&adId=@Model.Id" class="view-btn color-2"><span>Message Seller</span></a>
+                                <a href="/Conversation/Create?buyerId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&sellerId=@Model.UserId&adId=@Model.Id" class="view-btn color-2"><span>Message Seller</span></a>
 
                                 @if (Model.IsAdInLoggedUserWishlist)
                                 {

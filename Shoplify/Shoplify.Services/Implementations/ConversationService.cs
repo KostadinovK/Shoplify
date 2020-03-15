@@ -20,17 +20,17 @@
             this.context = context;
         }
 
-        public async Task<ConversationServiceModel> CreateConversationAsync(string firstUserId, string secondUserId, string adId)
+        public async Task<ConversationServiceModel> CreateConversationAsync(string buyerId, string sellerId, string adId)
         {
             var conversation = new Conversation
             {
-                FirstUserId = firstUserId,
-                SecondUserId = secondUserId,
+                BuyerId = buyerId,
+                SellerId = sellerId,
                 AdvertisementId = adId,
-                IsReadByFirstUser = false,
-                IsReadBySecondUser = false,
-                IsArchivedByFirstUser = false,
-                IsArchivedBySecondUser = false,
+                IsReadByBuyer = false,
+                IsReadBySeller = false,
+                IsArchivedByBuyer = false,
+                IsArchivedBySeller = false,
                 StartedOn = DateTime.UtcNow
             };
 
@@ -40,35 +40,35 @@
             return new ConversationServiceModel
             {
                 Id = conversation.Id,
-                FirstUserId = conversation.FirstUserId,
-                SecondUserId = conversation.SecondUserId,
+                BuyerId = conversation.BuyerId,
+                SellerId = conversation.SellerId,
                 AdvertisementId = conversation.AdvertisementId,
-                IsReadByFirstUser = conversation.IsReadByFirstUser,
-                IsReadBySecondUser = conversation.IsReadBySecondUser,
-                IsArchivedByFirstUser = conversation.IsArchivedByFirstUser,
-                IsArchivedBySecondUser = conversation.IsArchivedBySecondUser,
+                IsReadByBuyer = conversation.IsReadByBuyer,
+                IsReadBySeller = conversation.IsReadBySeller,
+                IsArchivedByBuyer = conversation.IsArchivedByBuyer,
+                IsArchivedBySeller = conversation.IsArchivedBySeller,
                 StartedOn = conversation.StartedOn
             };
         }
 
-        public async Task<bool> ConversationExistsAsync(string firstUserId, string secondUserId, string adId)
+        public async Task<bool> ConversationExistsAsync(string buyerId, string sellerId, string adId)
         {
             return await context.Conversation
                 .AnyAsync(c => c.AdvertisementId == adId && 
-                               (c.FirstUserId == firstUserId || c.SecondUserId == firstUserId) &&
-                               (c.FirstUserId == secondUserId || c.SecondUserId == secondUserId));
+                               (c.BuyerId == buyerId || c.SellerId == buyerId) &&
+                               (c.BuyerId == sellerId || c.SellerId == sellerId));
         }
 
-        public async Task<string> GetIdAsync(string firstUserId, string secondUserId, string adId)
+        public async Task<string> GetIdAsync(string buyerId, string sellerId, string adId)
         {
-            if (!await ConversationExistsAsync(firstUserId, secondUserId, adId))
+            if (!await ConversationExistsAsync(buyerId, sellerId, adId))
             {
                 return null;
             }
 
             return context.Conversation.SingleOrDefault(c =>
-                c.AdvertisementId == adId && (c.FirstUserId == firstUserId || c.SecondUserId == firstUserId) &&
-                (c.SecondUserId == firstUserId || c.SecondUserId == secondUserId)).Id;
+                c.AdvertisementId == adId && (c.BuyerId == buyerId || c.SellerId == buyerId) &&
+                (c.SellerId == buyerId || c.SellerId == sellerId)).Id;
         }
 
         public async Task<bool> MarkConversationAsReadAsync(string conversationId, string userId)
@@ -80,13 +80,13 @@
 
             var conversation = await context.Conversation.SingleOrDefaultAsync(c => c.Id == conversationId);
 
-            if (conversation.FirstUserId == userId)
+            if (conversation.BuyerId == userId)
             {
-                conversation.IsReadByFirstUser = true;
+                conversation.IsReadByBuyer = true;
             }
-            else if (conversation.SecondUserId == userId)
+            else if (conversation.SellerId == userId)
             {
-                conversation.IsReadBySecondUser = true;
+                conversation.IsReadBySeller = true;
             }else
             {
                 return false;
@@ -102,8 +102,8 @@
         public async Task<int> GetAllUnReadByUserIdCountAsync(string userId)
         {
             var conversations = await context.Conversation.Where(c =>
-                (c.FirstUserId == userId && !c.IsReadByFirstUser && !c.IsArchivedByFirstUser) ||
-                (c.SecondUserId == userId && !c.IsReadBySecondUser && !c.IsArchivedBySecondUser)).ToListAsync();
+                (c.BuyerId == userId && !c.IsReadByBuyer && !c.IsArchivedByBuyer) ||
+                (c.SellerId == userId && !c.IsReadBySeller && !c.IsArchivedBySeller)).ToListAsync();
 
             return conversations.Count;
         }
@@ -111,18 +111,18 @@
         public async Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId)
         {
            return await context.Conversation.Where(c =>
-                (c.FirstUserId == userId && !c.IsArchivedByFirstUser) ||
-                (c.SecondUserId == userId && !c.IsArchivedBySecondUser))
+                (c.BuyerId == userId && !c.IsArchivedByBuyer) ||
+                (c.SellerId == userId && !c.IsArchivedBySeller))
                 .Select(c => new ConversationServiceModel
                 {
                     Id = c.Id,
-                    FirstUserId = c.FirstUserId,
-                    SecondUserId = c.SecondUserId,
+                    BuyerId = c.BuyerId,
+                    SellerId = c.SellerId,
                     AdvertisementId = c.AdvertisementId,
-                    IsReadByFirstUser = c.IsReadByFirstUser,
-                    IsReadBySecondUser = c.IsReadBySecondUser,
-                    IsArchivedByFirstUser = c.IsArchivedByFirstUser,
-                    IsArchivedBySecondUser = c.IsArchivedBySecondUser,
+                    IsReadByBuyer = c.IsReadByBuyer,
+                    IsReadBySeller = c.IsReadBySeller,
+                    IsArchivedByBuyer = c.IsArchivedByBuyer,
+                    IsArchivedBySeller = c.IsArchivedBySeller,
                     StartedOn = c.StartedOn
                 })
                 .ToListAsync();
@@ -137,13 +137,13 @@
 
             var conversation = await context.Conversation.SingleOrDefaultAsync(c => c.Id == conversationId);
 
-            if (conversation.FirstUserId == userId)
+            if (conversation.BuyerId == userId)
             {
-                conversation.IsArchivedByFirstUser = true;
+                conversation.IsArchivedByBuyer = true;
             }
-            else if (conversation.SecondUserId == userId)
+            else if (conversation.SellerId == userId)
             {
-                conversation.IsArchivedBySecondUser = true;
+                conversation.IsArchivedBySeller = true;
             }
             else
             {

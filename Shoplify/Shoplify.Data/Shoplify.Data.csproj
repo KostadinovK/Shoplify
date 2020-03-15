@@ -25,6 +25,10 @@
     <Compile Remove="Migrations\20200205132949_TestMig.Designer.cs" />
     <Compile Remove="Migrations\20200205133042_RefactoredRelations.cs" />
     <Compile Remove="Migrations\20200205133042_RefactoredRelations.Designer.cs" />
+    <Compile Remove="Migrations\20200315120938_RenamedSomeFieldsInConversationTable.cs" />
+    <Compile Remove="Migrations\20200315120938_RenamedSomeFieldsInConversationTable.Designer.cs" />
+    <Compile Remove="Migrations\20200315121121_RemovedSomeAssociationsInConversationTable.cs" />
+    <Compile Remove="Migrations\20200315121121_RemovedSomeAssociationsInConversationTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,25 +9,21 @@
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public string FirstUserId { get; set; }
-
-        public User FirstUser { get; set; }
+        public string BuyerId { get; set; }
 
         [Required]
-        public string SecondUserId { get; set; }
-
-        public User SecondUser { get; set; }
+        public string SellerId { get; set; }
 
         [Required]
         public DateTime StartedOn { get; set; }
 
-        public bool IsReadByFirstUser { get; set; }
+        public bool IsReadByBuyer{ get; set; }
 
-        public bool IsReadBySecondUser { get; set; }
+        public bool IsReadBySeller { get; set; }
 
-        public bool IsArchivedByFirstUser { get; set; }
+        public bool IsArchivedByBuyer { get; set; }
 
-        public bool IsArchivedBySecondUser { get; set; }
+        public bool IsArchivedBySeller { get; set; }
 
         [Required]
         public string AdvertisementId { get; set; }
