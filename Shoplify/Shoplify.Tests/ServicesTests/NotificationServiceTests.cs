@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Serialization;
-using Microsoft.AspNetCore.Http;
-using Shoplify.Domain;
-using Shoplify.Domain.Enums;
-using Shoplify.Services.Models;
-
-namespace Shoplify.Tests.ServicesTests
+﻿namespace Shoplify.Tests.ServicesTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using NUnit.Framework;

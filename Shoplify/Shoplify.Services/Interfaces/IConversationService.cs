@@ -20,5 +20,7 @@
         Task<IEnumerable<ConversationServiceModel>> GetAllByUserIdAsync(string userId);
 
         Task<bool> ArchiveAsync(string conversationId, string userId);
+
+        Task<int> ArchiveAllAsync(string userId);
     }
 }

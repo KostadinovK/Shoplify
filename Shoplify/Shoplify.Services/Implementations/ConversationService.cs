@@ -156,5 +156,22 @@
 
             return true;
         }
+
+        public async Task<int> ArchiveAllAsync(string userId)
+        {
+            var conversations = await GetAllByUserIdAsync(userId);
+
+            if (conversations == null)
+            {
+                return 0;
+            }
+
+            foreach (var conversation in conversations)
+            {
+                await ArchiveAsync(conversation.Id, userId);
+            }
+
+            return conversations.Count();
+        }
     }
 }

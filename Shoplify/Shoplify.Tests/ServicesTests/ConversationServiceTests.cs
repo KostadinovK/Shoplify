@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using NUnit.Framework.Internal;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System;
     using System.Collections.Generic;
@@ -265,6 +267,35 @@
             Assert.IsTrue(result);
             Assert.IsTrue(conversationFromDb.IsArchivedBySecondUser);
             Assert.IsFalse(conversationFromDb.IsArchivedByFirstUser);
+        }
+
+        [Test]
+        public async Task ArchiveAllAsync_WithNoConversations_ShouldReturnCorrectly()
+        {
+            var userId = "test";
+
+            var actualCount = await service.ArchiveAllAsync(userId);
+
+            var expectedCount = 0;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task ArchiveAllAsync_WithConversations_ShouldReturnCorrectly()
+        {
+            var userId = "user";
+            var secondUserId = "secondUser";
+            var adId = "ad";
+            var secondAdId = "ad2";
+
+            var firstConversation = await service.CreateConversationAsync(userId, secondUserId, adId);
+            var secondConversation = await service.CreateConversationAsync(userId, secondUserId, secondAdId);
+
+            var actualCount = await service.ArchiveAllAsync(userId);
+            var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
         }
     }
 }
