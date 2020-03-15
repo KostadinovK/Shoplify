@@ -94,5 +94,14 @@
 
             return Redirect("All");
         }
+
+        public async Task<IActionResult> ArchiveAll()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await conversationService.ArchiveAllAsync(userId);
+
+            return Redirect("All");
+        }
     }
 }
