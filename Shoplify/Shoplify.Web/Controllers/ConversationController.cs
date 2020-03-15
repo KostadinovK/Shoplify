@@ -38,6 +38,13 @@
             return Redirect($"/Messages/Chat?conversationId={conversation.Id}");
         }
 
+        public async Task<IActionResult> GetAllCount(string userId)
+        {
+            var conversationsCount = await conversationService.GetAllUnReadByUserIdCountAsync(userId);
+
+            return Json(conversationsCount);
+        }
+
         public async Task<IActionResult> All()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
