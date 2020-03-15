@@ -59,6 +59,18 @@
                                (c.FirstUserId == secondUserId || c.SecondUserId == secondUserId));
         }
 
+        public async Task<string> GetIdAsync(string firstUserId, string secondUserId, string adId)
+        {
+            if (!await ConversationExistsAsync(firstUserId, secondUserId, adId))
+            {
+                return null;
+            }
+
+            return context.Conversation.SingleOrDefault(c =>
+                c.AdvertisementId == adId && (c.FirstUserId == firstUserId || c.SecondUserId == firstUserId) &&
+                (c.SecondUserId == firstUserId || c.SecondUserId == secondUserId)).Id;
+        }
+
         public async Task<bool> MarkConversationAsReadAsync(string conversationId, string userId)
         {
             if (!await context.Conversation.AnyAsync(c => c.Id == conversationId))

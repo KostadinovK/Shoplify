@@ -11,6 +11,8 @@
 
         Task<bool> ConversationExistsAsync(string firstUserId, string secondUserId, string adId);
 
+        Task<string> GetIdAsync(string firstUserId, string secondUserId, string adId);
+
         Task<bool> MarkConversationAsReadAsync(string conversationId, string userId);
 
         Task<int> GetAllUnReadByUserIdCountAsync(string userId);

@@ -1,0 +1,62 @@
+﻿@using System.Security.Claims
+@model List<Shoplify.Web.ViewModels.Conversation.ConversationViewModel>
+@{
+    ViewData["Title"] = "Conversations";
+}
+<div class="container-fluid margin-top-4rem">
+    <div class="row">
+        <div class="col-md-8 mx-auto mb-100">
+            @if (!Model.Any())
+            {
+                <h1 class="text-center margin-bottom-4rem margin-top-4rem">You have no conversations.</h1>
+            }
+            else
+            {
+                <div class="text-center margin-top-4rem">
+                    <a href="" class="btn btn-details">Archive All</a>
+                </div>
+
+                <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Conversations</h2>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Ad Name</th>
+                            <th scope="col">Buyer</th>
+                            <th scope="col">Seller</th>
+                            <th scope="col">Started On</th>
+                            <th scope="col">Archive</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Count(); i++)
+                        {
+                        <tr>
+                            <td><a href="/Messages/Chat?" class="conversation-page-element color-pink" style="font-size: 1.1rem;">@Model[i].AdvertisementName</a></td>
+
+                            <td><a href="/User/Profile?id=@Model[i].FirstUserId" class="conversation-page-element color-pink">@Model[i].FirstUserName</a></td>
+                            <td><a href="/User/Profile?id=@Model[i].SecondUserId" class="conversation-page-element color-pink">@Model[i].SecondUserName</a></td>
+                            <td>@Model[i].StartedOn</td>
+
+                            <td>
+                                <div class="button-holder">
+                                    <a href="/Notification/Mark?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&nId=@Model[i].Id" class="btn btn-details">Archive</a>
+                                </div>
+                            </td>
+
+                            @if (!Model[i].IsRead)
+                            {
+                                <td><h3 class="conversation-page-element color-pink">New Messages</h3></td>
+                            }
+                        </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            }
+        </div>
+    </div>
+</div>
+

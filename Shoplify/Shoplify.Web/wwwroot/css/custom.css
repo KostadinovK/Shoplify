@@ -165,3 +165,8 @@ div.category-list > a {
 .color-pink {
     color: rgb(244, 16, 104);
 }
+
+.conversation-page-element {
+    font-size: 1.3rem;
+    text-decoration: none;
+}

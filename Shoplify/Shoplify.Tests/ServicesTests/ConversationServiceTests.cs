@@ -72,6 +72,21 @@
             Assert.IsTrue(await service.ConversationExistsAsync(firstUserId, secondUserId, adId));
         }
 
+
+        [Test]
+        public async Task GetIdAsync_WithExistingConversation_ShouldReturnId()
+        {
+            var firstUserId = "firstUser";
+            var secondUserId = "secondUser";
+            var adId = "ad";
+
+            var conversation = await service.CreateConversationAsync(firstUserId, secondUserId, adId);
+
+            var id = await service.GetIdAsync(firstUserId, secondUserId, adId);
+
+            Assert.AreEqual(conversation.Id, id);
+        }
+
         [Test]
         public async Task MarkConversationAsReadAsync_WithInvalidConversationId_ShouldReturnFalse()
         {
