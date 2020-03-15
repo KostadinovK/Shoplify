@@ -133,9 +133,9 @@
 
             var actualCount = await service.GetAllUnReadByUserIdCountAsync(userId);
 
-            var expectedMarkedNotificationsCount = 0;
+            var expectedCount = 0;
 
-            Assert.AreEqual(expectedMarkedNotificationsCount, actualCount);
+            Assert.AreEqual(expectedCount, actualCount);
         }
 
         [Test]

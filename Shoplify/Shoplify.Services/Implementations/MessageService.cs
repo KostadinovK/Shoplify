@@ -136,7 +136,7 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<MessageServiceModel>> GetAllInChatAsync(string conversationId)
+        public async Task<IEnumerable<MessageServiceModel>> GetAllInConversationAsync(string conversationId)
         {
             return await context.Messages
                 .Where(m => m.ConversationId == conversationId)
