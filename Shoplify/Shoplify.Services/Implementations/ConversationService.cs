@@ -102,8 +102,8 @@
         public async Task<int> GetAllUnReadByUserIdCountAsync(string userId)
         {
             var conversations = await context.Conversation.Where(c =>
-                (c.FirstUserId == userId && !c.IsReadByFirstUser) ||
-                (c.SecondUserId == userId && !c.IsReadBySecondUser)).ToListAsync();
+                (c.FirstUserId == userId && !c.IsReadByFirstUser && !c.IsArchivedByFirstUser) ||
+                (c.SecondUserId == userId && !c.IsReadBySecondUser && !c.IsArchivedBySecondUser)).ToListAsync();
 
             return conversations.Count;
         }

@@ -85,5 +85,14 @@
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> Archive(string id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await conversationService.ArchiveAsync(id, userId);
+
+            return Redirect("All");
+        }
     }
 }
