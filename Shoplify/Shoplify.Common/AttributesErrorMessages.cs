@@ -17,5 +17,7 @@
         public const string AdvertisementInvalidNumber = "Phone number should be valid!";
 
         #endregion
+
+        public const string MessageInvalidLength = "The message should be with a minimum length of {1} characters.";
     }
 }

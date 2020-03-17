@@ -1,0 +1,56 @@
+﻿@model Shoplify.Web.ViewModels.Message.MessagesChatViewModel
+
+@{
+    ViewData["Title"] = "Chat - " + Model.AdName;
+}
+
+<h3 class="text-center mb-4 margin-top-8rem"><a class="color-pink" asp-controller="Advertisement" asp-action="Details" asp-route-id="@Model.AdId">@Model.AdName</a></h3>
+<div id="messages" class="margin-bottom-8rem">
+    <div class="col-10 mx-auto px-4 my-5">
+        <div class="chat-box bg-white">
+            @foreach (var message in Model.Messages)
+            {
+                if (message.SenderName == User.Identity.Name)
+                {
+                    <div class="media w-50 ml-auto mb-3">
+                        <div class="media-body">
+                            <p class="small text-muted">Me</p>
+                            <div class="btn-pink rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-white">@message.Text</p>
+                            </div>
+                            <p class="small text-muted">@message.SendOn</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="media w-50 mb-3">
+                        <div class="media-body ml-3">
+                            <p class="small text-muted">@message.SenderName</p>
+                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-muted">@message.Text</p>
+                            </div>
+                            <p class="small text-muted">@message.SendOn</p>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+        <form action="#" class="bg-light">
+            <div class="input-group">
+                <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                <div class="input-group-append">
+                    <button id="button-addon2" type="submit" class="btn btn-pink"> <i class="fa fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
+    <script src="~/js/send-message-signalr.js" asp-append-version="true"></script>
+    <script src="~/js/send-message.js" asp-append-version="true"></script>
+}

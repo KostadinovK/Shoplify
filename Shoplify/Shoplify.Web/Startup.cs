@@ -1,3 +1,5 @@
+using Shoplify.Web.Hubs;
+
 namespace Shoplify.Web
 {
     using System.Reflection;
@@ -60,7 +62,7 @@ namespace Shoplify.Web
             Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
 
             services.AddSingleton(cloudinaryUtility);
-
+            services.AddSignalR();
             services.AddControllersWithViews();
             services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
@@ -114,6 +116,12 @@ namespace Shoplify.Web
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSignalR(
+                routes =>
+                {
+                    routes.MapHub<MessageHub>("/message");
+                });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

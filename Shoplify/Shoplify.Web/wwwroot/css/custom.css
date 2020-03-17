@@ -170,3 +170,21 @@ div.category-list > a {
     font-size: 1.3rem;
     text-decoration: none;
 }
+
+.text-small {
+    font-size: 1rem;
+}
+
+.messages-box,
+.chat-box {
+    height: 70vh;
+}
+
+.rounded-lg {
+    border-radius: 0.5rem;
+}
+
+input::placeholder {
+    font-size: 1rem;
+    color: #999;
+}

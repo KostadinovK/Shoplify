@@ -22,5 +22,7 @@
         Task<bool> ArchiveAsync(string conversationId, string userId);
 
         Task<int> ArchiveAllAsync(string userId);
+
+        Task<ConversationServiceModel> GetByIdAsync(string id);
     }
 }

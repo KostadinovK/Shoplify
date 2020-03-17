@@ -117,7 +117,7 @@
 
             Assert.IsTrue(result);
             Assert.IsTrue(conversationFromDb.IsReadByBuyer);
-            Assert.IsFalse(conversationFromDb.IsReadBySeller);
+            Assert.IsTrue(conversationFromDb.IsReadBySeller);
         }
 
         [Test]
@@ -135,7 +135,7 @@
 
             Assert.IsTrue(result);
             Assert.IsTrue(conversationFromDb.IsReadBySeller);
-            Assert.IsFalse(conversationFromDb.IsReadByBuyer);
+            Assert.IsTrue(conversationFromDb.IsReadByBuyer);
         }
 
         [Test]
@@ -168,7 +168,7 @@
 
             var actualCount = await service.GetAllUnReadByUserIdCountAsync(buyerId);
 
-            var expectedCount = 2;
+            var expectedCount = 0;
 
             Assert.AreEqual(expectedCount, actualCount);
         }
@@ -291,6 +291,20 @@
             var expectedCount = 2;
 
             Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetByIdAsync_ShouldGetCorrectly()
+        {
+            var buyerId = "user";
+            var sellerId = "seller";
+            var adId = "ad";
+
+            var conversation = await service.CreateConversationAsync(buyerId, sellerId, adId);
+
+            var gettedConversation = await service.GetByIdAsync(conversation.Id);
+
+            AssertEx.PropertyValuesAreEquals(conversation, gettedConversation);
         }
     }
 }

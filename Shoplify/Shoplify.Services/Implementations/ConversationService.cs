@@ -27,8 +27,8 @@
                 BuyerId = buyerId,
                 SellerId = sellerId,
                 AdvertisementId = adId,
-                IsReadByBuyer = false,
-                IsReadBySeller = false,
+                IsReadByBuyer = true,
+                IsReadBySeller = true,
                 IsArchivedByBuyer = false,
                 IsArchivedBySeller = false,
                 StartedOn = DateTime.UtcNow
@@ -172,6 +172,24 @@
             }
 
             return conversations.Count();
+        }
+
+        public async Task<ConversationServiceModel> GetByIdAsync(string id)
+        {
+            var conversation = await context.Conversation.FirstOrDefaultAsync(c => c.Id == id);
+
+            return new ConversationServiceModel
+            {
+                Id = conversation.Id,
+                BuyerId = conversation.BuyerId,
+                SellerId = conversation.SellerId,
+                AdvertisementId = conversation.AdvertisementId,
+                IsReadByBuyer = conversation.IsReadByBuyer,
+                IsReadBySeller = conversation.IsReadBySeller,
+                IsArchivedByBuyer = conversation.IsArchivedByBuyer,
+                IsArchivedBySeller = conversation.IsArchivedBySeller,
+                StartedOn = conversation.StartedOn
+            };
         }
     }
 }

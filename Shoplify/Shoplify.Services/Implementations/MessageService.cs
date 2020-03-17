@@ -140,6 +140,7 @@
         {
             return await context.Messages
                 .Where(m => m.ConversationId == conversationId)
+                .OrderBy(m => m.SendOn)
                 .Select(m => new MessageServiceModel
                 {
                     Id = m.Id,
