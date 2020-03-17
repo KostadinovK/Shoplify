@@ -37,7 +37,7 @@
             }
         </div>
 
-        <form asp-controller="Message" asp-action="Send" id="send-message-form" method="post" class="bg-light">
+        <form asp-controller="Message" asp-action="Send" id="sendMessageForm" method="post" class="bg-light">
             @await Component.InvokeAsync("SendMessage",
                 new
                      {

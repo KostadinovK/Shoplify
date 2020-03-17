@@ -1,54 +1,62 @@
-﻿$('#send-message-form').on('submit keypress', function (e) {
-    var key = e.which;
-    if (key === 13) {
-        e.preventDefault();
+﻿let sendMessageForm = document.getElementById('sendMessageForm');
 
-        let form = $(this);
-        let url = form.attr('action');
+sendMessageForm.addEventListener('keypress', (event) => { sendMessageHandler(event, sendMessageForm) });
 
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: form.serialize(),
-            success: function (data) {
-                var today = new Date();
-                var hours = today.getHours();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
-                var ampm = today.getHours() >= 12 ? 'PM' : 'AM';
-                hours = hours % 12;
-                hours = hours ? hours : 12;
-                var time = hours + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
+function sendMessageHandler(event, form) {
+    let keyPressed = event.which;
 
-                today = mm + '/' + dd + '/' + yyyy + ' ' + time + ' ' + ampm;
-
-                const messageLength = 2;
-                var message = $('#message-content').val();
-
-                if (message.length > messageLength) {
-                    $('#messages').append(
-                        '<div class="row mb-3">' +
-                        '<div class="offset-1 col-10">' +
-                        '<p>' +
-                        '<div class="row">' +
-                        '<div class="offset-1 col-2">Me' +
-                        '</div>' +
-                        '<div class="offset-6 col-3">' +
-                        today +
-                        '</div>' +
-                        '<div class="offset-1 col-11 card bg-warning">' +
-                        '<div class="card-body">' +
-                        $('#message-content').val() +
-                        '</div>' +
-                        '</div>' +
-                        '</p>' +
-                        '</div>' +
-                        '</div>');
-
-                    $('#message-content').val('');
-                }
-            }
-        });
+    if (keyPressed !== 13) {
+        return;
     }
-});
+
+    event.preventDefault();
+
+    let url = form.getAttribute("action");
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        data: $("#sendMessageForm").serialize(),
+        success: displayMessage
+    });
+}
+
+function displayMessage() {
+    let todayDate = new Date();
+    let hour = todayDate.getHours();
+    let day = String(todayDate.getDate()).padStart(2, '0');
+    let month = String(todayDate.getMonth() + 1).padStart(2, '0');
+    let year = todayDate.getFullYear();
+
+    let partOfDay = todayDate.getHours() >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    hour = hour ? hour : 12;
+
+    let time = hour + ":" + (todayDate.getMinutes() < 10 ? '0' : '') + todayDate.getMinutes();
+
+    todayDate = month + '/' + day + '/' + year + ' ' + time + ' ' + partOfDay;
+
+    const messageMaxLength = 1;
+
+    let messageText = document.getElementById("messageContent").value;
+
+    let messagesContainer = document.getElementById('messages');
+
+    if (messageText.length > messageMaxLength) {
+
+        messagesContainer.innerHTML += 
+            `
+                <div class="media w-50 ml-auto mb-3">
+                    <div class="media-body">
+                        <p class="small text-muted">Me</p>
+                        <div class="btn-pink rounded py-2 px-3 mb-2">
+                            <p class="text-small mb-0 text-white">${messageText}</p>
+                        </div>
+                        <p class="small text-muted">${todayDate}</p>
+                    </div>
+                </div>
+            `;
+    }
+
+    document.getElementById("messageContent").value = '';
+}
