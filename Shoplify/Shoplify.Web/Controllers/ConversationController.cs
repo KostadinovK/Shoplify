@@ -30,12 +30,12 @@
             {
                 var id = await conversationService.GetIdAsync(buyerId, sellerId, adId);
 
-                return Redirect($"/Messages/Chat?conversationId={id}");
+                return Redirect($"/Message/Chat?conversationId={id}");
             }
 
             var conversation = await conversationService.CreateConversationAsync(buyerId, sellerId, adId);
 
-            return Redirect($"/Messages/Chat?conversationId={conversation.Id}");
+            return Redirect($"/Message/Chat?conversationId={conversation.Id}");
         }
 
         public async Task<IActionResult> GetAllCount(string userId)
