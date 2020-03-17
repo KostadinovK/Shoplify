@@ -85,6 +85,6 @@ namespace Shoplify.Common
 
         #endregion
 
-        public const int MessageMinLength = 2;
+        public const int MessageMinLength = 1;
     }
 }

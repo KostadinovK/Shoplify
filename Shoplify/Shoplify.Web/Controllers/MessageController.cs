@@ -1,6 +1,5 @@
 ﻿namespace Shoplify.Web.Controllers
 {
-    using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -11,6 +10,7 @@
     using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Web.BindingModels.Message;
     using Shoplify.Web.Hubs;
     using Shoplify.Web.ViewModels.Message;
 
@@ -44,10 +44,23 @@
 
             var messages = await messageService.GetAllInConversationAsync(conversationId);
 
+            var onMessageSendReceiverId = "";
+
+            if (conversation.BuyerId == userId)
+            {
+                onMessageSendReceiverId = conversation.SellerId;
+            }else
+            {
+                onMessageSendReceiverId = conversation.BuyerId;
+            }
+
             var viewModel = new MessagesChatViewModel
             {
                 AdId = ad.Id,
-                AdName = ad.Name
+                AdName = ad.Name,
+                ConversationId = conversation.Id,
+                OnMessageSendSenderId = userId,
+                OnMessageSendReceiverId = onMessageSendReceiverId
             };
 
             foreach (var message in messages)
@@ -63,6 +76,19 @@
             }
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Send(MessageBindingModel inputModel)
+        {
+            var messageViewModel = await messageService.CreateMessageAsync(inputModel.ConversationId, inputModel.SenderId,
+                inputModel.ReceiverId, inputModel.Text);
+
+            await hubContext.Clients.User(inputModel.ReceiverId)
+                .SendAsync("SendMessage", inputModel);
+
+            return Json(messageViewModel);
         }
     }
 }

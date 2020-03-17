@@ -1,0 +1,16 @@
+﻿@model Shoplify.Web.BindingModels.Message.MessageBindingModel
+
+<div class="form-group">
+    <div class="input-group">
+        <input asp-for="@Model.Text" id="message-content" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+        <div class="input-group-append">
+            <button id="button-addon2" type="submit" class="btn btn-pink"> <i class="fa fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <input asp-for="@Model.ConversationId" type="hidden" value="@Model.ConversationId" />
+    <input asp-for="@Model.SenderId" type="hidden" value="@Model.SenderId" />
+    <span asp-validation-for="@Model.SenderId" class="text-danger"></span>
+    <input asp-for="@Model.ReceiverId" type="hidden" value="@Model.ReceiverId" />
+</div>
+

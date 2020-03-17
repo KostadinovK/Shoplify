@@ -37,13 +37,13 @@
             }
         </div>
 
-        <form action="#" class="bg-light">
-            <div class="input-group">
-                <input type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-                <div class="input-group-append">
-                    <button id="button-addon2" type="submit" class="btn btn-pink"> <i class="fa fa-paper-plane"></i></button>
-                </div>
-            </div>
+        <form asp-controller="Message" asp-action="Send" id="send-message-form" method="post" class="bg-light">
+            @await Component.InvokeAsync("SendMessage",
+                new {
+                    receiverId = Model.OnMessageSendReceiverId,
+                    senderId = Model.OnMessageSendSenderId, 
+                    conversationId = Model.ConversationId
+                })
         </form>
     </div>
 </div>
@@ -51,6 +51,6 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
-    <script src="~/js/send-message-signalr.js" asp-append-version="true"></script>
-    <script src="~/js/send-message.js" asp-append-version="true"></script>
+    <script src="~/js/signalRConnection.js" asp-append-version="true"></script>
+    <script src="~/js/sendMessage.js" asp-append-version="true"></script>
 }
