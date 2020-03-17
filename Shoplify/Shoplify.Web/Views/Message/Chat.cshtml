@@ -5,9 +5,9 @@
 }
 
 <h3 class="text-center mb-4 margin-top-8rem"><a class="color-pink" asp-controller="Advertisement" asp-action="Details" asp-route-id="@Model.AdId">@Model.AdName</a></h3>
-<div id="messages" class="margin-bottom-8rem">
+<div class="margin-bottom-8rem">
     <div class="col-10 mx-auto px-4 my-5">
-        <div class="chat-box bg-white">
+        <div class="chat-box bg-white" id="messages">
             @foreach (var message in Model.Messages)
             {
                 if (message.SenderName == User.Identity.Name)
@@ -39,9 +39,10 @@
 
         <form asp-controller="Message" asp-action="Send" id="send-message-form" method="post" class="bg-light">
             @await Component.InvokeAsync("SendMessage",
-                new {
+                new
+                     {
                     receiverId = Model.OnMessageSendReceiverId,
-                    senderId = Model.OnMessageSendSenderId, 
+                    senderId = Model.OnMessageSendSenderId,
                     conversationId = Model.ConversationId
                 })
         </form>
@@ -50,7 +51,8 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/displayMessage.js"></script>
     <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
-    <script src="~/js/signalRConnection.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/signalRConnection.js" asp-append-version="true"></script>
     <script src="~/js/sendMessage.js" asp-append-version="true"></script>
 }

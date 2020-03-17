@@ -82,13 +82,22 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Send(MessageBindingModel inputModel)
         {
-            var messageViewModel = await messageService.CreateMessageAsync(inputModel.ConversationId, inputModel.SenderId,
+            var message = await messageService.CreateMessageAsync(inputModel.ConversationId, inputModel.SenderId,
                 inputModel.ReceiverId, inputModel.Text);
 
-            await hubContext.Clients.User(inputModel.ReceiverId)
-                .SendAsync("SendMessage", inputModel);
+            var sender = await userManager.FindByIdAsync(message.SenderId);
 
-            return Json(messageViewModel);
+            var messageViewModel = new MessageViewModel
+            {
+                Text = message.Text,
+                SenderName = sender.UserName,
+                SendOn = message.SendOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+            };
+
+            await hubContext.Clients.User(inputModel.ReceiverId)
+                .SendAsync("SendMessage", messageViewModel);
+
+            return Json(message);
         }
     }
 }
