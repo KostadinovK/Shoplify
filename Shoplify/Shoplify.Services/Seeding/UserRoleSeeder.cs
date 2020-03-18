@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Identity;
+using Shoplify.Common;
 
 namespace Shoplify.Services.Seeding
 {
@@ -20,7 +21,7 @@ namespace Shoplify.Services.Seeding
 
             await context.Roles.AddAsync(new IdentityRole
             {
-                Name = "Admin",
+                Name = GlobalConstants.AdministratorRoleName,
                 NormalizedName = "ADMIN"
             });
 

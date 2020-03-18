@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
+@using Shoplify.Common
 @using Shoplify.Domain
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -7,6 +8,17 @@
     <ul class="navbar-nav">
         @if (SignInManager.IsSignedIn(User))
         {
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="/User/Profile?id=@User.FindFirstValue(ClaimTypes.NameIdentifier)" title="Manage">Hello @User.Identity.Name!</a>
+            </li>
+
+            @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
+            {
+                <li class="nav-item">
+                    <a asp-area="Administration" asp-controller="Home" asp-action="Index" class="nav-link text-dark" title="Manage">Admin Panel</a>
+                </li>
+            }
+
             <li class="nav-item">
                 <a class="nav-link text-dark" href="/Notification/All?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)">
                     <i class="fas fa-bell btn-pink" style="font-size: 1.2rem;"></i>
@@ -24,9 +36,6 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link text-dark" href="/User/Profile?id=@User.FindFirstValue(ClaimTypes.NameIdentifier)" title="Manage">Hello @User.Identity.Name!</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" href="/Advertisement/Create">Create Advertisement</a>
             </li>
