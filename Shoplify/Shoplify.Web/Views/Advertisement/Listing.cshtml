@@ -4,7 +4,6 @@
     ViewData["Title"] = "Listing";
 }
 
-<!-- Start Banner Area -->
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center">
@@ -14,11 +13,11 @@
         </div>
     </div>
 </section>
-<!-- End Banner Area -->
+
 <div class="container mb-100">
     <div class="row">
         <div class="col-xl-9 col-lg-8 col-md-7">
-            <!-- Start Filter Bar -->
+            
             <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div class="sorting">
                     <h2 class="mb-10">Sort By: </h2>
@@ -28,9 +27,8 @@
                     <a class="mx-2" href="/Advertisement/@Model.GetByParam?@Model.PageParam&page=@Model.CurrentPage&orderBy=dateDesc">Date Desc</a>
                 </div>
             </div>
-            <!-- End Filter Bar -->
 
-            <section class="lattest-product-area pb-40 category-list">
+            <section class="pb-40 category-list">
 
                 @if (Model.Advertisements.Count == 0)
                 {
@@ -51,7 +49,7 @@
                     }
 
                     <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 single-product">
-                        <a href="/Advertisement/Details?id=@ad.Id">
+                        <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@ad.Id">
                             <div class="content">
                                 <div class="content-overlay"></div>
                                 <img class="content-image img-fluid d-block mx-auto ad-image" src="@ad.Image" alt="">
@@ -89,7 +87,6 @@
                 </div>
             </section>
 
-            <!-- Start Filter Bar -->
             <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div class="pagination mx-auto">
                     @{
@@ -120,7 +117,6 @@
 
                 </div>
             </div>
-            <!-- End Filter Bar -->
         </div>
         <div class="col-xl-3 col-lg-4 col-md-5">
             <div class="sidebar-categories">
@@ -129,11 +125,11 @@
                     @foreach (var kvp in Model.CategoiesAndSubCategories.CategoriesWithSubCategories)
                     {
                         <li class="main-nav-list" onmouseover="showSubCategories(this)" onmouseout="hideSubCategories(this)">
-                            <a href="/Advertisement/GetByCategory?categoryId=@kvp.Key.Id&page=1"><span class="lnr lnr-arrow-right"></span>@kvp.Key.Name</a>
+                            <a asp-controller="Advertisement" asp-action="GetByCategory" asp-route-categoryId="@kvp.Key.Id" asp-route-page="1"><span class="lnr lnr-arrow-right"></span>@kvp.Key.Name</a>
                             <ul class="collapse" id="@kvp.Key.Id">
                                 @foreach (var subCategory in kvp.Value)
                                 {
-                                    <li class="main-nav-list child"><a href="/Advertisement/GetByCategory?categoryId=@subCategory.Id&page">@subCategory.Name</a></li>
+                                    <li class="main-nav-list child"><a asp-controller="Advertisement" asp-action="GetByCategory" asp-route-categoryId="@subCategory.Id" asp-route-page="1">@subCategory.Name</a></li>
                                 }
                             </ul>
                         </li>

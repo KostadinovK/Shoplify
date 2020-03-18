@@ -49,7 +49,7 @@
 
                     <td>
                         <div class="button-holder">
-                            <a href="/User/RemoveFromWishlist?adId=@Model.Advertisements[i].Id" class="btn btn-danger">Remove</a>
+                            <a asp-controller="User" asp-action="RemoveFromWishlist" asp-route-adId="@Model.Advertisements[i].Id" class="btn btn-danger">Remove</a>
                         </div>
                     </td>
                 </tr>
@@ -66,24 +66,24 @@
                     }
                     @if (Model.CurrentPage != 1)
                     {
-                        <a href="/User/Wishlist?page=@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
+                        <a asp-controller="User" asp-action="Wishlist" asp-route-page="@prevPage" class="prev-arrow "><i class="fas fa-arrow-left"></i></a>
                     }
 
                     @for (var j = 1; j <= (Model.TotalAdsCount / GlobalConstants.AdsOnPageCount) + 1; j++)
                     {
                         @if (j == Model.CurrentPage)
                         {
-                            <a class="active" href="/User/Wishlist?page=@j">@j</a>
+                            <a class="active" asp-controller="User" asp-action="Wishlist" asp-route-page="@j">@j</a>
                         }
                         else if (j >= Model.CurrentPage - 4 && (j <= Model.CurrentPage + 4 && j <= Model.LastPage))
                         {
-                            <a href="/User/Wishlist?page=@j">@j</a>
+                            <a asp-controller="User" asp-action="Wishlist" asp-route-page="@j">@j</a>
                         }
                     }
 
                     @if (Model.CurrentPage != Model.LastPage)
                     {
-                        <a href="/User/Wishlist?page=@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
+                        <a asp-controller="User" asp-action="Wishlist" asp-route-page="@nextPage" class="next-arrow"><i class="fas fa-arrow-right"></i></a>
                     }
 
                 </div>

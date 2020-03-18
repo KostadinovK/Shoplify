@@ -8,7 +8,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class HomeController : Controller
+    public class PanelController : Controller
     {
         public async Task<IActionResult> Index()
         {

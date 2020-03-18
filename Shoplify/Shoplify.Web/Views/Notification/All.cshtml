@@ -13,7 +13,7 @@
             else
             {
                 <div class="text-center margin-top-4rem">
-                    <a href="/Notification/MarkAll?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-details">Mark All As Read</a>
+                    <a asp-controller="Notification" asp-action="MarkAll" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-details">Mark All As Read</a>
                 </div>
 
                 <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Notifications</h2>
@@ -32,7 +32,7 @@
 
                                 <td>
                                     <div class="button-holder">
-                                        <a href="/Notification/Mark?userId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&nId=@Model[i].Id" class="btn btn-details">Mark As Read</a>
+                                        <a asp-controller="Notification" asp-action="Mark" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-nId="@Model[i].Id" class="btn btn-details">Mark As Read</a>
                                     </div>
                                 </td>
                             </tr>

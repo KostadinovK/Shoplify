@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Single Ad Page";
 }
-<!-- Start Banner Area -->
+
 <section class="banner-area organic-breadcrumb">
     <div class="container">
         <div class="breadcrumb-banner d-flex flex-wrap align-items-center">
@@ -13,8 +13,7 @@
         </div>
     </div>
 </section>
-<!-- End Banner Area -->
-<!-- Start Product Details -->
+
 <div class="container">
     <div class="product-quick-view">
         <div class="row align-items-center">
@@ -69,21 +68,21 @@
                     {
                         <div>
                             <div class="d-flex mt-20">
-                                <a href="/Conversation/Create?buyerId=@User.FindFirstValue(ClaimTypes.NameIdentifier)&sellerId=@Model.UserId&adId=@Model.Id" class="view-btn color-2"><span>Message Seller</span></a>
+                                <a asp-controller="Conversation" asp-action="Create" asp-route-buyerId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-sellerId="@Model.UserId" asp-route-adId="@Model.Id" class="view-btn color-2"><span>Message Seller</span></a>
 
                                 @if (Model.IsAdInLoggedUserWishlist)
                                 {
-                                    <a href="/User/RemoveFromWishlist?adId=@Model.Id" class="like-btn"><i class="fas fa-heart" style="color: red"></i></a>
+                                    <a asp-controller="User" asp-action="RemoveFromWishlist" asp-route-adId="@Model.Id" class="like-btn"><i class="fas fa-heart" style="color: red"></i></a>
                                 }
                                 else
                                 {
-                                    <a href="/User/AddToWishlist?adId=@Model.Id" class="like-btn"><i class="far fa-heart" style="color: red"></i></a>
+                                    <a asp-controller="User" asp-action="AddToWishlist" asp-route-adId="@Model.Id" class="like-btn"><i class="far fa-heart" style="color: red"></i></a>
                                 }
 
                             </div>
 
                             <div class="d-flex mt-20">
-                                <a href="/Report/Create?adId=@Model.Id" class="view-btn color-2"><span>Report Ad</span></a>
+                                <a asp-controller="Report" asp-action="Create" asp-route-adId="@Model.Id" class="view-btn color-2"><span>Report Ad</span></a>
                             </div>
                         </div>
                     }
@@ -91,13 +90,13 @@
                     {
                         <div>
                             <div class="d-flex mt-20">
-                                <a href="/Advertisement/Edit?id=@Model.Id" class="view-btn color-2"><span>Edit</span></a>
+                                <a asp-controller="Advertisement" asp-action="Edit" asp-route-id="@Model.Id" class="view-btn color-2"><span>Edit</span></a>
                             </div>
                         </div>
 
                         <div>
                             <div class="d-flex mt-20">
-                                <a href="/Advertisement/Archive?id=@Model.Id" class="view-btn color-2"><span>Archive</span></a>
+                                <a asp-controller="Advertisement" asp-action="Archive" asp-route-id="@Model.Id" class="view-btn color-2"><span>Archive</span></a>
                             </div>
                         </div>
                     }
@@ -159,7 +158,7 @@
         </div>
     </div>
 </div>
-<!-- End Product Details -->
+
 @section Scripts {
     <script src="~/js/comments.js" asp-append-version="true"></script>
 }

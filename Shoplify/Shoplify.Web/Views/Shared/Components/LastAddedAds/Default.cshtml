@@ -13,7 +13,7 @@
             @foreach (var ad in Model)
             {
                 <div class="col-lg-3 col-md-6 single-product">
-                    <a href="/Advertisement/Details?id=@ad.Id">
+                    <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@ad.Id">
                         <div class="content">
                             <div class="content-overlay"></div>
                             <img class="content-image img-fluid d-block mx-auto ad-image" src="@ad.Image" alt="">

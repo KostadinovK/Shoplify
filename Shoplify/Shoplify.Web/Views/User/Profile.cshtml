@@ -13,11 +13,11 @@
 
                 @if (Model.IsFollowedByLoggedInUser)
                 {
-                    <a href="/User/Unfollow?userId=@Model.UserId" class="btn btn-danger btn-follow">Unfollow</a>
+                    <a asp-controller="User" asp-action="Unfollow" asp-route-userId="@Model.UserId" class="btn btn-danger btn-follow">Unfollow</a>
                 }
                 else
                 {
-                    <a href="/User/Follow?userId=@Model.UserId" class="btn btn-danger btn-follow">Follow</a>
+                    <a asp-controller="User" asp-action="Follow" asp-route-userId="@Model.UserId" class="btn btn-danger btn-follow">Follow</a>
                 }
 
             </div>
@@ -55,7 +55,7 @@
                         }
 
                         <div class="col-xl-4 col-lg-6 col-md-12 col-sm-6 single-product">
-                            <a href="/Advertisement/Details?id=@ad.Id">
+                            <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@ad.Id">
                                 <div class="content">
                                     <div class="content-overlay"></div>
                                     <img class="content-image img-fluid d-block mx-auto ad-image" src="@ad.Image" alt="">

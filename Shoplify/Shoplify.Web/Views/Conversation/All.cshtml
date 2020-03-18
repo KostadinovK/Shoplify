@@ -12,7 +12,7 @@
             else
             {
                 <div class="text-center margin-top-4rem">
-                    <a href="/Conversation/ArchiveAll" class="btn btn-details">Archive All</a>
+                    <a asp-controller="Conversation" asp-action="ArchiveAll" class="btn btn-details">Archive All</a>
                 </div>
 
                 <h2 class="text-center margin-top-4rem margin-bottom-2rem">My Conversations</h2>
@@ -31,15 +31,15 @@
                         @for (var i = 0; i < Model.Count(); i++)
                         {
                         <tr>
-                            <td><a href="/Message/Chat?conversationId=@Model[i].Id" class="conversation-page-element color-pink" style="font-size: 1.1rem;">@Model[i].AdvertisementName</a></td>
+                            <td><a asp-controller="Message" asp-action="Chat" asp-route-conversationId="@Model[i].Id" class="conversation-page-element color-pink" style="font-size: 1.1rem;">@Model[i].AdvertisementName</a></td>
 
-                            <td><a href="/User/Profile?id=@Model[i].BuyerId" class="conversation-page-element color-pink">@Model[i].BuyerName</a></td>
-                            <td><a href="/User/Profile?id=@Model[i].SellerId" class="conversation-page-element color-pink">@Model[i].SellerName</a></td>
+                            <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].BuyerId" class="conversation-page-element color-pink">@Model[i].BuyerName</a></td>
+                            <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].SellerId" class="conversation-page-element color-pink">@Model[i].SellerName</a></td>
                             <td>@Model[i].StartedOn</td>
 
                             <td>
                                 <div class="button-holder">
-                                    <a href="/Conversation/Archive?id=@Model[i].Id" class="btn btn-details">Archive</a>
+                                    <a asp-controller="Conversation" asp-action="Archive" asp-route-id="@Model[i].Id" class="btn btn-details">Archive</a>
                                 </div>
                             </td>
 
