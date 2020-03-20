@@ -31,7 +31,7 @@
                         @for (var i = 0; i < Model.Count(); i++)
                         {
                         <tr>
-                            <td><a asp-controller="Message" asp-action="Chat" asp-route-conversationId="@Model[i].Id" class="conversation-page-element color-pink" style="font-size: 1.1rem;">@Model[i].AdvertisementName</a></td>
+                            <td><a asp-controller="Message" asp-action="Chat" asp-route-conversationId="@Model[i].Id" class="conversation-page-element color-pink font-size-1-1rem">@Model[i].AdvertisementName</a></td>
 
                             <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].BuyerId" class="conversation-page-element color-pink">@Model[i].BuyerName</a></td>
                             <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].SellerId" class="conversation-page-element color-pink">@Model[i].SellerName</a></td>
