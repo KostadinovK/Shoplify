@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using Shoplify.Services.Models;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -7,8 +9,10 @@
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
+    using Shoplify.Services.Models.User;
     using Shoplify.Web.Data;
 
     public class UserService : IUserService
@@ -59,6 +63,127 @@
                 .Where(ff => ff.FollowingId == userId)
                 .Select(ff => ff.FollowerId)
                 .ToListAsync();
+        }
+
+        public async Task<bool> BanUserByIdAsync(string id)
+        {
+            var user = context.Users.SingleOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsBanned = true;
+            user.BannedOn = DateTime.UtcNow;
+
+            context.Users.Update(user);
+
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UnbanUserByIdAsync(string id)
+        {
+            var user = context.Users.SingleOrDefault(u => u.Id == id);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            user.IsBanned = false;
+            user.BannedOn = null;
+
+            context.Users.Update(user);
+
+            await context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> GetAllUserCountWithoutAdminAsync()
+        {
+            return await context.Users.CountAsync(u => u.UserName != GlobalConstants.AdminUserName);
+        }
+
+        public async Task<IEnumerable<UserServiceModel>> GetAllUsersWithoutAdminAsync(int page, int usersPerPage, string orderBy)
+        {
+            var users = context.Users
+                .Where(u => u.UserName != GlobalConstants.AdminUserName);
+
+            var orderedUsers = new List<User>();
+
+            if (orderBy == "nameDesc")
+            {
+                orderedUsers = await users
+                    .OrderByDescending(u => u.UserName)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+
+            }
+            else if (orderBy == "nameAsc")
+            {
+                orderedUsers = await users
+                    .OrderBy(a => a.UserName)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "dateAsc")
+            {
+                orderedUsers = await users
+                    .OrderBy(a => a.RegisteredOn)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "dateDesc")
+            {
+                orderedUsers = await users
+                    .OrderByDescending(a => a.RegisteredOn)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "bannedAsc")
+            {
+                orderedUsers = await users
+                    .OrderBy(a => a.IsBanned)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+            else if (orderBy == "bannedDesc")
+            {
+                orderedUsers = await users
+                    .OrderByDescending(a => a.IsBanned)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+            else
+            {
+                orderedUsers = await users
+                    .OrderByDescending(a => a.RegisteredOn)
+                    .Take(page * usersPerPage)
+                    .Skip((page - 1) * usersPerPage)
+                    .ToListAsync();
+            }
+
+            var result = orderedUsers.Select(u => new UserServiceModel
+            {
+                Id = u.Id,
+                IsBanned = u.IsBanned,
+                BannedOn = u.BannedOn.GetValueOrDefault().ToLocalTime(),
+                Username = u.UserName,
+                RegisteredOn = u.RegisteredOn
+            })
+                .ToList();
+
+            return result;
         }
     }
 }

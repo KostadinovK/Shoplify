@@ -1,4 +1,7 @@
-﻿namespace Shoplify.Tests.ServicesTests
+﻿using System;
+using Shoplify.Common;
+
+namespace Shoplify.Tests.ServicesTests
 {
     using System.Linq;
     using System.Threading.Tasks;
@@ -107,6 +110,179 @@
             var actualResult = userIds.Count();
 
             Assert.AreEqual(expectedResult, actualResult);
+        }
+
+        [Test]
+        public async Task BanUserByIdAsync_WithInvalidUserId_ShouldReturnFalse()
+        {
+            var userId = "invalid";
+
+            var result = await service.BanUserByIdAsync(userId);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public async Task BanUserByIdAsync_WithValidUserId_ShouldReturnFalse()
+        {
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+            var result = await service.BanUserByIdAsync(user.Id);
+
+            Assert.IsTrue(result);
+            Assert.IsTrue(user.IsBanned);
+        }
+        [Test]
+        public async Task UnbanUserByIdAsync_WithInvalidUserId_ShouldReturnFalse()
+        {
+            var userId = "invalid";
+
+            var result = await service.UnbanUserByIdAsync(userId);
+
+            Assert.IsFalse(result);
+        }
+
+        [Test]
+        public async Task UnbanUserByIdAsync_WithValidUserId_ShouldReturnFalse()
+        {
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = true,
+                BannedOn = DateTime.UtcNow,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
+
+            var result = await service.UnbanUserByIdAsync(user.Id);
+
+            Assert.IsTrue(result);
+            Assert.IsFalse(user.IsBanned);
+        }
+
+        [Test]
+        public async Task GetAllUserCountWithoutAdminAsync_ShouldReturnCorrectly()
+        {
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            var admin = new User
+            {
+                UserName = GlobalConstants.AdminUserName,
+                NormalizedUserName = "ADMIN",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.Users.AddAsync(admin);
+            await context.SaveChangesAsync();
+
+            var actualCount = await service.GetAllUserCountWithoutAdminAsync();
+            var expectedCount = 1;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllUsersWithoutAdminAsync_ShouldReturnCorrectly()
+        {
+            var orderBy = "nameAsc";
+
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            var user2 = new User
+            {
+                UserName = "asc",
+                NormalizedUserName = "ASC",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            var admin = new User
+            {
+                UserName = GlobalConstants.AdminUserName,
+                NormalizedUserName = "ADMIN",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.Users.AddAsync(user2);
+            await context.Users.AddAsync(admin);
+            await context.SaveChangesAsync();
+
+            var users = await service.GetAllUsersWithoutAdminAsync(1, 10, orderBy);
+            var actualCount = users.Count();
+            var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllUsersWithoutAdminAsync_ShouldReturnCorrectlyPages()
+        {
+            var page = 1;
+            var usersPerPage = 1;
+            var orderBy = "nameAsc";
+
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            var user2 = new User
+            {
+                UserName = "asc",
+                NormalizedUserName = "ASC",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            var admin = new User
+            {
+                UserName = GlobalConstants.AdminUserName,
+                NormalizedUserName = "ADMIN",
+                RegisteredOn = DateTime.UtcNow,
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.Users.AddAsync(user2);
+            await context.Users.AddAsync(admin);
+            await context.SaveChangesAsync();
+
+            var users = await service.GetAllUsersWithoutAdminAsync(page, usersPerPage, orderBy);
+            var actualCount = users.Count();
+            var expectedCount = usersPerPage;
+
+            Assert.AreEqual(expectedCount, actualCount);
         }
     }
 }

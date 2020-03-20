@@ -3,6 +3,7 @@
     public static class GlobalConstants
     {
         public const string AdministratorRoleName = "Admin";
+        public const string AdminUserName = "admin";
         public const int AdvertisementDurationDays = 30;
         public const char ImageUrlInDatabaseSeparator = '$';
 
