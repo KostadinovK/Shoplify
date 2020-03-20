@@ -72,10 +72,10 @@
 
             if (!unbanned)
             {
-                return Json("User Doesnt Exist!");
+                return Json($"Cannot Unban User with id: {userId}");
             }
 
-            return Json("User Unbanned Successful");
+            return Json($"User with Id: {userId} Unbanned Successful");
         }
 
         public async Task<IActionResult> Ban(string userId)
@@ -84,10 +84,10 @@
 
             if (!banned)
             {
-                return Json("User Doesnt Exist!");
+                return Json($"Cannot Ban User with id: {userId}");
             }
 
-            return Json("User Banned Successful");
+            return Json($"User with Id: {userId} Banned Successfully");
         }
     }
 }
