@@ -1,4 +1,7 @@
-﻿namespace Shoplify.Web.Areas.Administration.Controllers
+﻿using Shoplify.Services.Interfaces;
+using Shoplify.Web.Areas.Administration.ViewModels.Panel;
+
+namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Threading.Tasks;
 
@@ -10,9 +13,23 @@
     [Area("Administration")]
     public class PanelController : Controller
     {
+        private readonly IUserService userService;
+
+        public PanelController(IUserService userService)
+        {
+            this.userService = userService;
+        }
+
         public async Task<IActionResult> Index()
         {
-            return View();
+            var usersCount = await userService.GetAllUserCountWithoutAdminAsync();
+
+            var viewModel = new PanelViewModel
+            {
+                UsersCount = usersCount,
+            };
+
+            return View(viewModel);
         }
     }
 }
