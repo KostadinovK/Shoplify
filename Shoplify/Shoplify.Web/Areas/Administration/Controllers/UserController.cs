@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-
-namespace Shoplify.Web.Areas.Administration.Controllers
+﻿namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Shoplify.Common;
     using Shoplify.Services.Interfaces;
@@ -65,6 +64,30 @@ namespace Shoplify.Web.Areas.Administration.Controllers
             }
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Unban(string userId)
+        {
+            var unbanned = await userService.UnbanUserByIdAsync(userId);
+
+            if (!unbanned)
+            {
+                return Json("User Doesnt Exist!");
+            }
+
+            return Json("User Unbanned Successful");
+        }
+
+        public async Task<IActionResult> Ban(string userId)
+        {
+            var banned = await userService.BanUserByIdAsync(userId);
+
+            if (!banned)
+            {
+                return Json("User Doesnt Exist!");
+            }
+
+            return Json("User Banned Successful");
         }
     }
 }
