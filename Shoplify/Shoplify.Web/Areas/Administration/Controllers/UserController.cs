@@ -20,7 +20,7 @@
             this.userService = userService;
         }
 
-        public async Task<IActionResult> All(int page, string orderBy)
+        public async Task<IActionResult> All(int page = 1, string orderBy = "nameAsc")
         {
             if (page <= 0)
             {
@@ -68,26 +68,16 @@
 
         public async Task<IActionResult> Unban(string userId)
         {
-            var unbanned = await userService.UnbanUserByIdAsync(userId);
+            await userService.UnbanUserByIdAsync(userId);
 
-            if (!unbanned)
-            {
-                return Json($"Cannot Unban User with id: {userId}");
-            }
-
-            return Json($"User with Id: {userId} Unbanned Successful");
+            return RedirectToAction("All");
         }
 
         public async Task<IActionResult> Ban(string userId)
         {
-            var banned = await userService.BanUserByIdAsync(userId);
+           await userService.BanUserByIdAsync(userId);
 
-            if (!banned)
-            {
-                return Json($"Cannot Ban User with id: {userId}");
-            }
-
-            return Json($"User with Id: {userId} Banned Successfully");
+           return RedirectToAction("All");
         }
     }
 }

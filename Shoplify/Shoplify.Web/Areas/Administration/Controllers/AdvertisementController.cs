@@ -112,5 +112,25 @@
 
             return RedirectToAction("All");
         }
+
+        public async Task<IActionResult> UnPromote(string adId)
+        {
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            if (ad == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            await advertisementService.UnpromoteByIdAsync(ad.Id);
+
+            var notificationText = $"Your ad has been unpromoted by admin - {ad.Name}";
+            var actionLink = $"/Advertisement/Details?id={ad.Id}";
+
+            var notification = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUserAsync(notification.Id, ad.UserId);
+
+            return RedirectToAction("All");
+        }
     }
 }
