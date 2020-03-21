@@ -68,16 +68,16 @@ namespace Shoplify.Web.Areas.Administration.Controllers
                 viewModel.Ads.Add(new AdvertisementViewModel
                 {
                     Id = ad.Id,
-                    ArchivedOn = ad.ArchivedOn.ToLocalTime(),
-                    BannedOn = ad.BannedOn.ToLocalTime(),
-                    CreatedOn = ad.CreatedOn.ToLocalTime(),
+                    ArchivedOn = ad.ArchivedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    BannedOn = ad.BannedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
                     IsArchived = ad.IsArchived,
                     IsPromoted = ad.IsPromoted,
                     IsBanned = ad.IsBanned,
                     Name = ad.Name,
                     OwnerId = ad.UserId,
                     OwnerName = adOwner.UserName,
-                    PromotedUntil = ad.PromotedUntil.ToLocalTime(),
+                    PromotedUntil = ad.PromotedUntil.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
                     Views = ad.Views
                 });
             }

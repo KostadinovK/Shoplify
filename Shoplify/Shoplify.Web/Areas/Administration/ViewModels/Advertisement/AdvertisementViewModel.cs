@@ -14,18 +14,18 @@
 
         public int Views { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
         public bool IsArchived { get; set; }
 
-        public DateTime ArchivedOn { get; set; }
+        public string ArchivedOn { get; set; }
 
         public bool IsBanned { get; set; }
 
-        public DateTime BannedOn { get; set; }
+        public string BannedOn { get; set; }
 
         public bool IsPromoted { get; set; }
 
-        public DateTime PromotedUntil { get; set; }
+        public string PromotedUntil { get; set; }
     }
 }
