@@ -9,6 +9,7 @@
 
         public const int AdsOnPageCount = 6;
         public const int UsersOnPageCount = 10;
+        public const int AdsPerAdminPanelPageCount = 10;
 
         public const string DateTimeFormat = "dd/MM/yyyy hh:mm tt";
     }

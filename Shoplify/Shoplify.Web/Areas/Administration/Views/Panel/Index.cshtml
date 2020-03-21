@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-10 mx-auto mb-100">
             <div class="text-center mb-15">
-                <a class="btn btn-pink"><i class="fas fa-ad"></i> Ads: @Model.AdsCount</a>
+                <a asp-controller="Advertisement" asp-action="All" asp-route-page="1" class="btn btn-pink"><i class="fas fa-ad"></i> Ads: @Model.AdsCount</a>
             </div>
 
             <div class="text-center mb-15">
