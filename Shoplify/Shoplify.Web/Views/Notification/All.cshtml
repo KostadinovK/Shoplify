@@ -21,21 +21,23 @@
                     <tbody>
                         @for (var i = 0; i < Model.Count(); i++)
                         {
-                            <tr>
-                                <th scope="row">@Model[i].Text</th>
+                        <tr>
+                            <th scope="row" class="font-size-1-1rem">@Model[i].Text</th>
 
-                                <td>
-                                    <div class="button-holder">
-                                        <a href="@Model[i].ActionLink" class="btn btn-details">View</a>
-                                    </div>
-                                </td>
+                            <td class="font-size-1-1rem">@Model[i].CreatedOn</td>
 
-                                <td>
-                                    <div class="button-holder">
-                                        <a asp-controller="Notification" asp-action="Mark" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-nId="@Model[i].Id" class="btn btn-details">Mark As Read</a>
-                                    </div>
-                                </td>
-                            </tr>
+                            <td>
+                                <div class="button-holder">
+                                    <a href="@Model[i].ActionLink" class="btn btn-details">View</a>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="button-holder">
+                                    <a asp-controller="Notification" asp-action="Mark" asp-route-userId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-nId="@Model[i].Id" class="btn btn-details">Mark As Read</a>
+                                </div>
+                            </td>
+                        </tr>
                         }
 
                     </tbody>

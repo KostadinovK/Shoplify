@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Web.Controllers
+﻿using Shoplify.Common;
+
+namespace Shoplify.Web.Controllers
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -40,7 +42,8 @@
                 {
                     ActionLink = notification.ActionLink,
                     Id = notification.Id,
-                    Text = notification.Text
+                    Text = notification.Text,
+                    CreatedOn = notification.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
                 });
             }
 
