@@ -99,7 +99,7 @@
                         {
                             <td>
                                 <div class="button-holder">
-                                    <a asp-area="Administration" asp-controller="User" asp-action="Unban" asp-route-userId="@ad.Id" class="btn btn-info">UnArchive</a>
+                                    <a asp-area="Administration" asp-controller="Advertisement" asp-action="UnArchive" asp-route-adId="@ad.Id" class="btn btn-info">UnArchive</a>
                                 </div>
                             </td>
                         }
@@ -107,7 +107,7 @@
                         {
                             <td>
                                 <div class="button-holder">
-                                    <a asp-area="Administration" asp-controller="User" asp-action="Ban" asp-route-userId="@ad.Id" class="btn btn-info">Archive</a>
+                                    <a asp-area="Administration" asp-controller="Advertisement" asp-action="Archive" asp-route-adId="@ad.Id" class="btn btn-info">Archive</a>
                                 </div>
                             </td>
                         }
