@@ -164,5 +164,33 @@ namespace Shoplify.Web.Areas.Administration.Controllers
 
             return RedirectToAction("All");
         }
+
+        public async Task<IActionResult> UnBan(string adId)
+        {
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            if (ad == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            await advertisementService.UnbanByIdAsync(ad.Id);
+
+            var notificationText = $"Your ad has been unbanned by admin - '{ad.Name}'";
+            var actionLink = $"/User/Profile?id={ad.Id}";
+
+            var notificationToAdOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUserAsync(notificationToAdOwner.Id, ad.UserId);
+
+            notificationText = $"Ad in your wishlist has been unbanned by admin - '{ad.Name}'";
+            actionLink = $"/User/Wishlist";
+
+            var usersIds = await userAdWishlistService.GetAllUserIdsThatHaveAdInWishlistAsync(ad.Id);
+
+            var notificationToAllUsersThatHaveAdInWishlist = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUsersAsync(notificationToAllUsersThatHaveAdInWishlist.Id, usersIds.ToList());
+
+            return RedirectToAction("All");
+        }
     }
 }

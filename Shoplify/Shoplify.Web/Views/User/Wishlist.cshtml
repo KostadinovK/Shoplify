@@ -1,4 +1,5 @@
-﻿@using Shoplify.Common
+﻿@using System.Security.Claims
+@using Shoplify.Common
 @model Shoplify.Web.ViewModels.User.WishlistViewModel
 @{
     ViewData["Title"] = "Wishlist";
@@ -43,7 +44,7 @@
 
                     <td>
                         <div class="button-holder">
-                            <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@Model.Advertisements[i].Id" asp-route-returnUrl="@Url.Action("Profile", "User", new { })" class="btn btn-primary">Message</a>
+                            <a asp-controller="Conversation" asp-action="Create" asp-route-buyerId="@User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-sellerId="@Model.Advertisements[i].UserId" asp-route-adId="@Model.Advertisements[i].Id" asp-route-returnUrl="@Url.Action("Profile", "User", new { })" class="btn btn-primary">Message</a>
                         </div>
                     </td>
 
