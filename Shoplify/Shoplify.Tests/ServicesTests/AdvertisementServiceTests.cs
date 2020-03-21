@@ -1,4 +1,5 @@
-﻿using Shoplify.Services.Models.Advertisement;
+﻿using Shoplify.Common;
+using Shoplify.Services.Models.Advertisement;
 
 namespace Shoplify.Tests.ServicesTests
 {
@@ -847,6 +848,47 @@ namespace Shoplify.Tests.ServicesTests
         }
 
         [Test]
+        public void UnarchiveByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.UnarchiveByIdAsync("invalid"));
+        }
+
+        [Test]
+        public async Task UnarchiveByIdAsync_ShouldWorkCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                IsArchived = true,
+                ArchivedOn = DateTime.UtcNow,
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.UnarchiveByIdAsync(ad.Id);
+
+            var expectedArchivedDate = DateTime.UtcNow.AddDays(GlobalConstants.AdvertisementDurationDays).Date;
+            var actualArchivedDate = ad.ArchivedOn.GetValueOrDefault().Date;
+
+            Assert.IsFalse(ad.IsArchived);
+            Assert.AreEqual(expectedArchivedDate, actualArchivedDate);
+        }
+
+        [Test]
         public void PromoteByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
         {
             Assert.ThrowsAsync<ArgumentException>(async () => await service.PromoteByIdAsync("invalid", 7));
@@ -882,6 +924,119 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.IsTrue(ad.IsPromoted);
             Assert.AreEqual(expectedPromoteUntilDate, actualPromotedUntilDate);
+        }
+
+        [Test]
+        public void UnpromoteByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.UnpromoteByIdAsync("invalid"));
+        }
+
+        [TestCase(1)]
+        [TestCase(7)]
+        [TestCase(14)]
+        [TestCase(30)]
+        public async Task UnpromoteByIdAsync_ShouldWorkCorrectly(int days)
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.PromoteByIdAsync(ad.Id, days);
+
+            await service.UnpromoteByIdAsync(ad.Id);
+
+            Assert.IsFalse(ad.IsPromoted);
+        }
+
+        [Test]
+        public void BanByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.BanByIdAsync("invalid"));
+        }
+
+        [Test]
+        public async Task BanByIdAsync_ShouldWorkCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.BanByIdAsync(ad.Id);
+
+            var expectedArchivedDate = DateTime.UtcNow.Date;
+            var actualArchivedDate = ad.BannedOn.GetValueOrDefault().Date;
+
+            Assert.IsTrue(ad.IsBanned);
+            Assert.AreEqual(expectedArchivedDate, actualArchivedDate);
+        }
+
+        [Test]
+        public void UnbanByIdAsync_WithInvalidAdId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.UnbanByIdAsync("invalid"));
+        }
+
+        [Test]
+        public async Task UnbanByIdAsync_ShouldWorkCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                Images = new List<IFormFile>
+                {
+                    mockedFile
+                },
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var ad = await context.Advertisements.FirstOrDefaultAsync();
+
+            await service.BanByIdAsync(ad.Id);
+
+            await service.UnbanByIdAsync(ad.Id);
+
+            Assert.IsFalse(ad.IsBanned);
+            Assert.IsNull(ad.BannedOn);
         }
 
         [Test]
@@ -1264,6 +1419,153 @@ namespace Shoplify.Tests.ServicesTests
             var actualCount = await service.UnPromoteAllExpiredAdsAsync(date);
 
             var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllAdsCountAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var actualCount = await service.GetAllAdsCountAsync();
+            var expectedCount = 0;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllAdsCountAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var actualCount = await service.GetAllAdsCountAsync();
+            var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllAdsAsync_WithNoAds_ShouldReturnCorrectly()
+        {
+            var ads = await service.GetAllAdsAsync(1, 10);
+
+            var actualCount = ads.Count();
+            var expectedCount = 0;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllAdsAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var ads = await service.GetAllAdsAsync(1, 10);
+
+            var actualCount = ads.Count();
+            var expectedCount = 2;
+
+            Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetAllAdsAsync_WithAds_PaginationShouldWorkCorrectly()
+        {
+            var adsPerPage = 1;
+            var page = 1;
+
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var advertisement2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+            await service.CreateAsync(advertisement2);
+
+            var ads = await service.GetAllAdsAsync(page, adsPerPage);
+
+            var actualCount = ads.Count();
+            var expectedCount = 1;
 
             Assert.AreEqual(expectedCount, actualCount);
         }

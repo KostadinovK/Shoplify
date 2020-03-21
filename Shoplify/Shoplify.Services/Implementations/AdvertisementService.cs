@@ -447,6 +447,23 @@
             await context.SaveChangesAsync();
         }
 
+        public async Task UnarchiveByIdAsync(string id)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsArchived = false;
+            ad.ArchivedOn = DateTime.UtcNow.AddDays(GlobalConstants.AdvertisementDurationDays);
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task PromoteByIdAsync(string id, int days)
         {
             if (!Contains(id))
@@ -459,6 +476,59 @@
             ad.IsPromoted = true;
             ad.PromotedOn = DateTime.UtcNow;
             ad.PromotedUntil = ad.PromotedOn.GetValueOrDefault().AddDays(days);
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UnpromoteByIdAsync(string id)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsPromoted = false;
+            ad.PromotedOn = null;
+            ad.PromotedUntil = null;
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
+
+        //Also archivates the ad
+        public async Task BanByIdAsync(string id)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsBanned = true;
+            ad.BannedOn = DateTime.UtcNow;
+
+            context.Advertisements.Update(ad);
+
+            await context.SaveChangesAsync();
+        }
+
+        public async Task UnbanByIdAsync(string id)
+        {
+            if (!Contains(id))
+            {
+                throw new ArgumentException(InvalidAdId);
+            }
+
+            var ad = context.Advertisements.SingleOrDefault(a => a.Id == id);
+
+            ad.IsBanned = false;
+            ad.BannedOn = null;
 
             context.Advertisements.Update(ad);
 
@@ -571,6 +641,34 @@
             await context.SaveChangesAsync();
 
             return adsToUnPromote.Count;
+        }
+
+        public async Task<int> GetAllAdsCountAsync()
+        {
+            return await context.Advertisements.CountAsync();
+        }
+
+        public async Task<IEnumerable<AdvertisementViewByAdminViewModel>> GetAllAdsAsync(int page, int adsPerPage)
+        {
+            return await context.Advertisements
+                .OrderByDescending(a => a.CreatedOn)
+                .Select(a => new AdvertisementViewByAdminViewModel
+                {
+                    Id = a.Id,
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault(),
+                    BannedOn = a.BannedOn.GetValueOrDefault(),
+                    CreatedOn = a.CreatedOn,
+                    Name = a.Name,
+                    IsArchived = a.IsArchived,
+                    IsPromoted = a.IsPromoted,
+                    IsBanned = a.IsBanned,
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault(),
+                    UserId = a.UserId,
+                    Views = a.Views
+                })
+                .Take(page * adsPerPage)
+                .Skip((page - 1) * adsPerPage)
+                .ToListAsync();
         }
     }
 }

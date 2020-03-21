@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace Shoplify.Services.Interfaces
+﻿namespace Shoplify.Services.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -34,7 +33,15 @@ namespace Shoplify.Services.Interfaces
 
         Task ArchiveByIdAsync(string id);
 
+        Task UnarchiveByIdAsync(string id);
+
         Task PromoteByIdAsync(string id, int days);
+
+        Task UnpromoteByIdAsync(string id);
+
+        Task BanByIdAsync(string id);
+
+        Task UnbanByIdAsync(string id);
 
         Task IncrementViewsAsync(string id);
 
@@ -49,5 +56,9 @@ namespace Shoplify.Services.Interfaces
         Task<int> ArchiveAllExpiredAdsAsync(DateTime expirationDate);
 
         Task<int> UnPromoteAllExpiredAdsAsync(DateTime expirationDate);
+
+        Task<int> GetAllAdsCountAsync();
+
+        Task<IEnumerable<AdvertisementViewByAdminViewModel>> GetAllAdsAsync(int page, int adsPerPage);
     }
 }
