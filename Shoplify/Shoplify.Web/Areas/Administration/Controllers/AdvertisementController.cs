@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Web.Areas.Administration.Controllers
+﻿using System.Linq;
+
+namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -18,12 +20,14 @@
     {
         private readonly IAdvertisementService advertisementService;
         private readonly INotificationService notificationService;
+        private readonly IUserAdWishlistService userAdWishlistService;
         private readonly UserManager<User> userManager;
 
-        public AdvertisementController(IAdvertisementService advertisementService, INotificationService notificationService, UserManager<User> userManager)
+        public AdvertisementController(IAdvertisementService advertisementService, INotificationService notificationService, IUserAdWishlistService userAdWishlistService, UserManager<User> userManager)
         {
             this.userManager = userManager;
             this.notificationService = notificationService;
+            this.userAdWishlistService = userAdWishlistService;
             this.advertisementService = advertisementService;
         }
 
@@ -64,16 +68,16 @@
                 viewModel.Ads.Add(new AdvertisementViewModel
                 {
                     Id = ad.Id,
-                    ArchivedOn = ad.ArchivedOn,
-                    BannedOn = ad.BannedOn,
-                    CreatedOn = ad.CreatedOn,
+                    ArchivedOn = ad.ArchivedOn.ToLocalTime(),
+                    BannedOn = ad.BannedOn.ToLocalTime(),
+                    CreatedOn = ad.CreatedOn.ToLocalTime(),
                     IsArchived = ad.IsArchived,
                     IsPromoted = ad.IsPromoted,
                     IsBanned = ad.IsBanned,
                     Name = ad.Name,
                     OwnerId = ad.UserId,
                     OwnerName = adOwner.UserName,
-                    PromotedUntil = ad.PromotedUntil,
+                    PromotedUntil = ad.PromotedUntil.ToLocalTime(),
                     Views = ad.Views
                 });
             }
@@ -104,7 +108,7 @@
 
             await advertisementService.PromoteByIdAsync(ad.Id, days);
 
-            var notificationText = $"Your ad has been promoted for {days} days by admin - {ad.Name}";
+            var notificationText = $"Your ad has been promoted for {days} days by admin - '{ad.Name}'";
             var actionLink = $"/Advertisement/Details?id={ad.Id}";
 
             var notification = await notificationService.CreateNotificationAsync(notificationText, actionLink);
@@ -124,11 +128,39 @@
 
             await advertisementService.UnpromoteByIdAsync(ad.Id);
 
-            var notificationText = $"Your ad has been unpromoted by admin - {ad.Name}";
+            var notificationText = $"Your ad has been unpromoted by admin - '{ad.Name}'";
             var actionLink = $"/Advertisement/Details?id={ad.Id}";
 
             var notification = await notificationService.CreateNotificationAsync(notificationText, actionLink);
             await notificationService.AssignNotificationToUserAsync(notification.Id, ad.UserId);
+
+            return RedirectToAction("All");
+        }
+
+        public async Task<IActionResult> Ban(string adId)
+        {
+            var ad = await advertisementService.GetByIdAsync(adId);
+
+            if (ad == null)
+            {
+                return RedirectToAction("All");
+            }
+
+            await advertisementService.BanByIdAsync(ad.Id);
+
+            var notificationText = $"Your ad has been banned by admin - '{ad.Name}'";
+            var actionLink = $"/User/Profile?id={ad.Id}";
+
+            var notificationToAdOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUserAsync(notificationToAdOwner.Id, ad.UserId);
+
+            notificationText = $"Ad in your wishlist has been banned by admin - '{ad.Name}'";
+            actionLink = $"/User/Wishlist";
+
+            var usersIds = await userAdWishlistService.GetAllUserIdsThatHaveAdInWishlistAsync(ad.Id);
+
+            var notificationToAllUsersThatHaveAdInWishlist = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUsersAsync(notificationToAllUsersThatHaveAdInWishlist.Id, usersIds.ToList());
 
             return RedirectToAction("All");
         }
