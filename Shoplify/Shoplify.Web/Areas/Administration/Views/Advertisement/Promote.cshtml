@@ -1,0 +1,38 @@
+﻿@model Shoplify.Web.Areas.Administration.ViewModels.Advertisement.AdvertisementPromoteViewModel
+@{ 
+    ViewData["Title"] = "Promote Ad";
+}
+
+<div class="container-fluid margin-top-8rem">
+
+    <div class="row">
+        <div class="col-md-6 mx-auto mb-100">
+            <div class="login-form margin-top-2rem">
+                <h3 class="billing-title text-center">Promote Advertisement</h3>
+                <p class="text-center mt-80 mb-40">It will be among the first displayed ads </p>
+                <form method="post" asp-area="Administration" asp-controller="Advertisement" asp-action="Promote">
+                    <div class="form-group">
+                        <input name="Id" class="form-control common-input mt-20" style="display: none" value="@Model.Id" />
+                    </div>
+
+                    <div class="form-group row mt-20 align-items-center margin-bottom-4rem">
+                        <div class="form-select col-md-12">
+                            <select name="Days" class="border">
+                                <option value="0" disabled selected>Select Promotion Days</option>
+                                <option value="1">One day</option>
+                                <option value="7">One week</option>
+                                <option value="14">Two weeks</option>
+                                <option value="30">One Month</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4 mx-auto">
+                        <button type="submit" class="btn view-btn btn-pink color-2 mt-20 w-100"><span>Promote</span></button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
