@@ -91,6 +91,7 @@
             var usersNotifications =
                 await context.UsersNotifications.Where(un =>
                         un.UserId == userId && un.IsRead == false)
+                    .OrderByDescending(n => n.Notification.CreatedOn)
                     .ToListAsync();
 
             var result = new List<NotificationServiceModel>();
