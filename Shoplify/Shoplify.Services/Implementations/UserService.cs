@@ -1,6 +1,4 @@
-﻿using Shoplify.Services.Models;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -17,6 +15,8 @@ namespace Shoplify.Services.Implementations
 
     public class UserService : IUserService
     {
+        private const string NoAdminErrorMessage = "No Admin found";
+
         private readonly ShoplifyDbContext context;
 
         public UserService(ShoplifyDbContext context)
@@ -184,6 +184,19 @@ namespace Shoplify.Services.Implementations
                 .ToList();
 
             return result;
+        }
+
+        public async Task<string> GetAdminIdAsync()
+        {
+            var admin = await context.Users
+                .SingleOrDefaultAsync(u => u.UserName == GlobalConstants.AdminUserName);
+
+            if (admin == null)
+            {
+                throw new InvalidOperationException(NoAdminErrorMessage);
+            }
+
+            return admin.Id;
         }
     }
 }

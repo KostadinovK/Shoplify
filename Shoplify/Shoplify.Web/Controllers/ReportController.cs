@@ -20,13 +20,15 @@ namespace Shoplify.Web.Controllers
         private readonly IReportService reportService;
         private readonly INotificationService notificationService;
         private readonly UserManager<User> userManager;
+        private readonly IUserService userService;
 
-        public ReportController(IAdvertisementService advertisementService, IReportService reportService, INotificationService notificationService, UserManager<User> userManager)
+        public ReportController(IAdvertisementService advertisementService, IReportService reportService, INotificationService notificationService, UserManager<User> userManager, IUserService userService)
         {
             this.advertisementService = advertisementService;
             this.reportService = reportService;
             this.notificationService = notificationService;
             this.userManager = userManager;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Create(string adId)
@@ -68,8 +70,13 @@ namespace Shoplify.Web.Controllers
             var actionLink = $"Advertisement/Details?id={reportedAd.Id}";
 
             var notification = await notificationService.CreateNotificationAsync(notificationText, actionLink);
-
             await notificationService.AssignNotificationToUserAsync(notification.Id, input.ReportedUserId);
+
+            notificationText = $"{reportingUser.UserName} reported an ads - {reportedAd.Name} because of '{input.Description}'";
+            actionLink = $"/Administration/Report/All";
+
+            var notificationToAdmin = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+            await notificationService.AssignNotificationToUserAsync(notificationToAdmin.Id, await userService.GetAdminIdAsync());
 
             return Redirect($"/Advertisement/Details?id={input.ReportedAdvertisementId}");
         }

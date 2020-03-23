@@ -22,5 +22,7 @@
         Task<int> GetAllUserCountWithoutAdminAsync();
 
         Task<IEnumerable<UserServiceModel>> GetAllUsersWithoutAdminAsync(int page, int usersPerPage, string orderBy);
+
+        Task<string> GetAdminIdAsync();
     }
 }
