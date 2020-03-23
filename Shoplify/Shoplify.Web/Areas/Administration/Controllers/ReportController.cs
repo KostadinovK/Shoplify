@@ -1,6 +1,7 @@
 ﻿namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -81,6 +82,41 @@
             }
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Approve(string reportId)
+        {
+            var report = await reportService.GetByIdAsync(reportId);
+            var ad = await advertisementService.GetByIdAsync(report.ReportedAdvertisementId);
+            var adOwner = await userManager.FindByIdAsync(report.ReportedUserId);
+            var reportOwner = await userManager.FindByIdAsync(report.ReportingUserId);
+
+            var success = await reportService.ApproveByIdAsync(report.Id);
+
+            if (success)
+            {
+                var notificationText = $"Your report has been approved by admin for ad - '{ad.Name}'";
+                var actionLink = $"/Advertisement/Details?id={ad.Id}";
+
+                var notificationToReportOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+                await notificationService.AssignNotificationToUserAsync(notificationToReportOwner.Id, reportOwner.Id);
+
+                notificationText = $"Ad in your wishlist has been banned by admin - '{ad.Name}'";
+                actionLink = $"/User/Wishlist";
+
+                var usersIds = await userAdWishlistService.GetAllUserIdsThatHaveAdInWishlistAsync(ad.Id);
+
+                var notificationToAllUsersThatHaveAdInWishlist = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+                await notificationService.AssignNotificationToUsersAsync(notificationToAllUsersThatHaveAdInWishlist.Id, usersIds.ToList());
+
+                notificationText = $"Your Ad has been reported and approved by admin - '{ad.Name}' is banned because of {report.Description}";
+                actionLink = $"/User/BannedAds";
+
+                var notificationToAdOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+                await notificationService.AssignNotificationToUserAsync(notificationToAdOwner.Id, adOwner.Id);
+            }
+
+            return RedirectToAction("All");
         }
     }
 }

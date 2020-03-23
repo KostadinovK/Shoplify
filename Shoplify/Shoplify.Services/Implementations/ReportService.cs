@@ -14,6 +14,8 @@
 
     public class ReportService : IReportService
     {
+        private const string InvalidIdErrorMesage = "Report with this id does not exist!";
+
         private readonly ShoplifyDbContext context;
         private readonly IAdvertisementService advertisementService;
 
@@ -109,6 +111,26 @@
                 .Take(page * reportsPerPage)
                 .Skip((page - 1) * reportsPerPage)
                 .ToListAsync();
+        }
+
+        public async Task<ReportViewServiceModel> GetByIdAsync(string id)
+        {
+            var report = await context.Reports.SingleOrDefaultAsync(r => r.Id == id);
+
+            if (report == null)
+            {
+                throw new ArgumentException(InvalidIdErrorMesage);
+            }
+
+            return new ReportViewServiceModel
+            {
+                Id = report.Id,
+                CreatedOn = report.ReportedOn.ToLocalTime(),
+                Description = report.Description,
+                ReportedAdvertisementId = report.ReportedAdvertisementId,
+                ReportingUserId = report.ReportingUserId,
+                ReportedUserId = report.ReportedUserId
+            };
         }
     }
 }

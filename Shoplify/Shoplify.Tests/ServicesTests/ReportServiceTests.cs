@@ -339,5 +339,32 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
+
+        [Test]
+        public async Task GetByIdAsync_WithInvalidId_ShouldThrowArgumentException()
+        {
+            Assert.ThrowsAsync<ArgumentException>(async () => await service.GetByIdAsync("invalid"));
+        }
+
+        [Test]
+        public async Task GetByIdAsync_WithValidId_ShouldReturnCorrectly()
+        {
+            var report = new Report
+            {
+                ReportedAdvertisementId = "ad",
+                ReportingUserId = "reporting",
+                ReportedUserId = "reported",
+                Description = "test"
+            };
+
+            await context.AddAsync(report);
+            await context.SaveChangesAsync();
+
+            var reportFromDb = await context.Reports.FirstOrDefaultAsync();
+
+            var result = await service.GetByIdAsync(reportFromDb.Id);
+
+            Assert.IsNotNull(result);
+        }
     }
 }

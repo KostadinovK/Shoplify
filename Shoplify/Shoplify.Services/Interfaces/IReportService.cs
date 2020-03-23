@@ -19,5 +19,7 @@ namespace Shoplify.Services.Interfaces
         Task<int> GetAllUnArchivedCountAsync();
 
         Task<IEnumerable<ReportViewServiceModel>> GetAllUnArchivedAsync(int page, int reportsPerPage);
+
+        Task<ReportViewServiceModel> GetByIdAsync(string id);
     }
 }
