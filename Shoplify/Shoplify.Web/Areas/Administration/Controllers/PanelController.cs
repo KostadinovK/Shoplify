@@ -14,22 +14,26 @@
     {
         private readonly IUserService userService;
         private readonly IAdvertisementService advertisementService;
+        private readonly IReportService reportService;
 
-        public PanelController(IUserService userService, IAdvertisementService advertisementService)
+        public PanelController(IUserService userService, IAdvertisementService advertisementService, IReportService reportService)
         {
             this.userService = userService;
             this.advertisementService = advertisementService;
+            this.reportService = reportService;
         }
 
         public async Task<IActionResult> Index()
         {
             var usersCount = await userService.GetAllUserCountWithoutAdminAsync();
             var adsCount = await advertisementService.GetAllAdsCountAsync();
+            var reportsCount = await reportService.GetAllUnArchivedCountAsync();
 
             var viewModel = new PanelViewModel
             {
                 UsersCount = usersCount,
-                AdsCount = adsCount
+                AdsCount = adsCount,
+                ReportsCount = reportsCount
             };
 
             return View(viewModel);

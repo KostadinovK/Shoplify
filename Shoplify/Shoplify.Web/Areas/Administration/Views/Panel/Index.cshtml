@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Admin Panel";
 }
-<div class="container-fluid margin-top-4rem">
+<div class="container margin-top-4rem">
     <div class="row">
         <div class="col-md-10 mx-auto text-center mb-15">
             <h1 class="margin-bottom-2rem">Admin Panel</h1>
@@ -19,7 +19,7 @@
             </div>
 
             <div class="text-center mb-15">
-                <a href="/User/Wishlist?page=1" class="btn btn-pink"><i class="fas fa-flag"></i> Reports: @Model.ReportsCount</a>
+                <a asp-controller="Report" asp-action="All" asp-route-page="1" class="btn btn-pink"><i class="fas fa-flag"></i> Reports: @Model.ReportsCount</a>
             </div>
 
             <h2 class="text-center margin-top-4rem margin-bottom-2rem">Charts</h2>
