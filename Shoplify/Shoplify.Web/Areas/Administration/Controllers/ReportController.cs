@@ -109,11 +109,31 @@
                 var notificationToAllUsersThatHaveAdInWishlist = await notificationService.CreateNotificationAsync(notificationText, actionLink);
                 await notificationService.AssignNotificationToUsersAsync(notificationToAllUsersThatHaveAdInWishlist.Id, usersIds.ToList());
 
-                notificationText = $"Your Ad has been reported and approved by admin - '{ad.Name}' is banned because of {report.Description}";
+                notificationText = $"Your Ad has been reported and approved by admin - '{ad.Name}' is banned because of '{report.Description}'";
                 actionLink = $"/User/BannedAds";
 
                 var notificationToAdOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
                 await notificationService.AssignNotificationToUserAsync(notificationToAdOwner.Id, adOwner.Id);
+            }
+
+            return RedirectToAction("All");
+        }
+
+        public async Task<IActionResult> Reject(string reportId)
+        {
+            var report = await reportService.GetByIdAsync(reportId);
+            var ad = await advertisementService.GetByIdAsync(report.ReportedAdvertisementId);
+            var reportOwner = await userManager.FindByIdAsync(report.ReportingUserId);
+
+            var success = await reportService.RejectByIdAsync(report.Id);
+
+            if (success)
+            {
+                var notificationText = $"Your report has been rejected by admin for ad - '{ad.Name}'";
+                var actionLink = $"/Advertisement/Details?id={ad.Id}";
+
+                var notificationToReportOwner = await notificationService.CreateNotificationAsync(notificationText, actionLink);
+                await notificationService.AssignNotificationToUserAsync(notificationToReportOwner.Id, reportOwner.Id);
             }
 
             return RedirectToAction("All");
