@@ -1,8 +1,7 @@
-﻿using System.Linq;
-
-namespace Shoplify.Web.Areas.Administration.Controllers
+﻿namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;

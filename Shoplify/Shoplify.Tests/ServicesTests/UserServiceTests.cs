@@ -123,7 +123,7 @@ namespace Shoplify.Tests.ServicesTests
         }
 
         [Test]
-        public async Task BanUserByIdAsync_WithValidUserId_ShouldReturnFalse()
+        public async Task BanUserByIdAsync_WithValidUserId_ShouldReturnTrue()
         {
             var user = new User
             {
@@ -141,6 +141,7 @@ namespace Shoplify.Tests.ServicesTests
             Assert.IsTrue(result);
             Assert.IsTrue(user.IsBanned);
         }
+
         [Test]
         public async Task UnbanUserByIdAsync_WithInvalidUserId_ShouldReturnFalse()
         {
@@ -152,7 +153,7 @@ namespace Shoplify.Tests.ServicesTests
         }
 
         [Test]
-        public async Task UnbanUserByIdAsync_WithValidUserId_ShouldReturnFalse()
+        public async Task UnbanUserByIdAsync_WithValidUserId_ShouldReturnTrue()
         {
             var user = new User
             {

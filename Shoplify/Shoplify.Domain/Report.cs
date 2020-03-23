@@ -30,8 +30,6 @@
         [Required]
         public DateTime ReportedOn { get; set; }
 
-        public bool IsApprovedByAdmin { get; set; }
-
-        public DateTime? ApprovedOn { get; set; }
+        public bool IsArchived { get; set; }
     }
 }
