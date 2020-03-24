@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Shoplify.Web.Areas.Administration.Controllers
+﻿namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -65,8 +63,6 @@ namespace Shoplify.Web.Areas.Administration.Controllers
                 });
             }
 
-            await userService.GetNewUsersCountFromThisWeekAsync(DateTime.UtcNow);
-
             return View(viewModel);
         }
 
@@ -82,6 +78,13 @@ namespace Shoplify.Web.Areas.Administration.Controllers
            await userService.BanUserByIdAsync(userId);
 
            return RedirectToAction("All");
+        }
+
+        public async Task<IActionResult> RegisteredThisWeek()
+        {
+            var userCountsByDays = await userService.GetNewUsersCountByDaysFromThisWeekAsync();
+
+            return Json(userCountsByDays);
         }
     }
 }
