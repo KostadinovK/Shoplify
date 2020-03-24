@@ -1,4 +1,5 @@
 ﻿using Shoplify.Common;
+using Shoplify.Domain;
 using Shoplify.Services.Models.Advertisement;
 
 namespace Shoplify.Tests.ServicesTests
@@ -1725,6 +1726,116 @@ namespace Shoplify.Tests.ServicesTests
                 else if (kvp.Key == yesterdayDate.DayOfWeek.ToString())
                 {
                     expectedCount = 2;
+                }
+                else
+                {
+                    expectedCount = 0;
+                }
+
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetAdsCountByCategoriesAsync_WithNoAdsAtAll_ShouldReturnCorrectly()
+        {
+            Dictionary<string, int> adsCountByCategories = await service.GetAdsCountByCategoriesAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in adsCountByCategories)
+            {
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetAdsCountByCategoriesAsync_WithAds_ShouldReturnCorrectly()
+        {
+            var electronics = new Category
+            {
+                Name = "Electronics",
+            };
+
+            var home = new Category
+            {
+                Name = "Home",
+            };
+
+            var fashion = new Category
+            {
+                Name = "Fashion",
+            };
+
+            await context.Categories.AddAsync(electronics);
+            await context.Categories.AddAsync(home);
+            await context.Categories.AddAsync(fashion);
+            await context.SaveChangesAsync();
+
+            var electronicsAd = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = electronics.Id,
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var electronicsAd2 = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = electronics.Id,
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var homeAd = new AdvertisementCreateServiceModel()
+            {
+                Name = "ad",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = home.Id,
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(electronicsAd);
+            await service.CreateAsync(electronicsAd2);
+            await service.CreateAsync(homeAd);
+
+
+            Dictionary<string, int> adsCountCategories = await service.GetAdsCountByCategoriesAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in adsCountCategories)
+            {
+                if (kvp.Key == electronics.Name)
+                {
+                    expectedCount = 2;
+                }
+                else if (kvp.Key == home.Name)
+                {
+                    expectedCount = 1;
                 }
                 else
                 {

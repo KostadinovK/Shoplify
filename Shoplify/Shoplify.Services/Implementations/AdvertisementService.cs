@@ -694,5 +694,26 @@
 
             return result;
         }
+
+        public async Task<Dictionary<string, int>> GetAdsCountByCategoriesAsync()
+        {
+            var result = new Dictionary<string, int>();
+
+            var categories = await context.Advertisements
+                .Select(a => a.Category.Name)
+                .ToListAsync();
+
+            foreach (var category in categories)
+            {
+                if (!result.ContainsKey(category))
+                {
+                    result[category] = 0;
+                }
+
+                result[category]++;
+            }
+
+            return result;
+        }
     }
 }

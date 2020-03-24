@@ -91,6 +91,13 @@
             return Json(adsCountByDays);
         }
 
+        public async Task<IActionResult> CountByCategories()
+        {
+            var adsCountByCategories = await advertisementService.GetAdsCountByCategoriesAsync();
+
+            return Json(adsCountByCategories);
+        }
+
         public IActionResult Promote(string adId)
         {
             if (!advertisementService.Contains(adId))

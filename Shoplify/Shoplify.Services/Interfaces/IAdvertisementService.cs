@@ -62,5 +62,7 @@
         Task<IEnumerable<AdvertisementViewByAdminViewModel>> GetAllAdsAsync(int page, int adsPerPage);
 
         Task<Dictionary<string, int>> GetNewAdsCountByDaysFromThisWeekAsync();
+
+        Task<Dictionary<string, int>> GetAdsCountByCategoriesAsync();
     }
 }
