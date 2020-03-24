@@ -670,5 +670,29 @@
                 .Skip((page - 1) * adsPerPage)
                 .ToListAsync();
         }
+
+        public async Task<Dictionary<string, int>> GetNewAdsCountByDaysFromThisWeekAsync()
+        {
+            var todayDate = DateTime.UtcNow;
+            var startOfWeek = todayDate.AddDays(-6);
+
+            var result = new Dictionary<string, int>();
+
+            for (int i = 0; i < 7; i++)
+            {
+                result.Add(startOfWeek.AddDays(i).DayOfWeek.ToString(), 0);
+            }
+
+            var daysOfWeek = await context.Advertisements.Where(a => a.CreatedOn >= startOfWeek && a.CreatedOn <= todayDate)
+                .Select(a => a.CreatedOn.DayOfWeek.ToString())
+                .ToListAsync();
+
+            foreach (var day in daysOfWeek)
+            {
+                result[day]++;
+            }
+
+            return result;
+        }
     }
 }

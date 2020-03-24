@@ -1569,5 +1569,172 @@ namespace Shoplify.Tests.ServicesTests
 
             Assert.AreEqual(expectedCount, actualCount);
         }
+
+        [Test]
+        public async Task GetNewAdsCountByDaysFromThisWeekAsync_WithNoAdsAtAll_ShouldReturnCorrectly()
+        {
+            Dictionary<string, int> adsCountByDays = await service.GetNewAdsCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in adsCountByDays)
+            {
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetNewAdsCountByDaysFromThisWeekAsync_WithNoAdsThisWeek_ShouldReturnCorrectly()
+        {
+            var advertisement = new AdvertisementCreateServiceModel()
+            {
+                Name = "OnePlus 7 Pro",
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(advertisement);
+
+            var adFromDb = await context.Advertisements.FirstOrDefaultAsync();
+            adFromDb.CreatedOn = DateTime.UtcNow.AddDays(-10);
+
+            context.Advertisements.Update(adFromDb);
+            await context.SaveChangesAsync();
+
+            Dictionary<string, int> adsCountByDays = await service.GetNewAdsCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in adsCountByDays)
+            {
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetNewAdsCountByDaysFromThisWeekAsync_WithAdsThisWeek_ShouldReturnCorrectly()
+        {
+            var oldAdName = "oldAd";
+            var newAdName = "newAd";
+            var newAdName2 = "newAd2";
+            var newAdName3 = "newAd3";
+
+            var todayDate = DateTime.UtcNow;
+            var yesterdayDate = todayDate.AddDays(-1);
+
+            var oldAd = new AdvertisementCreateServiceModel()
+            {
+                Name = oldAdName,
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var newAd = new AdvertisementCreateServiceModel()
+            {
+                Name = newAdName,
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var newAd2 = new AdvertisementCreateServiceModel()
+            {
+                Name = newAdName2,
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            var newAd3 = new AdvertisementCreateServiceModel()
+            {
+                Name = newAdName3,
+                Description = "cool phone for everyday use, excellent performance",
+                Price = 800,
+                Condition = ProductCondition.New,
+                CategoryId = "Electronics",
+                SubCategoryId = "Phone",
+                TownId = "testTownId",
+                Address = "str nqkoq",
+                Number = "telefonce",
+                UserId = "test"
+            };
+
+            await service.CreateAsync(oldAd);
+            await service.CreateAsync(newAd);
+            await service.CreateAsync(newAd2);
+            await service.CreateAsync(newAd3);
+
+            var oldAdFromDb = await context.Advertisements.SingleOrDefaultAsync(a => a.Name == oldAdName);
+            oldAdFromDb.CreatedOn = todayDate.AddDays(-10);
+            context.Advertisements.Update(oldAdFromDb);
+
+            var newAdFromDb = await context.Advertisements.SingleOrDefaultAsync(a => a.Name == newAdName);
+            newAdFromDb.CreatedOn = todayDate;
+            context.Advertisements.Update(newAdFromDb);
+
+            var newAd2FromDb = await context.Advertisements.SingleOrDefaultAsync(a => a.Name == newAdName2);
+            newAd2FromDb.CreatedOn = yesterdayDate;
+            context.Advertisements.Update(newAd2FromDb);
+
+            var newAd3FromDb = await context.Advertisements.SingleOrDefaultAsync(a => a.Name == newAdName3);
+            newAd3FromDb.CreatedOn = yesterdayDate;
+            context.Advertisements.Update(newAd3FromDb);
+
+            await context.SaveChangesAsync();
+
+            Dictionary<string, int> adsCountByDays = await service.GetNewAdsCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in adsCountByDays)
+            {
+                if (kvp.Key == todayDate.DayOfWeek.ToString())
+                {
+                    expectedCount = 1;
+                }
+                else if (kvp.Key == yesterdayDate.DayOfWeek.ToString())
+                {
+                    expectedCount = 2;
+                }
+                else
+                {
+                    expectedCount = 0;
+                }
+
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
     }
 }
