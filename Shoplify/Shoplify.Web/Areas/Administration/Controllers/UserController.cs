@@ -65,6 +65,12 @@
 
             return View(viewModel);
         }
+        public async Task<IActionResult> RegisteredThisWeek()
+        {
+            var userCountsByDays = await userService.GetNewUsersCountByDaysFromThisWeekAsync();
+
+            return Json(userCountsByDays);
+        }
 
         public async Task<IActionResult> Unban(string userId)
         {
@@ -78,13 +84,6 @@
            await userService.BanUserByIdAsync(userId);
 
            return RedirectToAction("All");
-        }
-
-        public async Task<IActionResult> RegisteredThisWeek()
-        {
-            var userCountsByDays = await userService.GetNewUsersCountByDaysFromThisWeekAsync();
-
-            return Json(userCountsByDays);
         }
     }
 }

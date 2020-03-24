@@ -1,7 +1,6 @@
-﻿
-displayUsersCountChart('usersChart');
+﻿displayUsersCountChart('usersChart');
+displayAdsCountChart('adsChart');
 
-let adsCtx = document.getElementById('adsChart');
 let categoriesCtx = document.getElementById('adCategoriesChart');
 
 let categoriesData = {
@@ -31,12 +30,6 @@ let categoriesData = {
     }]
 };
 
-let adsChart = new Chart(adsCtx, {
-    type: 'line',
-    data: adsData,
-    options: options
-});
-
 var categoriesChart = new Chart(categoriesCtx, {
     type: 'doughnut',
     data: categoriesData,
@@ -52,6 +45,29 @@ async function displayUsersCountChart(contextId) {
     let data = await getUsersCountDataAsync();
 
     displayLineChart(contextId, '# of new Users', data);
+}
+
+async function displayAdsCountChart(contextId) {
+
+    let data = await getAdsCountDataAsync();
+
+    displayLineChart(contextId, '# of new Ads', data);
+}
+
+async function getUsersCountDataAsync() {
+    let response = await fetch(`/Administration/User/RegisteredThisWeek`);
+
+    let data = await response.json();
+
+    return data;
+}
+
+async function getAdsCountDataAsync() {
+    let response = await fetch(`/Administration/Advertisement/CreatedThisWeek`);
+
+    let data = await response.json();
+
+    return data;
 }
 
 function displayLineChart(contextId, label, data) {
@@ -103,12 +119,4 @@ function displayLineChart(contextId, label, data) {
         },
         options
     });
-}
-
-async function getUsersCountDataAsync() {
-    let response = await fetch(`/Administration/User/RegisteredThisWeek`);
-
-    let data = await response.json();
-
-    return data;
 }

@@ -84,6 +84,13 @@
             return View(viewModel);
         }
 
+        public async Task<IActionResult> CreatedThisWeek()
+        {
+            var adsCountByDays = await advertisementService.GetNewAdsCountByDaysFromThisWeekAsync();
+
+            return Json(adsCountByDays);
+        }
+
         public IActionResult Promote(string adId)
         {
             if (!advertisementService.Contains(adId))
