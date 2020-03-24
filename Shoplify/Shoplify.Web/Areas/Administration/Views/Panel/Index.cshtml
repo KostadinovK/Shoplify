@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Admin Panel";
 }
-<div class="container margin-top-4rem">
+<div class="margin-top-4rem">
     <div class="row">
         <div class="col-md-10 mx-auto text-center mb-15">
             <h1 class="margin-bottom-2rem">Admin Panel</h1>
@@ -23,6 +23,26 @@
             </div>
 
             <h2 class="text-center margin-top-4rem margin-bottom-2rem">Charts</h2>
+
+            <div class="charts-wrapper">
+                <div class="users-chart-wrapper">
+                    <h2>Users Registered Last Week</h2>
+                    <canvas id="usersChart" width="400" height="400"></canvas>
+                </div>
+                
+                <div class="ads-chart-wrapper">
+                    <h2>Ads Posted Last Week</h2>
+                    <canvas id="adsChart" width="400" height="400"></canvas>
+                </div>
+                <div class="ads-chart-wrapper margin-top-4rem">
+                    <h2>Ads By Category</h2>
+                    <canvas id="adCategoriesChart" class="mx-auto" width="500" height="500"></canvas>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/charts.js" asp-append-version="true"></script>
+}
