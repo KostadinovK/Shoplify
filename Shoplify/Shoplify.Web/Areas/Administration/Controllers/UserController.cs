@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Web.Areas.Administration.Controllers
+﻿using System;
+
+namespace Shoplify.Web.Areas.Administration.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -62,6 +64,8 @@
                     Username = user.Username
                 });
             }
+
+            await userService.GetNewUsersCountFromThisWeekAsync(DateTime.UtcNow);
 
             return View(viewModel);
         }

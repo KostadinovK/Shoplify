@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Shoplify.Common;
 
 namespace Shoplify.Tests.ServicesTests
@@ -284,6 +285,124 @@ namespace Shoplify.Tests.ServicesTests
             var expectedCount = usersPerPage;
 
             Assert.AreEqual(expectedCount, actualCount);
+        }
+
+        [Test]
+        public async Task GetNewUsersCountByDaysFromThisWeekAsync_WithNoUsersAtAll_ShouldReturnCorrectly()
+        {
+            Dictionary<string, int> usersCountByDays = await service.GetNewUsersCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in usersCountByDays)
+            {
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetNewUsersCountByDaysFromThisWeekAsync_WithNoUsersThisWeek_ShouldReturnCorrectly()
+        {
+            var user = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow.AddDays(-10),
+                IsBanned = false,
+            };
+
+            var user2 = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = DateTime.UtcNow.AddDays(-7),
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(user);
+            await context.Users.AddAsync(user2);
+            await context.SaveChangesAsync();
+
+            Dictionary<string, int> usersCountByDays = await service.GetNewUsersCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in usersCountByDays)
+            {
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+        }
+
+        [Test]
+        public async Task GetNewUsersCountByDaysFromThisWeekAsync_WithUsersThisWeek_ShouldReturnCorrectly()
+        {
+            var todayDate = DateTime.UtcNow;
+            var yesterdayDate = todayDate.AddDays(-1);
+
+            var oldUser = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = todayDate.AddDays(-10),
+                IsBanned = false,
+            };
+
+            var newUser = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = todayDate,
+                IsBanned = false,
+            };
+
+            var newUser2 = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = yesterdayDate,
+                IsBanned = false,
+            };
+
+            var newUser3 = new User
+            {
+                UserName = "test",
+                NormalizedUserName = "TEST",
+                RegisteredOn = yesterdayDate,
+                IsBanned = false,
+            };
+
+            await context.Users.AddAsync(oldUser);
+            await context.Users.AddAsync(newUser);
+            await context.Users.AddAsync(newUser2);
+            await context.Users.AddAsync(newUser3);
+            await context.SaveChangesAsync();
+
+            Dictionary<string, int> usersCountByDays = await service.GetNewUsersCountByDaysFromThisWeekAsync();
+
+            var expectedCount = 0;
+
+            foreach (var kvp in usersCountByDays)
+            {
+                if (kvp.Key == todayDate.DayOfWeek.ToString())
+                {
+                    expectedCount = 1;
+                }else if (kvp.Key == yesterdayDate.DayOfWeek.ToString())
+                {
+                    expectedCount = 2;
+                }
+                else
+                {
+                    expectedCount = 0;
+                }
+
+                var actualCount = kvp.Value;
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
         }
     }
 }

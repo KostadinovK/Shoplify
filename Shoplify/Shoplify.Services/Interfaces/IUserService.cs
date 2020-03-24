@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Interfaces
+﻿using System;
+
+namespace Shoplify.Services.Interfaces
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -24,5 +26,7 @@
         Task<IEnumerable<UserServiceModel>> GetAllUsersWithoutAdminAsync(int page, int usersPerPage, string orderBy);
 
         Task<string> GetAdminIdAsync();
+
+        Task<Dictionary<string, int>> GetNewUsersCountByDaysFromThisWeekAsync();
     }
 }

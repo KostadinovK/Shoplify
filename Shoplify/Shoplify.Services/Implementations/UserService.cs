@@ -1,4 +1,6 @@
-﻿namespace Shoplify.Services.Implementations
+﻿using Microsoft.JSInterop.Infrastructure;
+
+namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;
@@ -197,6 +199,30 @@
             }
 
             return admin.Id;
+        }
+
+        public async Task<Dictionary<string, int>> GetNewUsersCountByDaysFromThisWeekAsync()
+        {
+            var todayDate = DateTime.UtcNow;
+            var startOfWeek = todayDate.AddDays(-6);
+
+            var result = new Dictionary<string, int>();
+
+            for (int i = 0; i < 7; i++)
+            {
+                result.Add(startOfWeek.AddDays(i).DayOfWeek.ToString(), 0);
+            }
+
+            var daysOfWeek = await context.Users.Where(u => u.RegisteredOn >= startOfWeek && u.RegisteredOn <= todayDate)
+                .Select(u => u.RegisteredOn.DayOfWeek.ToString())
+                .ToListAsync();
+
+            foreach (var day in daysOfWeek)
+            {
+                result[day]++;
+            }
+
+            return result;
         }
     }
 }
