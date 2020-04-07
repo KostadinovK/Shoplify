@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -21,6 +22,7 @@
     <link rel="stylesheet" href="~/css/fileUploader.css" />
 
     <script src="https://kit.fontawesome.com/9b8ef0615f.js" crossorigin="anonymous"></script>
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     <!-- Start Header Area -->

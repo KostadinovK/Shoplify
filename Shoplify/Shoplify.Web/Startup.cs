@@ -80,6 +80,7 @@ namespace Shoplify.Web
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IConversationService, ConversationService>();
             services.AddTransient<IMessageService, MessageService>();
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
