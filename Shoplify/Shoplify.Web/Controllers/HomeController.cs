@@ -1,18 +1,20 @@
 ﻿namespace Shoplify.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
+    using Microsoft.ApplicationInsights;
     using Microsoft.AspNetCore.Mvc;
     using Models;
     using Shoplify.Services.Interfaces;
 
     public class HomeController : Controller
     {
-        private IAdvertisementService advertisementService;
+        private readonly IAdvertisementService advertisementService;
 
-        public HomeController(IAdvertisementService advertisementService)
+        public HomeController(IAdvertisementService advertisementService, TelemetryClient telemetryClient)
         {
             this.advertisementService = advertisementService;
         }
@@ -24,6 +26,11 @@
             await advertisementService.ArchiveAllExpiredAdsAsync(date);
             await advertisementService.UnPromoteAllExpiredAdsAsync(date);
 
+            return View();
+        }
+
+        public IActionResult PageNotFound()
+        {
             return View();
         }
 
