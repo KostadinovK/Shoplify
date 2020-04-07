@@ -1,9 +1,7 @@
 ﻿namespace Shoplify.Web.ViewModels.Town
 {
-    using Shoplify.Services.Mapping;
-    using Shoplify.Services.Models;
 
-    public class TownDropdownViewModel : IMapFrom<TownServiceModel>, IMapTo<TownServiceModel>
+    public class TownDropdownViewModel
     {
         public string Id { get; set; }
 

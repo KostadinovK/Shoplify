@@ -1,6 +1,4 @@
-﻿using Shoplify.Services.Mapping;
-
-namespace Shoplify.Services.Implementations
+﻿namespace Shoplify.Services.Implementations
 {
     using System;
     using System.Collections.Generic;

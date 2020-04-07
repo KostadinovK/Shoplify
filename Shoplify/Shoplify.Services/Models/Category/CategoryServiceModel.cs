@@ -1,9 +1,6 @@
 ﻿namespace Shoplify.Services.Models
 {
-    using Shoplify.Domain;
-    using Shoplify.Services.Mapping;
-
-    public class CategoryServiceModel : IMapFrom<Category>, IMapTo<Category>
+    public class CategoryServiceModel
     {
         public string Id { get; set; }
 

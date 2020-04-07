@@ -4,7 +4,6 @@ namespace Shoplify.Web
 {
     using System.Reflection;
 
-    using AutoMapper;
     using CloudinaryDotNet;
     using Data;
     using Domain;
@@ -17,7 +16,6 @@ namespace Shoplify.Web
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Services.EmailSender;
-    using Services.Mapping;
     using Shoplify.Services.Implementations;
     using Shoplify.Services.Interfaces;
     using Shoplify.Services.Models;
@@ -64,7 +62,6 @@ namespace Shoplify.Web
             services.AddSingleton(cloudinaryUtility);
             services.AddSignalR();
             services.AddControllersWithViews();
-            services.AddAutoMapper(typeof(Startup));
             services.AddRazorPages();
 
             services.AddTransient<IEmailSender, EmailSender>();
@@ -86,10 +83,6 @@ namespace Shoplify.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AutoMapperConfig.RegisterMappings(
-                typeof(ErrorViewModel).GetTypeInfo().Assembly,
-                typeof(CategoryServiceModel).GetTypeInfo().Assembly);
-
             using var serviceScope = app.ApplicationServices.CreateScope();
 
             using var context = serviceScope.ServiceProvider.GetRequiredService<ShoplifyDbContext>();
