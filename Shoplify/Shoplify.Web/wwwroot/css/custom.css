@@ -50,13 +50,19 @@
     padding: 0;
 }
 
-li.nav-item:hover {
-    background-color: rgb(244, 16, 104);
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    margin-right: 1rem;
 }
 
-li.nav-item:hover a {
-    color: rgb(255, 255, 255);
-}
+    .navbar-light .navbar-nav .nav-link:hover {
+        color: rgb(255, 255, 255);
+        border: 1px solid rgb(244, 16, 104);
+        border-radius: 20px;
+        background-color: rgb(244, 16, 104);
+    }
 
 .categories-wrapper {
     padding: 4rem;
