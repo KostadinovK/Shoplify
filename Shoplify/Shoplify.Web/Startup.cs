@@ -52,6 +52,12 @@ namespace Shoplify.Web
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ShoplifyDbContext>();
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
             Account cloudinaryCredentials = new Account(
                 this.Configuration["Cloudinary:CloudName"],
                 this.Configuration["Cloudinary:ApiKey"],
