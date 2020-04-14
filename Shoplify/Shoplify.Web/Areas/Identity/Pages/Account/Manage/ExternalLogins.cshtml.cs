@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Shoplify.Domain;
-using Shoplify.Web.Areas.Identity.Data;
-
-namespace Shoplify.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace Shoplify.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Shoplify.Domain;
+
     public class ExternalLoginsModel : PageModel
     {
         private readonly UserManager<User> _userManager;
