@@ -9,18 +9,18 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" title="Manage">Hello @User.Identity.Name!</a>
+            <a class="nav-link" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" title="Manage">Hello @User.Identity.Name!</a>
         </li>
 
         @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
         {
             <li class="nav-item">
-                <a asp-area="Administration" asp-controller="Panel" asp-action="Index" class="nav-link text-dark" title="Manage">Admin Panel</a>
+                <a asp-area="Administration" asp-controller="Panel" asp-action="Index" class="nav-link" title="Manage">Admin Panel</a>
             </li>
         }
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="All">
+            <a class="nav-link" asp-area="" asp-controller="Notification" asp-action="All">
                 <i class="fas fa-bell btn-pink" style="font-size: 1.2rem;"></i>
                 <span class="badge badge-light ml-1" id="notificationsCount" style="font-size: 1.2rem;">0</span>
                 <input value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" style="display: none" id="userId" />
@@ -29,7 +29,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Conversation" asp-action="All">
+            <a class="nav-link" asp-area="" asp-controller="Conversation" asp-action="All">
                 <i class="fas fa-inbox btn-pink" style="font-size: 1.2rem;"></i>
                 <span class="badge badge-light ml-1" id="conversationsCount" style="font-size: 1.2rem;">0</span>
                 <script src="~/js/conversations.js"></script>
@@ -37,21 +37,21 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Advertisement" asp-action="Create">Create Advertisement</a>
+            <a class="nav-link" asp-area="" asp-controller="Advertisement" asp-action="Create">Create Advertisement</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <a class="nav-link text-dark" id="logoutButton" onmouseover="this.style.cursor = 'pointer';" onclick="this.closest('form').submit();return false;">Logout</a>
+                <a class="nav-link" id="logoutButton" onmouseover="this.style.cursor = 'pointer';" onclick="this.closest('form').submit();return false;">Logout</a>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
 </ul>
