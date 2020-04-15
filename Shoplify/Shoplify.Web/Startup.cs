@@ -1,3 +1,4 @@
+using System;
 using Shoplify.Web.Hubs;
 
 namespace Shoplify.Web
@@ -32,7 +33,7 @@ namespace Shoplify.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public async void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ShoplifyDbContext>(options =>
                 options.UseSqlServer(
@@ -58,6 +59,12 @@ namespace Shoplify.Web
                 this.Configuration["Cloudinary:ApiSecret"]);
 
             Cloudinary cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Facebook:AppSecret"];
+            });
 
             services.AddSingleton(cloudinaryUtility);
             services.AddSignalR();
