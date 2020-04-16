@@ -12,7 +12,7 @@
         <div class="row">
             @foreach (var ad in Model)
             {
-                <div class="col-lg-3 col-md-6 single-product">
+                <div class="col-lg-3 col-md-6 single-product element-with-date">
                     <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@ad.Id">
                         <div class="content">
                             <div class="content-overlay"></div>
@@ -31,8 +31,8 @@
                             {
                                 <p>@ad.Address</p>
                             }
-
-                            <p><i class="fas fa-clock"></i> @ad.CreatedOn</p>
+                            <input style="display: none" type="text" class="utc-date" value="@ad.CreatedOn" />
+                            <p class="local-date"><i class="fas fa-clock"></i></p>
                             <h3>$@ad.Price</h3>
                         </div>
                     </a>
@@ -42,3 +42,6 @@
         </div>
     </div>
 </section>
+
+
+

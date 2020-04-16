@@ -160,7 +160,7 @@
                     Address = a.Address,
                     CategoryId = a.CategoryId,
                     Condition = a.Condition,
-                    CreatedOn = a.CreatedOn.ToLocalTime(),
+                    CreatedOn = a.CreatedOn,
                     Description = a.Description,
                     Id = a.Id,
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -171,12 +171,12 @@
                     UserId = a.UserId,
                     Price = a.Price,
                     IsArchived = a.IsArchived,
-                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault(),
                     IsBanned = a.IsBanned,
-                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    BannedOn = a.BannedOn.GetValueOrDefault(),
                     IsPromoted = a.IsPromoted,
-                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    PromotedOn = a.PromotedOn.GetValueOrDefault(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault(),
                     Views = a.Views
             })
                 .ToList();
@@ -234,7 +234,7 @@
                 Address = a.Address,
                 CategoryId = a.CategoryId,
                 Condition = a.Condition,
-                CreatedOn = a.CreatedOn.ToLocalTime(),
+                CreatedOn = a.CreatedOn,
                 Description = a.Description,
                 Id = a.Id,
                 Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -245,12 +245,12 @@
                 UserId = a.UserId,
                 Price = a.Price,
                 IsArchived = a.IsArchived,
-                ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                ArchivedOn = a.ArchivedOn.GetValueOrDefault(),
                 IsBanned = a.IsBanned,
-                BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                BannedOn = a.BannedOn.GetValueOrDefault(),
                 IsPromoted = a.IsPromoted,
-                PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                PromotedOn = a.PromotedOn.GetValueOrDefault(),
+                PromotedUntil = a.PromotedUntil.GetValueOrDefault(),
                 Views = a.Views
             })
                 .ToList();
@@ -308,7 +308,7 @@
                     Address = a.Address,
                     CategoryId = a.CategoryId,
                     Condition = a.Condition,
-                    CreatedOn = a.CreatedOn.ToLocalTime(),
+                    CreatedOn = a.CreatedOn,
                     Description = a.Description,
                     Id = a.Id,
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -319,12 +319,12 @@
                     UserId = a.UserId,
                     Price = a.Price,
                     IsArchived = a.IsArchived,
-                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault(),
                     IsBanned = a.IsBanned,
-                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    BannedOn = a.BannedOn.GetValueOrDefault(),
                     IsPromoted = a.IsPromoted,
-                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    PromotedOn = a.PromotedOn.GetValueOrDefault(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault(),
                     Views = a.Views
             })
                 .ToList();
@@ -345,7 +345,7 @@
                     Address = a.Address,
                     CategoryId = a.CategoryId,
                     Condition = a.Condition,
-                    CreatedOn = a.CreatedOn.ToLocalTime(),
+                    CreatedOn = a.CreatedOn,
                     Description = a.Description,
                     Id = a.Id,
                     Images = a.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -356,12 +356,12 @@
                     UserId = a.UserId,
                     Price = a.Price,
                     IsArchived = a.IsArchived,
-                    ArchivedOn = a.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                    ArchivedOn = a.ArchivedOn.GetValueOrDefault(),
                     IsBanned = a.IsBanned,
-                    BannedOn = a.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    BannedOn = a.BannedOn.GetValueOrDefault(),
                     IsPromoted = a.IsPromoted,
-                    PromotedOn = a.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                    PromotedUntil = a.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                    PromotedOn = a.PromotedOn.GetValueOrDefault(),
+                    PromotedUntil = a.PromotedUntil.GetValueOrDefault(),
                     Views = a.Views
             })
                 .ToList();
@@ -406,7 +406,7 @@
                 Address = ad.Address,
                 CategoryId = ad.CategoryId,
                 Condition = ad.Condition,
-                CreatedOn = ad.CreatedOn.ToLocalTime(),
+                CreatedOn = ad.CreatedOn,
                 Description = ad.Description,
                 Id = ad.Id,
                 Images = ad.Images.Split(GlobalConstants.ImageUrlInDatabaseSeparator).ToList(),
@@ -417,12 +417,12 @@
                 UserId = ad.UserId,
                 Price = ad.Price,
                 IsArchived = ad.IsArchived,
-                ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                ArchivedOn = ad.ArchivedOn.GetValueOrDefault(),
                 IsBanned = ad.IsBanned,
-                BannedOn = ad.BannedOn.GetValueOrDefault().ToLocalTime(),
+                BannedOn = ad.BannedOn.GetValueOrDefault(),
                 IsPromoted = ad.IsPromoted,
-                PromotedOn = ad.PromotedOn.GetValueOrDefault().ToLocalTime(),
-                PromotedUntil = ad.PromotedUntil.GetValueOrDefault().ToLocalTime(),
+                PromotedOn = ad.PromotedOn.GetValueOrDefault(),
+                PromotedUntil = ad.PromotedUntil.GetValueOrDefault(),
                 Views = ad.Views
             };
         }
@@ -560,14 +560,14 @@
                 new AdvertisementViewServiceModel
                 {
                     CategoryId = ad.CategoryId,
-                    CreatedOn = ad.CreatedOn.ToLocalTime(),
+                    CreatedOn = ad.CreatedOn,
                     Id = ad.Id,
                     SubCategoryId = ad.SubCategoryId,
                     Name = ad.Name,
                     UserId = ad.UserId,
                     Price = ad.Price,
                     IsBanned = ad.IsBanned,
-                    BannedOn = ad.BannedOn.GetValueOrDefault().ToLocalTime(),
+                    BannedOn = ad.BannedOn.GetValueOrDefault(),
                 })
                 .Take(page * GlobalConstants.AdsOnPageCount)
                 .Skip((page - 1) * GlobalConstants.AdsOnPageCount)
@@ -590,14 +590,14 @@
                     new AdvertisementViewServiceModel
                     {
                         CategoryId = ad.CategoryId,
-                        CreatedOn = ad.CreatedOn.ToLocalTime(),
+                        CreatedOn = ad.CreatedOn,
                         Id = ad.Id,
                         SubCategoryId = ad.SubCategoryId,
                         Name = ad.Name,
                         UserId = ad.UserId,
                         Price = ad.Price,
                         IsArchived = ad.IsArchived,
-                        ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime(),
+                        ArchivedOn = ad.ArchivedOn.GetValueOrDefault(),
                     })
                 .Take(page * GlobalConstants.AdsOnPageCount)
                 .Skip((page - 1) * GlobalConstants.AdsOnPageCount)

@@ -21,10 +21,14 @@
                     <tbody>
                         @for (var i = 0; i < Model.Count(); i++)
                         {
-                        <tr>
+                        <tr class="element-with-date">
                             <th scope="row" class="font-size-1-1rem">@Model[i].Text</th>
-
-                            <td class="font-size-1-1rem">@Model[i].CreatedOn</td>
+                            
+                            <td class="d-none">
+                                <input style="display: none" type="text" class="utc-date" value="@Model[i].CreatedOn" />
+                            </td>
+                            
+                            <td class="font-size-1-1rem local-date">@Model[i].CreatedOn</td>
 
                             <td>
                                 <div class="button-holder">

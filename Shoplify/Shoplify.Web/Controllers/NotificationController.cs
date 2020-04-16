@@ -43,7 +43,7 @@ namespace Shoplify.Web.Controllers
                     ActionLink = notification.ActionLink,
                     Id = notification.Id,
                     Text = notification.Text,
-                    CreatedOn = notification.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+                    CreatedOn = notification.CreatedOn.ToString(GlobalConstants.DateTimeFormat)
                 });
             }
 

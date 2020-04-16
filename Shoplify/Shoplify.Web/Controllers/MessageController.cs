@@ -70,7 +70,7 @@
                 viewModel.Messages.Add(new MessageViewModel
                 {
                     SenderName = sender.UserName,
-                    SendOn = message.SendOn.ToString(GlobalConstants.JsDateTimeFormat),
+                    SendOn = message.SendOn.ToString(GlobalConstants.DateTimeFormat),
                     Text = message.Text
                 });
             }
@@ -91,7 +91,7 @@
             {
                 Text = message.Text,
                 SenderName = sender.UserName,
-                SendOn = message.SendOn.ToString(GlobalConstants.JsDateTimeFormat)
+                SendOn = message.SendOn.ToString(GlobalConstants.DateTimeFormat)
             };
 
             await hubContext.Clients.User(inputModel.ReceiverId)

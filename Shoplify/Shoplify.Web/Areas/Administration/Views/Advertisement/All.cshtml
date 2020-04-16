@@ -40,12 +40,23 @@
                             <a class="color-pink font-size-1-1rem" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@ad.OwnerId">@ad.OwnerName</a>
                         </td>
                         <td class="font-size-1-1rem">@ad.Views</td>
-                        <td>@ad.CreatedOn</td>
-                        <td>@ad.ArchivedOn</td>
+
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@ad.CreatedOn" />
+                            <p class="local-date">@ad.CreatedOn</p>
+                        </td>
+                        
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@ad.ArchivedOn" />
+                            <p class="local-date">@ad.ArchivedOn</p>
+                        </td>
 
                         @if (ad.IsBanned)
                         {
-                            <td>@ad.BannedOn</td>
+                            <td class="element-with-date">
+                                <input style="display: none" type="text" class="utc-date" value="@ad.BannedOn" />
+                                <p class="local-date">@ad.BannedOn</p>
+                            </td>
                         }
                         else
                         {
@@ -54,7 +65,10 @@
 
                         @if (ad.IsPromoted)
                         {
-                            <td>@ad.PromotedUntil</td>
+                            <td class="element-with-date">
+                                <input style="display: none" type="text" class="utc-date" value="@ad.PromotedUntil" />
+                                <p class="local-date">@ad.PromotedUntil</p>
+                            </td>
                         }
                         else
                         {

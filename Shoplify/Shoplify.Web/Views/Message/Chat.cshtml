@@ -12,7 +12,7 @@
             {
                 if (message.SenderName == User.Identity.Name)
                 {
-                    <div class="media w-50 ml-auto mb-3 message">
+                    <div class="media w-50 ml-auto mb-3 element-with-date">
                         <div class="media-body">
                             <p class="small text-muted">Me</p>
                             <div class="btn-pink rounded py-2 px-3 mb-2">
@@ -21,13 +21,13 @@
                             <p class="small text-muted local-date">@message.SendOn</p>
                         </div>
                         <div style="display: none">
-                            <input type="text" class="utc-date" value="@message.SendOn UTC"/>
+                            <input type="text" class="utc-date" value="@message.SendOn"/>
                         </div>
                     </div>
                 }
                 else
                 {
-                    <div class="media w-50 mb-3 message">
+                    <div class="media w-50 mb-3 element-with-date">
                         <div class="media-body ml-3">
                             <p class="small text-muted">@message.SenderName</p>
                             <div class="bg-light rounded py-2 px-3 mb-2">
@@ -36,7 +36,7 @@
                             <p class="small text-muted local-date">@message.SendOn</p>
                         </div>
                         <div style="display: none">
-                            <input type="text" class="utc-date" value="@message.SendOn UTC"/>
+                            <input type="text" class="utc-date" value="@message.SendOn"/>
                         </div>
                     </div>
                 }
@@ -61,5 +61,4 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js" asp-append-version="true"></script>
     <script type="module" src="~/js/signalRConnection.js" asp-append-version="true"></script>
     <script src="~/js/sendMessage.js" asp-append-version="true"></script>
-    <script src="~/js/convertDate.js"></script>
 }

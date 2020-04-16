@@ -179,7 +179,7 @@ namespace Shoplify.Services.Implementations
             {
                 Id = u.Id,
                 IsBanned = u.IsBanned,
-                BannedOn = u.BannedOn.GetValueOrDefault().ToLocalTime(),
+                BannedOn = u.BannedOn.GetValueOrDefault(),
                 Username = u.UserName,
                 RegisteredOn = u.RegisteredOn
             })

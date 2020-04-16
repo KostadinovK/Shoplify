@@ -55,10 +55,10 @@
             {
                 viewModel.Users.Add(new UserViewModel
                 {
-                    BannedOn = user.BannedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    BannedOn = user.BannedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = user.Id,
                     IsBanned = user.IsBanned,
-                    RegisteredOn = user.RegisteredOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    RegisteredOn = user.RegisteredOn.ToString(GlobalConstants.DateTimeFormat),
                     Username = user.Username
                 });
             }

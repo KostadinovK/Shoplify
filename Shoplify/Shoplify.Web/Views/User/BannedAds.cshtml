@@ -31,19 +31,27 @@
                     }
                         @for (var i = 0; i < Model.Advertisements.Count; i++)
                         {
-                            <tr>
-                                <th scope="row">@Model.Advertisements[i].Name</th>
-                                <td>@Model.Advertisements[i].Price</td>
-                                <td>@Model.Advertisements[i].Category</td>
-                                <td>@Model.Advertisements[i].CreatedOn</td>
-                                <td>@Model.Advertisements[i].BannedOn</td>
+                    <tr>
+                        <th scope="row">@Model.Advertisements[i].Name</th>
+                        <td>@Model.Advertisements[i].Price</td>
+                        <td>@Model.Advertisements[i].Category</td>
 
-                                <td>
-                                    <div class="button-holder">
-                                        <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@Model.Advertisements[i].Id" asp-route-returnUrl="@Url.Action("Profile", "User", new {})" class="btn btn-details">Details</a>
-                                    </div>
-                                </td>
-                            </tr>
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].CreatedOn" />
+                            <p class="local-date">@Model.Advertisements[i].CreatedOn</p>
+                        </td>
+                        
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].BannedOn" />
+                            <p class="local-date">@Model.Advertisements[i].BannedOn</p>
+                        </td>
+
+                        <td>
+                            <div class="button-holder">
+                                <a asp-controller="Advertisement" asp-action="Details" asp-route-id="@Model.Advertisements[i].Id" asp-route-returnUrl="@Url.Action("Profile", "User", new {})" class="btn btn-details">Details</a>
+                            </div>
+                        </td>
+                    </tr>
                         }
 
                     </tbody>

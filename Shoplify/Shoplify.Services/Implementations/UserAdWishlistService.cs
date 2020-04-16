@@ -75,7 +75,7 @@ namespace Shoplify.Services.Implementations
             var result = ads.Select(a => new AdvertisementViewServiceModel
             {
                 CategoryId = a.CategoryId,
-                CreatedOn = a.CreatedOn.ToLocalTime(),
+                CreatedOn = a.CreatedOn,
                 Id = a.Id,
                 SubCategoryId = a.SubCategoryId,
                 Name = a.Name,

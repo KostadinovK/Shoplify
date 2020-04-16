@@ -43,7 +43,11 @@
                         </td>
 
                         <td class="font-size-1-1rem">@report.Description</td>
-                        <td class="font-size-1-1rem">@report.CreatedOn</td>
+                        
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@report.CreatedOn" />
+                            <p class="local-date">@report.CreatedOn</p>
+                        </td>
 
 
                         <td>

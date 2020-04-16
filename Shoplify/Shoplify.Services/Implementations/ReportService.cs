@@ -102,7 +102,7 @@
                     new ReportViewServiceModel
                     {
                         Id = r.Id,
-                        CreatedOn = r.ReportedOn.ToLocalTime(),
+                        CreatedOn = r.ReportedOn,
                         Description = r.Description,
                         ReportedAdvertisementId = r.ReportedAdvertisementId,
                         ReportedUserId = r.ReportedUserId,
@@ -125,7 +125,7 @@
             return new ReportViewServiceModel
             {
                 Id = report.Id,
-                CreatedOn = report.ReportedOn.ToLocalTime(),
+                CreatedOn = report.ReportedOn,
                 Description = report.Description,
                 ReportedAdvertisementId = report.ReportedAdvertisementId,
                 ReportingUserId = report.ReportingUserId,

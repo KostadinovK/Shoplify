@@ -50,12 +50,24 @@
                         <th scope="row">@Model.Advertisements[i].Name</th>
                         <td>@Model.Advertisements[i].Price</td>
                         <td>@Model.Advertisements[i].CategoryName -> @Model.Advertisements[i].SubCategoryName</td>
-                        <td>@Model.Advertisements[i].CreatedOn</td>
-                        <td>@Model.Advertisements[i].ArchivedOn</td>
+
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].CreatedOn" />
+                            <p class="local-date">@Model.Advertisements[i].CreatedOn</p>
+                        </td>
+                        
+                        <td class="element-with-date">
+                            <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].ArchivedOn" />
+                            <p class="local-date">@Model.Advertisements[i].ArchivedOn</p>
+                        </td>
+
                         <td>@Model.Advertisements[i].Views</td>
                         @if (Model.Advertisements[i].IsPromoted)
                         {
-                            <td>@Model.Advertisements[i].PromotedUntil</td>
+                            <td class="element-with-date">
+                                <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].PromotedUntil" />
+                                <p class="local-date">@Model.Advertisements[i].PromotedUntil</p>
+                            </td>
                         }
                         else
                         {

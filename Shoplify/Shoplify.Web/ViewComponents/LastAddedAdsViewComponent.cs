@@ -7,11 +7,9 @@
 
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Shoplify.Common;
     using Shoplify.Domain;
     using Shoplify.Services.Interfaces;
-    using Shoplify.Web.ViewModels.Category;
-    using Shoplify.Web.ViewModels.CategoryAndSubCategory;
-    using Shoplify.Web.ViewModels.SubCategory;
 
     public class LastAddedAdsViewComponent : ViewComponent
     {
@@ -56,7 +54,7 @@
                 {
                     Address = ad.Address,
                     CategoryName = category.Name,
-                    CreatedOn = ad.CreatedOn.ToString("dd/MM/yyyy hh:mm tt"),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,

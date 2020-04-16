@@ -30,12 +30,15 @@
                     <tbody>
                         @for (var i = 0; i < Model.Count(); i++)
                         {
-                        <tr>
+                        <tr class="element-with-date">
                             <td><a asp-controller="Message" asp-action="Chat" asp-route-conversationId="@Model[i].Id" class="conversation-page-element color-pink font-size-1-1rem">@Model[i].AdvertisementName</a></td>
 
                             <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].BuyerId" class="conversation-page-element color-pink">@Model[i].BuyerName</a></td>
                             <td><a asp-controller="User" asp-action="Profile" asp-route-id="@Model[i].SellerId" class="conversation-page-element color-pink">@Model[i].SellerName</a></td>
-                            <td>@Model[i].StartedOn</td>
+                            <td class="d-none">
+                                <input style="display: none" type="text" class="utc-date" value="@Model[i].StartedOn" />
+                            </td>
+                            <td class="local-date">@Model[i].StartedOn</td>
 
                             <td>
                                 <div class="button-holder">

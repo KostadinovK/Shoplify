@@ -87,7 +87,7 @@
                 viewModel.Advertisements.Add(new WishlistAdViewModel
                 {
                     Category = $"{category.Name} -> {subCategoryName.Name}",
-                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
@@ -381,11 +381,11 @@
                 viewModel.Advertisements.Add(new BannedAdViewModel
                 {
                     Category = $"{category.Name} -> {subCategoryName.Name}",
-                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
-                    BannedOn = ad.BannedOn.GetValueOrDefault().ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+                    BannedOn = ad.BannedOn.GetValueOrDefault().ToString(GlobalConstants.DateTimeFormat)
                 });
             }
 
@@ -432,11 +432,11 @@
                 viewModel.Advertisements.Add(new ArchivedAdViewModel
                 {
                     Category = $"{category.Name} -> {subCategoryName.Name}",
-                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     Id = ad.Id,
                     Name = ad.Name,
                     Price = ad.Price,
-                    ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+                    ArchivedOn = ad.ArchivedOn.GetValueOrDefault().ToString(GlobalConstants.DateTimeFormat)
                 });
             }
 

@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="quick-view-content">
+                <div class="quick-view-content element-with-date">
 
                     <div class="top">
                         <h3 class="head">@Model.Name</h3>
@@ -61,7 +61,8 @@
                     <div class="middle">
                         <p><i class="fas fa-map-marker-alt"></i> @Model.TownName</p>
                         <p>@Model.Address</p>
-                        <p><i class="fas fa-clock"></i> @Model.CreatedOn</p>
+                        <input style="display: none" type="text" class="utc-date" value="@Model.CreatedOn" />
+                        <p class="local-date"><i class="fas fa-clock"></i> @Model.CreatedOn</p>
                     </div>
 
                     @if (Model.UserId != ViewData["loggedUserId"].ToString())

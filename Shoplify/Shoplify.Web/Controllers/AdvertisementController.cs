@@ -325,7 +325,7 @@
                 CategoryId = category.Id,
                 SubCategoryId = ad.SubCategoryId,
                 SubCategoryName = subCategoryName,
-                CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                 Description = ad.Description,
                 UserId = ad.UserId,
                 Username = user.UserName,

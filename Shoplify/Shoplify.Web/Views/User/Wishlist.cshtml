@@ -29,12 +29,17 @@
 
                     @for (var i = 0; i < Model.Advertisements.Count; i++)
                     {
-                <tr>
+                <tr class="element-with-date">
                     <th scope="row">@Model.Advertisements[i].Name</th>
                     <td>@Model.Advertisements[i].Price</td>
                     <td>@Model.Advertisements[i].Category</td>
                     <td>@Model.Advertisements[i].UserName</td>
-                    <td>@Model.Advertisements[i].CreatedOn</td>
+                    
+                    <td class="d-none">
+                        <input style="display: none" type="text" class="utc-date" value="@Model.Advertisements[i].CreatedOn" />
+                    </td>
+
+                    <td class="local-date">@Model.Advertisements[i].CreatedOn</td>
 
                     <td>
                         <div class="button-holder">

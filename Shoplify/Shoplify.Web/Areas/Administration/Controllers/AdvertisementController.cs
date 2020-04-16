@@ -67,16 +67,16 @@
                 viewModel.Ads.Add(new AdvertisementViewModel
                 {
                     Id = ad.Id,
-                    ArchivedOn = ad.ArchivedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
-                    BannedOn = ad.BannedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
-                    CreatedOn = ad.CreatedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    ArchivedOn = ad.ArchivedOn.ToString(GlobalConstants.DateTimeFormat),
+                    BannedOn = ad.BannedOn.ToString(GlobalConstants.DateTimeFormat),
+                    CreatedOn = ad.CreatedOn.ToString(GlobalConstants.DateTimeFormat),
                     IsArchived = ad.IsArchived,
                     IsPromoted = ad.IsPromoted,
                     IsBanned = ad.IsBanned,
                     Name = ad.Name,
                     OwnerId = ad.UserId,
                     OwnerName = adOwner.UserName,
-                    PromotedUntil = ad.PromotedUntil.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                    PromotedUntil = ad.PromotedUntil.ToString(GlobalConstants.DateTimeFormat),
                     Views = ad.Views
                 });
             }

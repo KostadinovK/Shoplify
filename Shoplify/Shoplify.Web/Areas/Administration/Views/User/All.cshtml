@@ -42,10 +42,18 @@
                             <th scope="row">
                                 <a class="color-pink font-size-1-1rem" asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@user.Id">@user.Username</a>
                             </th>
-                            <td class="font-size-1-1rem">@user.RegisteredOn</td>
+                            
+                            <td class="element-with-date">
+                                <input style="display: none" type="text" class="utc-date" value="@user.RegisteredOn" />
+                                <p class="local-date">@user.RegisteredOn</p>
+                            </td>
+
                             @if (user.IsBanned)
                             {
-                                <td class="font-size-1-1rem">@user.BannedOn</td>
+                                <td class="element-with-date">
+                                    <input style="display: none" type="text" class="utc-date" value="@user.BannedOn" />
+                                    <p class="local-date">@user.BannedOn</p>
+                                </td>
 
                                 <td>
                                     <div class="button-holder">

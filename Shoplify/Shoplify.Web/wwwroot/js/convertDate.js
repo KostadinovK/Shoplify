@@ -1,11 +1,11 @@
-﻿let messages = document.getElementsByClassName('message');
+﻿let elements = document.getElementsByClassName('element-with-date');
 
-for (let message of messages) {
-    let utcDate = message.getElementsByClassName('utc-date')[0].value;
+for (let element of elements) {
+    let utcDate = element.getElementsByClassName('utc-date')[0].value;
     
-    let localDate = getLocalDataTimeString(new Date(utcDate));
+    let localDate = getLocalDataTimeString(new Date(utcDate + ' UTC'));
 
-    message.getElementsByClassName('local-date')[0].textContent = localDate;
+    element.getElementsByClassName('local-date')[0].textContent = localDate;
 }
 
 function getLocalDataTimeString(date) {

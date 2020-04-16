@@ -69,7 +69,7 @@
                     SellerName = seller.UserName,
                     AdvertisementId = ad.Id,
                     AdvertisementName = ad.Name,
-                    StartedOn = conversation.StartedOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat)
+                    StartedOn = conversation.StartedOn.ToString(GlobalConstants.DateTimeFormat)
                 };
 
                 if (ad.UserId == userId && userId == conversation.SellerId)

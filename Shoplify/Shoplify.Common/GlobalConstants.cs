@@ -12,7 +12,6 @@
         public const int AdsPerAdminPanelPageCount = 10;
         public const int ReportsPerAdminPanelPageCount = 10;
 
-        public const string DateTimeFormat = "dd/MM/yyyy hh:mm tt";
-        public const string JsDateTimeFormat = "MM/dd/yyyy hh:mm tt";
+        public const string DateTimeFormat = "MM/dd/yyyy hh:mm tt";
     }
 }
