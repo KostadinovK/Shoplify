@@ -32,7 +32,7 @@
             {
                 Id = c.Id,
                 UserId = c.UserId,
-                WrittenOn = c.WrittenOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                WrittenOn = c.WrittenOn.ToString(GlobalConstants.JsDateTimeFormat),
                 Text = c.Text,
                 Username = userManager.FindByIdAsync(c.UserId).GetAwaiter().GetResult().UserName
             }).ToListAsync();
