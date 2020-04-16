@@ -46,7 +46,7 @@ function displayComments(comments, commentsSection) {
 
 function getLocalDataTimeString(date) {
     let dateLocalTime = date.toString();
-    console.log(dateLocalTime);
+
     let month = dateLocalTime.split(' ')[1];
     let day = dateLocalTime.split(' ')[2];
     let year = dateLocalTime.split(' ')[3];

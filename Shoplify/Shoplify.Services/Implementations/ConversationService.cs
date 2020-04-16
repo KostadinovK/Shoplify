@@ -113,6 +113,7 @@
            return await context.Conversation.Where(c =>
                 (c.BuyerId == userId && !c.IsArchivedByBuyer) ||
                 (c.SellerId == userId && !c.IsArchivedBySeller))
+                .OrderByDescending(c => c.StartedOn)
                 .Select(c => new ConversationServiceModel
                 {
                     Id = c.Id,

@@ -29,7 +29,7 @@
 
             var messageViewModel = new MessageViewModel
             {
-                SendOn = messageServiceModel.SendOn.ToLocalTime().ToString(GlobalConstants.DateTimeFormat),
+                SendOn = messageServiceModel.SendOn.ToString(GlobalConstants.JsDateTimeFormat),
                 SenderName = sender.UserName,
                 Text = messageServiceModel.Text
             };

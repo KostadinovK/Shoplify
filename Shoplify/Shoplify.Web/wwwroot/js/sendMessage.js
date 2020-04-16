@@ -34,7 +34,7 @@ function displayMessage() {
 
     let time = hour + ":" + (todayDate.getMinutes() < 10 ? '0' : '') + todayDate.getMinutes();
 
-    todayDate = month + '/' + day + '/' + year + ' ' + time + ' ' + partOfDay;
+    todayDate = day + '/' + month + '/' + year + ' ' + time + ' ' + partOfDay;
 
     const messageMaxLength = 1;
 
