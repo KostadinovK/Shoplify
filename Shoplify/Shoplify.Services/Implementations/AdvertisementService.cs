@@ -113,7 +113,7 @@
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetByCategoryIdAsync(string categoryId, int page, int adsPerPage, string orderBy)
         {
             var ads = context.Advertisements
-                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false);
+                .Where(a => (a.CategoryId == categoryId || a.SubCategoryId == categoryId) && a.IsArchived == false && a.IsBanned == false);
 
             var orderedAds = new List<Advertisement>();
 
@@ -261,7 +261,7 @@
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetBySearchAsync(string search, int page, int adsPerPage, string orderBy)
         {
             var ads = context.Advertisements
-                .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false);
+                .Where(a => a.Name.ToLower().Contains(search.ToLower()) && a.IsArchived == false && a.IsBanned == false);
 
             var orderedAds = new List<Advertisement>();
 
@@ -335,7 +335,7 @@
         public async Task<IEnumerable<AdvertisementViewServiceModel>> GetLatestAsync(int count, string userId)
         {
             var ads = await context.Advertisements
-                .Where(a => a.UserId != userId && a.IsArchived == false)
+                .Where(a => a.UserId != userId && a.IsArchived == false && a.IsBanned == false)
                 .OrderByDescending(a => a.CreatedOn)
                 .Take(count)
                 .ToListAsync();
@@ -512,6 +512,8 @@
 
             ad.IsBanned = true;
             ad.BannedOn = DateTime.UtcNow;
+            ad.IsArchived = true;
+            ad.ArchivedOn = DateTime.UtcNow;
 
             context.Advertisements.Update(ad);
 
@@ -529,6 +531,8 @@
 
             ad.IsBanned = false;
             ad.BannedOn = null;
+            ad.IsArchived = false;
+            ad.ArchivedOn = DateTime.UtcNow.AddDays(GlobalConstants.AdvertisementDurationDays);
 
             context.Advertisements.Update(ad);
 
